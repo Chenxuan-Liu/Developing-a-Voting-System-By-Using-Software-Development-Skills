@@ -2,9 +2,19 @@ import java.util.ArrayList;
 import java.io.*;
 import java.lang.*;
 
-public class IR_sys extends Voting_Sys{
+public class IR_sys{
 	private ArrayList<Candidate> candidates;
 	private ArrayList<Party> parties;
+	int num_candidate, num_seats, total_ballot;
+	private Coin_Flip coin = new Coin_Flip();
+	
+	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot){
+		this.candidates = candidate;
+		this.parties = party;
+		this.num_candidate = number_candidate;
+		this.num_seats = num_seats;
+		this.total_ballot = total_ballot;
+	}
 	
 	public void readballot(){
 		//placeholer for file parsing
@@ -24,13 +34,13 @@ public class IR_sys extends Voting_Sys{
 			} else if (vote1 > vote0){
 				return candidates.get(1);
 			} else{
-				return candidates.get(coinflip(2));
+				return candidates.get(coin.flip(2));
 			}
 		}
 		
 		for(int i = 0; i < candidates.size(); i ++){
 			int vote = candidates.get(i).getVote();
-			if(vote > totalballot/2){
+			if(vote > total_ballot/2){
 				return candidates.get(i);
 			}
 		}
@@ -48,7 +58,7 @@ public class IR_sys extends Voting_Sys{
 				least_vote = vote;
 			} else if(vote == least_vote){
 				int[] random = {i,least_candidate};
-				least_candidate = random[coinflip(2)];
+				least_candidate = random[coin.flip(2)];
 				least_vote = candidates.get(least_candidate).getVote();
 			}
 		}
@@ -58,22 +68,20 @@ public class IR_sys extends Voting_Sys{
 	public void redistribution(){
 		int least = get_leastcandidate();
 		Candidate candidate = candidates.get(least);
-		ArrayList<Ballot> ballots = candidate.getBallots();
-		Ballot ballot;
+		ArrayList<IR_Ballot> ballots = candidate.getballots();
+		IR_Ballot ballot;
 		
 		//ballots redistribution
 		for(int i = 0; i < ballots.size(); i++){
 			ballot = ballots.get(i);
 			ballot.updateRank();
-		//	if (ballot.getRank() < ballot.getRanksize()){
+			if (ballot.getRank() < ballot.getRanksize()){
 				//
 				//candidates.get()
-			//	}
+			}
 		}
 		
 		candidates.remove(least);
-		return null;
-		
 	}
 	
 }
