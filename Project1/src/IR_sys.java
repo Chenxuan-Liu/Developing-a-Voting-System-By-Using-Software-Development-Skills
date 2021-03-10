@@ -75,10 +75,10 @@ public class IR_sys{
 		for(int i = 0; i < ballots.size(); i++){
 			ballot = ballots.get(i);
 			ballot.updateRank();
-			if (ballot.getRank() < ballot.getRanksize()){
+		//	if (ballot.getRank() < ballot.getRanksize()){
 				//
 				//candidates.get()
-			}
+			//	}
 		}
 		
 		candidates.remove(least);
