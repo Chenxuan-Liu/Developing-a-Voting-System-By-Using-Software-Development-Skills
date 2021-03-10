@@ -57,9 +57,9 @@ public class Candidate {
   /**
   * This method returns belonging party of this candaites.
   * @param args Unused.
-  * @return string.
+  * @return Party.
   */
-  public String getParty() {
+  public Party getParty() {
     return party;
   }
 
