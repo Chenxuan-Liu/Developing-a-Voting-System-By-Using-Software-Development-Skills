@@ -11,10 +11,10 @@ public class Coin_Flip {
         return N_selected;
     }
 
-    public static void main(String[] args) {
-        // write your code here
-        //System.out.println("Hello");
-        int Nselect = flip(3);
-        System.out.println(Nselect);
-    }
+//    public static void main(String[] args) {
+//        // write your code here
+//        //System.out.println("Hello");
+//        int Nselect = flip(3);
+//        System.out.println(Nselect);
+//    }
 }

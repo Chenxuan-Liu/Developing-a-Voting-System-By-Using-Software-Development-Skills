@@ -30,7 +30,6 @@ public class Voting_System {
                 System.out.println(getRecordFromLine(scanner.nextLine()));
             }
         }
-
     }
 
     private static List<String> getRecordFromLine(String line) {

@@ -3,10 +3,14 @@ import java.util.ArrayList;
 public class Party {
     public int vote;
     public String name;
-//    public ArrayList<Candidate> members;
+    public ArrayList<Candidate> members;
 
     public int getVote() {
         return vote;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
     }
 
     public String getName() {
