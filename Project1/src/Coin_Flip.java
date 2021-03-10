@@ -1,4 +1,3 @@
-package com.jetbrains;
 import java.math.*;
 import java.util.Random;
 
