@@ -46,6 +46,15 @@ public class Candidate {
   }
 
   /**
+  * This method changes the value of vote num.
+  * @param integer num.
+  * @return void.
+  */
+  public void setVote(int v) {
+    vote = v;
+  }
+
+  /**
   * This method returns name of this candaites.
   * @param args Unused.
   * @return string.
