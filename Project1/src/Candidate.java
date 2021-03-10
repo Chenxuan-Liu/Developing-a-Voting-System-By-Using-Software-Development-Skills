@@ -21,7 +21,7 @@ public class Candidate {
   */
   private int vote;
   private String name;
-  private String party;
+  private Party party;
   private ArrayList<IR_Ballot> ballot;
 
   /**
@@ -32,7 +32,7 @@ public class Candidate {
   public Candidate(String name, Party p_party) {
     this.vote = 0;
     this.name = name;
-    this.party = p_party.name;
+    this.party = p_party;
     this.ballot = new ArrayList<IR_Ballot>();
   }
 
@@ -61,6 +61,15 @@ public class Candidate {
   */
   public String getParty() {
     return party;
+  }
+
+  /**
+  * This method returns arraylist ballot.
+  * @param args Unused.
+  * @return IR_Ballot arraylist.
+  */
+  public ArrayList<IR_Ballot> getballots() {
+    return ballot;
   }
 
 }

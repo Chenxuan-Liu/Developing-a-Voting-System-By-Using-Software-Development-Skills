@@ -22,7 +22,7 @@ public class IR_Ballot {
   */
   public IR_Ballot() {
     voteRank = new ArrayList<Integer>();
-    currentRank = 1;
+    currentRank = 0;
   }
 
   /**
@@ -35,14 +35,20 @@ public class IR_Ballot {
   }
 
   /**
+  * This method returns ranksize.
+  * @param args Unused.
+  * @return integer num.
+  */
+  public int getRanksize() {
+    return voteRank.size();
+  }
+
+  /**
   * This method updates ballot's current rank.
   * @param args Unused.
   * @return Void.
   */
   public void updateRank() {
-    // 不确定 更新什么？？？？？？？？？？？？
     currentRank = currentRank + 1;
-    //voteRank.add(currentRank);
-    //voteRank.get(0);
   }
   }
