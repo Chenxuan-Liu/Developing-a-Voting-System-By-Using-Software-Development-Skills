@@ -31,17 +31,20 @@ public class IR_Ballot {
   * @return num.
   */
   public int getRank() {
-    return currentRank;
+    if(currentRank >= voteRank.size()){
+      return -1;
+    }
+    return voteRank.get(currentRank);
+  }
+  
+  public void addRank(int rank){
+    voteRank.add(rank);
+  }
+  
+  public void setRank(int rank, int index){
+    voteRank.set(index, rank);
   }
 
-  /**
-  * This method returns ranksize.
-  * @param args Unused.
-  * @return integer num.
-  */
-  public int getRanksize() {
-    return voteRank.size();
-  }
 
   /**
   * This method updates ballot's current rank.

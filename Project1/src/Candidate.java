@@ -80,5 +80,10 @@ public class Candidate {
   public ArrayList<IR_Ballot> getballots() {
     return ballot;
   }
+  
+  public void addIRballot(IR_Ballot ballot){
+    this.vote = this.vote + 1;
+    this.ballot.add(ballot);
+  }
 
 }
