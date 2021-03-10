@@ -6,9 +6,6 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import Candidate.java;
-import Party.java;
-
 
 /**
  * Opl_Voting_Sys is a class that creat for open party list ballot voting type.
@@ -24,6 +21,15 @@ public class Opl_Voting_Sys{
     private int number_candidate;
     private int num_seats;
     private int total_ballot;
+    private Coin_Flip coin = new Coin_Flip();
+
+    public Opl_Voting_Sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot){
+        this.candidate = candidate;
+        this.party = party;
+        this.number_candidate = number_candidate;
+        this.num_seats = num_seats;
+        this.total_ballot = total_ballot;
+    }
 
     /**
 	 * read in the csv file and generate a file pointer
@@ -31,13 +37,13 @@ public class Opl_Voting_Sys{
 	 * @param String the file name
 	 * @return returna scanner pointer and set delimiter as ","
 	 */
-    public static Scanner readFile(String input_file){
-        //parsing a CSV file into Scanner class constructor 
-        Scanner sc = new Scanner(new File(input_file));
+    // public static Scanner readFile(String input_file){
+    //     //parsing a CSV file into Scanner class constructor 
+    //     Scanner sc = new Scanner(new File(input_file));
 
-        sc.useDelimiter(",");   //sets the delimiter pattern
-        return sc;
-    }
+    //     sc.useDelimiter(",");   //sets the delimiter pattern
+    //     return sc;
+    // }
 
     /**
 	 * set up the basic information of the OPL voting system
@@ -84,20 +90,25 @@ public class Opl_Voting_Sys{
      * 
 	 */
 
-    public void readBallot(Scanner sc){
-        while (sc.hasNext()){
-            int ballot = sc.next();
-            Candidate voted_candidate = candidate.get(ballot);
+    // public void readBallot(Scanner sc){
+    //     while (sc.hasNextLine()){
+            
+    //         int index = 0;
+    //         sc.useDelimiter(",");
+    //         String ballot = sc.nextLine();
+            
 
-            // candidaate class need to add a new function set_vote
-            voted_candidate.set_vote(voted_candidate.get_vote() + 1);
+    //         Candidate voted_candidate = candidate.get(ballot);
 
-            // change the class of party from string to Party
-            Party voted_party = voted_candidate.getParty();
-            // party class need to add a new function set_vote
-            voted_party.set_vote(voted_party.get_vote() + 1);
-        }
-    }
+    //         // candidaate class need to add a new function set_vote
+    //         voted_candidate.set_vote(voted_candidate.get_vote() + 1);
+
+    //         // change the class of party from string to Party
+    //         Party voted_party = voted_candidate.getParty();
+    //         // party class need to add a new function set_vote
+    //         voted_party.set_vote(voted_party.get_vote() + 1);
+    //     }
+    // }
 
     /**
 	 * Find the quota for the OPL_Voting_Sys
@@ -117,10 +128,10 @@ public class Opl_Voting_Sys{
 	 * @return returna an arraylist<int> that contains the seats allocated by the party in order.
 	 */
 
-    public ArrayList<int> allocateSeats(){
-        quota = findQuota()
-        ArrayList<int> partySeats = new ArrayList<>();
-        for (party p: party){
+    public ArrayList<Integer> allocateSeats(){
+        int quota = findQuota();
+        ArrayList<Integer> partySeats = new ArrayList<>();
+        for (Party p: party){
             if (p.getVote() != -1){
                 partySeats.add(p.getVote()/quota);
             }
@@ -136,8 +147,8 @@ public class Opl_Voting_Sys{
 	 */
 
     public int checkNumCanInParty(){
-        ArrayList<int> numOfSeats = allocateSeats();
-        ArrayList<int> numOfCandidate = new ArrayList<>();
+        ArrayList<Integer> numOfSeats = allocateSeats();
+        ArrayList<Integer> numOfCandidate = new ArrayList<>();
         int remainingSeats = 0;
 
         for (Party p:party){
@@ -163,8 +174,8 @@ public class Opl_Voting_Sys{
 	 * @return return an arraylist of integer that contain the remaining votes for each party in order
 	 */
 
-    public ArrayList<int> remainingVotes(ArrayList<Party> parties){
-        ArrayList<int> remainingVotes = new ArrayList<>();
+    public ArrayList<Integer> remainingVotes(ArrayList<Party> parties){
+        ArrayList<Integer> remainingVotes = new ArrayList<>();
         int quota = findQuota();
         for (Party p: parties){
             if(p.getVote() != -1){  //check if choose the party with no candidate.
@@ -181,9 +192,9 @@ public class Opl_Voting_Sys{
 	 * @return returna an arraylist of integer that contain the updated seats.
 	 */
 
-    public ArrayList<int> updateSeat(){
-        ArrayList<int> numOfSeats = allocateSeats();
-        ArrayList<int> numOfCandidate = new ArrayList<>();
+    public ArrayList<Integer> updateSeat(){
+        ArrayList<Integer> numOfSeats = allocateSeats();
+        ArrayList<Integer> numOfCandidate = new ArrayList<>();
 
         for (Party p:party){
             numOfCandidate.add(p.getMembers().size());
@@ -206,13 +217,13 @@ public class Opl_Voting_Sys{
 	 */
 
     public int checkRemainSeats(){
-        ArrayList<int> numOfSeats = updateSeats();
+        ArrayList<Integer> numOfSeats = updateSeat();
         int allocatedSeats = 0;
         for (int i: numOfSeats){
             allocatedSeats += i;
         }
 
-        remain = num_seats - allocatedSeats;
+        int remain = num_seats - allocatedSeats;
         
         return remain;
     }
@@ -227,9 +238,9 @@ public class Opl_Voting_Sys{
 
     public Candidate findLargestCan(ArrayList<Candidate> can){
         // remove the first element and set it to largest
-        Candidaate largest = can.remove(0);
+        Candidate largest = can.remove(0);
         boolean hasTie = false;
-        ArrayList<int> numOfTie = new ArrayList<>();
+        ArrayList<Integer> numOfTie = new ArrayList<>();
         int count = 0;
         for (Candidate c: can){
             count ++;
@@ -246,7 +257,7 @@ public class Opl_Voting_Sys{
         
 
         // if (hasTie){
-        //     CoinFlip
+        //     coin.flip();
         // }
         
         largest.setVote(-1);
@@ -261,10 +272,10 @@ public class Opl_Voting_Sys{
 	 * @return return an arraylist of candidates that are selected
 	 */
 
-    public ArrayList<Candidate> insidePartyElection(ArrayList<int> numOfSeat){
-        ArrayList<Candidate> selectedCandidate = new Arraylist<>();
+    public ArrayList<Candidate> insidePartyElection(ArrayList<Integer> numOfSeat){
+        ArrayList<Candidate> selectedCandidate = new ArrayList<>();
         for (int i = 0; i < party.size(); i++){
-            while(int chosenSeat = 0; chosenSeat < numOfSeats.get(i); chosenSeat++){
+            for(int chosenSeat = 0; chosenSeat < numOfSeat.get(i); chosenSeat++){
                 selectedCandidate.add(findLargestCan(party.get(i).getMembers()));
             }
         }
@@ -278,22 +289,19 @@ public class Opl_Voting_Sys{
 	 * @return return an arraylist of candidates as winner. 
 	 */
 
-    public ArrayList<Candidate> run_OPL(){
-        Scanner sc = readFile("input_file.csv");
+    public ArrayList<Candidate> run_OPL(Scanner sc){
 
-        setUp(sc);
+        // readBallot(sc);
 
-        readBallot(sc);
-
-        ArrayList<int> allocated  = updateSeat();
+        ArrayList<Integer> allocated  = updateSeat();
 
         while (checkRemainSeats() != 0){
             // find remaining votes
-            ArrayList<int> remainVotes = remainingVotes(party);
+            ArrayList<Integer> remainVotes = remainingVotes(party);
             int largest = 0;
             boolean haveTie = false;
             int numOfTie = 0;
-            ArrayList<int> indexOfTie = new ArrayList<>();
+            ArrayList<Integer> indexOfTie = new ArrayList<>();
             // find the largest vote party and check for the tie condition
             for (int i: remainVotes){
                 if (i > largest) {
@@ -319,7 +327,7 @@ public class Opl_Voting_Sys{
             largestParty.setVote(-1);
         }
 
-        ArrayList<Candidaate> winner = insidePartyElection(allocated);
+        ArrayList<Candidate> winner = insidePartyElection(allocated);
 
         return winner;
     }
