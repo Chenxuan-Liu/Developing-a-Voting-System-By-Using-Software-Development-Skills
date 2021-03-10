@@ -46,35 +46,35 @@ public class Opl_Voting_Sys{
 	 * 
 	 */
 
-    public void setUp(Scanner sc){
-        // treat 1 as IR_Voting Sys
-        // treat 0 as OPL_Voting Sys
-        if (sc.next() == 1){
-            System.exit(0);
-        }
+    // public void setUp(Scanner sc){
+    //     // treat 1 as IR_Voting Sys
+    //     // treat 0 as OPL_Voting Sys
+    //     if (sc.next() == 1){
+    //         System.exit(0);
+    //     }
         
-        number_candidate = sc.next()
+    //     number_candidate = sc.next()
 
-        /*
-        * update the candidate list
-        */
-        while(sc.hasNext()){
-            can_name = sc.next();
-            can_party = sc.next();
-            candidate.add(new Candidate(can_name, can_party));
-            if (!party.contains(new Party(can_party))){
-                party.add(new Party(can_name));
-            }
-        }
+    //     /*
+    //     * update the candidate list
+    //     */
+    //     while(sc.hasNext()){
+    //         can_name = sc.next();
+    //         can_party = sc.next();
+    //         candidate.add(new Candidate(can_name, can_party));
+    //         if (!party.contains(new Party(can_party))){
+    //             party.add(new Party(can_name));
+    //         }
+    //     }
 
-        if (number_candidate != candidate.size()) {
-            System.out.println("The number of candidates does not match the candidates")
-            System.exit(0)
-        }
+    //     if (number_candidate != candidate.size()) {
+    //         System.out.println("The number of candidates does not match the candidates")
+    //         System.exit(0)
+    //     }
 
-        num_seats = sc.next();
-        total_ballot = sc.next();
-    }
+    //     num_seats = sc.next();
+    //     total_ballot = sc.next();
+    // }
 
 
     /**
