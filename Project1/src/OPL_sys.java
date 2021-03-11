@@ -4,6 +4,7 @@
 
 import java.io.*;
 import java.util.*;
+import javax.swing.plaf.basic.*;
 
 
 
@@ -18,16 +19,17 @@ import java.util.*;
 public class OPL_sys{
     private ArrayList<Candidate> candidates;
     private ArrayList<Party> parties;
-    private int number_candidate, num_seats, total_ballot;
+    private int num_candidate, num_seats, total_ballot, allocated_seats;
     private Coin_Flip coin = new Coin_Flip();
     Scanner scanner;
 
     public OPL_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot, Scanner scanner){
         this.candidates = candidate;
         this.parties = party;
-        this.number_candidate = number_candidate;
+        this.num_candidate = number_candidate;
         this.num_seats = num_seats;
         this.total_ballot = total_ballot;
+        this.allocated_seats = 0;
         this.scanner = scanner;
     }
     
@@ -55,25 +57,6 @@ public class OPL_sys{
         }
     }
     
-    
-    
-    
-    //read ballot is finished  (I hope), need further change below
-    
-    
-    
-
-    /**
-	 * Find the quota for the OPL_sys
-	 *
-	 * @return returna the quota as an integer
-	 */
-
-    public int findQuota(){
-        return total_ballot/num_seats;
-
-    }
-
 
     /**
 	 * allocate the seats for each party based on the quota
@@ -81,104 +64,65 @@ public class OPL_sys{
 	 * @return returna an arraylist<int> that contains the seats allocated by the party in order.
 	 */
 
-    public ArrayList<Integer> allocateSeats(){
-        int quota = findQuota();
+    public ArrayList<Integer> firstround_Seats(){
+        int quota = total_ballot/num_seats;
         ArrayList<Integer> partySeats = new ArrayList<>();
-        for (Party p: party){
-            if (p.getVote() != -1){
-                partySeats.add(p.getVote()/quota);
+        for (Party party: parties){
+            int vote = party.getVote();
+            int seats = vote/quota;
+            
+            //if more seats are allocted to a party
+            //free exceeding seats
+            if(party.getMembers().size() < seats){
+                seats = party.getMembers().size();
+                party.setVote(-1); //everyone get a seat, discard all votes
+            } else{
+                party.setVote(vote - (seats * quota));
             }
+            
+            allocated_seats = allocated_seats + seats;
+            partySeats.add(seats);
         }
         return partySeats;
     }
-
-
-    /**
-	 * check for the condition that the number of candidate in the party is smaller than the allocated seats
-	 *
-	 * @return returna the exceeding seats as integer.
-	 */
-
-    public int checkNumCanInParty(){
-        ArrayList<Integer> numOfSeats = allocateSeats();
-        ArrayList<Integer> numOfCandidate = new ArrayList<>();
-        int remainingSeats = 0;
-
-        for (Party p:party){
-            numOfCandidate.add(p.getMembers().size());
-        }
-
-        for (int i = 1; i <= party.size(); i++){
-            // have an error in the OPLvoting sys activity diagram
-            if (numOfCandidate.get(i) < numOfSeats.get(i)){
-                remainingSeats = remainingSeats + (numOfSeats.get(i) - numOfCandidate.get(i));
-                party.get(i).setVote(-1);
-                return remainingSeats;
-            }
-        }
-        return remainingSeats;
-    }
-
     
-    /**
-	 * find each party remained votes after first round
-	 *
-	 * @param ArrayList<Party> take an arraylist of party as input to access is vote and update.
-	 * @return return an arraylist of integer that contain the remaining votes for each party in order
-	 */
-
-    public ArrayList<Integer> remainingVotes(ArrayList<Party> parties){
-        ArrayList<Integer> remainingVotes = new ArrayList<>();
-        int quota = findQuota();
-        for (Party p: parties){
-            if(p.getVote() != -1){  //check if choose the party with no candidate.
-                remainingVotes.add(p.getVote()%quota);
+    
+    
+    
+    public boolean checkRemainSeats(){
+        return allocated_seats < num_seats;
+    }
+    
+    
+    
+    public int findlargestvote(){
+        int index = 0;
+        int largest_vote = parties.get(index).getVote();
+        for(int i = 0; i < parties.size(); i++){
+            int vote = parties.get(i).getVote();
+            if(vote > largest_vote){
+                index = i;
+                largest_vote = vote;
+            } else if (vote == largest_vote){
+                int[] random = {index, i};
+                index = random[coin.flip(2)];
             }
         }
-        return remainingVotes;
+        return index;
     }
-
-
-    /**
-	 * update the seats by reduce the exceeding seats for some parties
-	 *
-	 * @return returna an arraylist of integer that contain the updated seats.
-	 */
-
-    public ArrayList<Integer> updateSeat(){
-        ArrayList<Integer> numOfSeats = allocateSeats();
-        ArrayList<Integer> numOfCandidate = new ArrayList<>();
-
-        for (Party p:party){
-            numOfCandidate.add(p.getMembers().size());
-        }
-
-        for (int i = 1; i <= party.size(); i++){
-            if (numOfCandidate.get(i) < numOfSeats.get(i)){
-                numOfSeats.set(i, numOfCandidate.get(i));
+    
+    //need the partyseats list from the first round
+    public ArrayList<Integer> secondround_seats(ArrayList<Integer> partyseats){
+        for(int i = 0; i < parties.size(); i++){
+            if(!checkRemainSeats()){
+                return partyseats;
+            } else {
+                int index = findlargestvote();
+                int seats = partyseats.get(index);
+                parties.get(index).setVote(-1);
+                partyseats.set(index, seats + 1);
             }
         }
-
-        return numOfSeats;
-    }
-
-
-    /**
-	 * check for the remaining seats available
-	 *
-	 * @return return an integer of the remained seats that are available
-	 */
-
-    public int checkRemainSeats(){
-        ArrayList<Integer> numOfSeats = updateSeat();
-        int allocatedSeats = 0;
-        for (int i: numOfSeats){
-            allocatedSeats += i;
-        }
-
-        int remain = num_seats - allocatedSeats;
-        
-        return remain;
     }
 
 
@@ -189,33 +133,40 @@ public class OPL_sys{
 	 * @return return the candidate with the most votes in the candidate arraylist
 	 */
 
-    public Candidate findLargestCan(ArrayList<Candidate> can){
-        // remove the first element and set it to largest
-        Candidate largest = can.remove(0);
-        boolean hasTie = false;
-        ArrayList<Integer> numOfTie = new ArrayList<>();
-        int count = 0;
-        for (Candidate c: can){
-            count ++;
-            if (c.getVote() > largest.getVote()){
-                numOfTie.clear();
-                largest = c;
-                hasTie = false;
-                numOfTie.add(count);
-            } else if (c.getVote() == largest.getVote()){
-                hasTie = true;
-                numOfTie.add(count);
+    public Candidate findLargestCandidate(ArrayList<Candidate> Candidates){
+        Candidate candidate = candidates.get(0);
+        int numofTie = 1;
+        ArrayList<Candidate> numofTielist = new ArrayList<>();
+        numofTielist.add(candidate);
+        
+        for(int i = 0; i < candidates.size(); i++){
+            Candidate c = candidates.get(i);
+            if(c.getVote() > candidate.getVote()){
+                candidate = c;
+                numofTie = 1;
+                numofTielist.clear();
+                numofTielist.add(candidate);
+            } else if(c.getVote() == candidate.getVote()){
+                numofTie++;
+                numofTielist.add(c);
             }
         }
         
-
-        // if (hasTie){
-        //     coin.flip();
-        // }
-        
-        largest.setVote(-1);
-        return largest;
+        if(numofTie > 1){
+            return numofTielist.get(coin.flip(numofTie));
+        }
+        return candidate;
     }
+
+
+
+
+//////////function above this line is rewrited based on jicheng's idea//////////////////
+//////////function  below are not working yet//////////////////////////////////////////
+
+
+
+
 
 
     /**

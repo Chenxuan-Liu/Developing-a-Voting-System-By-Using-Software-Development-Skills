@@ -83,7 +83,6 @@ public class IR_sys{
 			} else if(vote == least_vote){
 				int[] random = {i,least_candidate};
 				least_candidate = random[coin.flip(2)];
-				least_vote = candidates.get(least_candidate).getVote();
 			}
 		}
 		return least_candidate;
