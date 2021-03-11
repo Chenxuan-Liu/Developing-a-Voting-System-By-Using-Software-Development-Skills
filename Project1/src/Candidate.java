@@ -29,10 +29,10 @@ public class Candidate {
   * @param string of candidates's name and Party of candidate's party .
   * @return IOException.
   */
-  public Candidate(String name, Party p_party) {
+  public Candidate(String name, Party party) {
     this.vote = 0;
     this.name = name;
-    this.party = p_party;
+    this.party = party;
     this.ballot = new ArrayList<IR_Ballot>();
   }
 

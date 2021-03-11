@@ -2,116 +2,67 @@
 * @author Chenxuan Liu
 */
 
-import java.io.*;  
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
+
 
 
 /**
- * Opl_Voting_Sys is a class that creat for open party list ballot voting type.
+ * OPL_sys is a class that creat for open party list ballot voting type.
  * It must need two other class, which is party and candidate to complete the task.
  * 
  *
  * Author: Chenxuan Liu
  */
 
-public class Opl_Voting_Sys{
-    private ArrayList<Candidate> candidate;
-    private ArrayList<Party> party;
-    private int number_candidate;
-    private int num_seats;
-    private int total_ballot;
+public class OPL_sys{
+    private ArrayList<Candidate> candidates;
+    private ArrayList<Party> parties;
+    private int number_candidate, num_seats, total_ballot;
     private Coin_Flip coin = new Coin_Flip();
 
-    public Opl_Voting_Sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot){
-        this.candidate = candidate;
-        this.party = party;
+    public OPL_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot){
+        this.candidates = candidate;
+        this.parties = party;
         this.number_candidate = number_candidate;
         this.num_seats = num_seats;
         this.total_ballot = total_ballot;
     }
-
-    /**
-	 * read in the csv file and generate a file pointer
-	 *
-	 * @param String the file name
-	 * @return returna scanner pointer and set delimiter as ","
-	 */
-    // public static Scanner readFile(String input_file){
-    //     //parsing a CSV file into Scanner class constructor 
-    //     Scanner sc = new Scanner(new File(input_file));
-
-    //     sc.useDelimiter(",");   //sets the delimiter pattern
-    //     return sc;
-    // }
-
-    /**
-	 * set up the basic information of the OPL voting system
-	 *
-	 * @param Scanner a scanner pointer help to read the file
-	 * 
-	 */
-
-    // public void setUp(Scanner sc){
-    //     // treat 1 as IR_Voting Sys
-    //     // treat 0 as OPL_Voting Sys
-    //     if (sc.next() == 1){
-    //         System.exit(0);
-    //     }
+    
+    
+    public void readballot(Scanner scanner){
+        while(scanner.hasNextLine()){
+            String line = scanner.nextLine();
+            for(int i = 0; i < line.length(); i++){
+                if(line.charAt(i) == '1'){
+                    int vote = candidates.get(i).getVote();
+                    candidates.get(i).setVote(vote+1);
+                    break;
+                }
+            }
+        }
         
-    //     number_candidate = sc.next()
-
-    //     /*
-    //     * update the candidate list
-    //     */
-    //     while(sc.hasNext()){
-    //         can_name = sc.next();
-    //         can_party = sc.next();
-    //         candidate.add(new Candidate(can_name, can_party));
-    //         if (!party.contains(new Party(can_party))){
-    //             party.add(new Party(can_name));
-    //         }
-    //     }
-
-    //     if (number_candidate != candidate.size()) {
-    //         System.out.println("The number of candidates does not match the candidates")
-    //         System.exit(0)
-    //     }
-
-    //     num_seats = sc.next();
-    //     total_ballot = sc.next();
-    // }
-
+        for(int i = 0; i < parties.size(); i++){
+            Party party = parties.get(i);
+            int vote = party.getVote();
+            ArrayList<Candidate> members = party.getMembers();
+            for(int j = 0; j < members.size(); j++){
+                vote = vote + members.get(j).getVote();
+            }
+            party.setVote(vote);
+        }
+    }
+    
+    
+    
+    
+    //read ballot is finished  (I hope), need further change below
+    
+    
+    
 
     /**
-	 * Read each ballot individually and increase the vote count for both candidate and party object
-	 *
-	 * @param Scanner a scanner pointer help to read the file
-     * 
-	 */
-
-    // public void readBallot(Scanner sc){
-    //     while (sc.hasNextLine()){
-            
-    //         int index = 0;
-    //         sc.useDelimiter(",");
-    //         String ballot = sc.nextLine();
-            
-
-    //         Candidate voted_candidate = candidate.get(ballot);
-
-    //         // candidaate class need to add a new function set_vote
-    //         voted_candidate.set_vote(voted_candidate.get_vote() + 1);
-
-    //         // change the class of party from string to Party
-    //         Party voted_party = voted_candidate.getParty();
-    //         // party class need to add a new function set_vote
-    //         voted_party.set_vote(voted_party.get_vote() + 1);
-    //     }
-    // }
-
-    /**
-	 * Find the quota for the OPL_Voting_Sys
+	 * Find the quota for the OPL_sys
 	 *
 	 * @return returna the quota as an integer
 	 */

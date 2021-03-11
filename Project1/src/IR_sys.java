@@ -36,6 +36,7 @@ public class IR_sys{
 				ballot.addRank(1); //only used to initializa the size
 			}
 		}
+		//set the correct rank
 		for(int i = 0; i < values.size(); i++){
 			ballot.setRank(i, Integer.parseInt(values.get(i)));
 		}
