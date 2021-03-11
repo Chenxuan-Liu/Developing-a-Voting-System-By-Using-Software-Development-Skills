@@ -9,13 +9,15 @@ public class IR_sys{
 	private ArrayList<Party> parties;
 	int num_candidate, num_seats, total_ballot;
 	private Coin_Flip coin = new Coin_Flip();
+	Scanner scanner;
 	
-	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot){
+	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot, Scanner scanner){
 		this.candidates = candidate;
 		this.parties = party;
 		this.num_candidate = number_candidate;
 		this.num_seats = num_seats;
 		this.total_ballot = total_ballot;
+		this.scanner = scanner;
 	}
 	
 	public void readballot(Scanner scanner){
