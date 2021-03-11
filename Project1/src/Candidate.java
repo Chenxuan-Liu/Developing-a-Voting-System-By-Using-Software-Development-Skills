@@ -16,7 +16,7 @@ public class Candidate {
   * Int vote is used to store the number of votes currently received.
   * String name is used to store the name of the candidate.
   * String party is used to store the name of the candidat's party.
-  * ArrayList ballot is used to store all the ballots curently recerived.
+  * IR_Ballot ArrayList ballot is used to store all the ballots curently recerived.
   * @return IOException.
   */
   private int vote;
@@ -27,7 +27,6 @@ public class Candidate {
   /**
   * This method creates new candidate instance.
   * @param string of candidates's name and Party of candidate's party .
-  * @return IOException.
   */
   public Candidate(String name, Party party) {
     this.vote = 0;
@@ -80,7 +79,12 @@ public class Candidate {
   public ArrayList<IR_Ballot> getballots() {
     return ballot;
   }
-  
+
+  /**
+  * This method add one ballot to the candidate.
+  * @param IR_Ballot instance.
+  * @return void.
+  */
   public void addIRballot(IR_Ballot ballot){
     this.vote = this.vote + 1;
     this.ballot.add(ballot);

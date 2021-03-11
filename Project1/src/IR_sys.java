@@ -4,13 +4,34 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 
+/**
+* @author Jicheng Zhu
+* @version 1.0
+*/
+
 public class IR_sys{
+	/**
+  * This class is used for IR voting.
+  * This class has 7 attibutes.
+  * Candidate arrayList candidates is used to store all candidates in the election.
+  * Party arraylist parties is used to store all the parties in the election.
+  * Integer num_candidate is used to store the total number of the candidates in the election.
+  * Integer num_seats is used to store the total number of the winning seats in the election.
+	* Integer total_ballot is used to store the total number of ballot in the election.
+	* Coin_Flip coin is used when tie occurs during the election.
+	* Scanner scanner is used to read informations and ballots from CSV file.
+  * @return IOException.
+  */
 	private ArrayList<Candidate> candidates;
 	private ArrayList<Party> parties;
 	int num_candidate, num_seats, total_ballot;
 	private Coin_Flip coin = new Coin_Flip();
 	Scanner scanner;
-	
+
+	/**
+	* This method creates new IR_sys instance.
+	* @param Candidate ArrayList, Party ArrayList, 3 integer nums and Scanner.
+	*/
 	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot, Scanner scanner){
 		this.candidates = candidate;
 		this.parties = party;
@@ -19,7 +40,12 @@ public class IR_sys{
 		this.total_ballot = total_ballot;
 		this.scanner = scanner;
 	}
-	
+
+	/**
+	* This method is used to read ballots from the CSV file.
+	* @param Scanner scanner used to read file.
+	* @return void.
+	*/
 	public void readballot(Scanner scanner){
 		IR_Ballot ballot;
 			while (scanner.hasNextLine()) {
@@ -28,7 +54,12 @@ public class IR_sys{
 				candidates.get(ballot.getRank() - 1).addIRballot(ballot);
 			}
 	}
-	
+
+	/**
+	* This method is used to get rank from the line of the file and store the rank in the system.
+	* @param String line is used to get rank, IR_Ballot instance is used to store rank.
+	* @return void.
+	*/
 	private static void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
 		try (Scanner rowScanner = new Scanner(line)) {
@@ -43,7 +74,12 @@ public class IR_sys{
 			ballot.setRank(i, Integer.parseInt(values.get(i)));
 		}
 	}
-				
+
+	/**
+  * This method is used to determine whether a winner exists in the election.
+  * @param args Unused.
+  * @return winner candidate.
+  */
 	public Candidate haswinner(){
 		if (candidates.size() < 1){
 			System.out.println("ERROR: No candidate in the file.");
@@ -61,7 +97,7 @@ public class IR_sys{
 				return candidates.get(coin.flip(2));
 			}
 		}
-		
+
 		for(int i = 0; i < candidates.size(); i ++){
 			int vote = candidates.get(i).getVote();
 			if(vote > total_ballot/2){
@@ -70,11 +106,16 @@ public class IR_sys{
 		}
 		return null;
 	}
-	
+
+	/**
+	* This method is used to find the candidate has the least ballots.
+	* @param args Unused.
+	* @return the candidate with the least ballots.
+	*/
 	public int get_leastcandidate(){
 		int least_vote = candidates.get(0).getVote();
 		int least_candidate = 0;
-		
+
 		for(int i = 0; i < candidates.size(); i ++){
 			int vote = candidates.get(i).getVote();
 			if(vote < least_vote){
@@ -87,13 +128,18 @@ public class IR_sys{
 		}
 		return least_candidate;
 	}
-	
+
+	/**
+	* This method is used to redistribute the ballots of the candaite with the least ballots.
+	* @param args Unused.
+	* @return void.
+	*/
 	public void redistribution(){
 		int least = get_leastcandidate();
 		Candidate candidate = candidates.get(least);
 		ArrayList<IR_Ballot> ballots = candidate.getballots();
 		IR_Ballot ballot;
-		
+
 		//ballots redistribution
 		for(int i = 0; i < ballots.size(); i++){
 			ballot = ballots.get(i);
@@ -102,8 +148,8 @@ public class IR_sys{
 				candidates.get(ballot.getRank() - 1).addIRballot(ballot);
 			}
 		}
-		
+
 		candidates.remove(least);
 	}
-	
+
 }
