@@ -20,10 +20,14 @@ public class Party {
     public ArrayList<Candidate> getMembers() {
         return members;
     }
+    
+    public void addmember(Candidate candidate){
+        this.members.add(candidate);
+    }
 
-    public Party(int vote, String name, ArrayList<Candidate> members){
-        this.vote = vote;
+    public Party(String name){
+        this.vote = 0;
         this.name = name;
-        this.members = members;
+        this.members = new ArrayList<Candidate>();
     }
 }
