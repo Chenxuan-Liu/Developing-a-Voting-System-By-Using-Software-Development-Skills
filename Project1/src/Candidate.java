@@ -13,12 +13,12 @@ import java.io.*;
 
 public class Candidate {
   /**
-  * This class creates new candidate for voting system.
-  * This class has 4 attibutes.
-  * Int vote is used to store the number of votes currently received.
+  * This class creates new Candidate to store all the information of each candidates for voting system.
+  * This class has 4 attributes.
+  * Int vote is used to store the total number of votes that the candidate currently received.
   * String name is used to store the name of the candidate.
-  * String party is used to store the name of the candidat's party.
-  * IR_Ballot ArrayList ballot is used to store all the ballots curently recerived.
+  * String party is used to store the name of the candidate's party.
+  * IR_Ballot ArrayList ballot is used to store all the ballots currently received.
   * @return IOException.
   */
   private int vote;
@@ -28,7 +28,7 @@ public class Candidate {
 
   /**
   * This method creates new candidate instance.
-  * @param string of candidates's name and Party of candidate's party .
+  * @param string of candidates' name and Party of candidate's party .
   */
   public Candidate(String name, String party) {
     this.vote = 0;
@@ -38,7 +38,7 @@ public class Candidate {
   }
 
   /**
-  * This method returns current recerived vote num of this candaites.
+  * This method returns current received vote num of this candidates.
   * @param args Unused.
   * @return integer num.
   */
@@ -65,9 +65,9 @@ public class Candidate {
   }
 
   /**
-  * This method returns belonging party of this candaites.
+  * This method returns belonging party of this candidates.
   * @param args Unused.
-  * @return Party.
+  * @return String.
   */
   public String getParty() {
     return party;

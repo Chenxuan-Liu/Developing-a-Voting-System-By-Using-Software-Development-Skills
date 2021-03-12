@@ -5,7 +5,17 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Chenxuan Liu
+ * @version 1.0
+ */
+
 public class PartyTest {
+    /**
+     * This class tests the correctness of the functions in the Party class.
+     * This class has 2 private attributes.
+     * @return IOException.
+     */
     private ArrayList<Candidate> can = new ArrayList<>();
     private Party p1 = new Party("p1");
 

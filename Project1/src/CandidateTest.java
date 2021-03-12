@@ -4,7 +4,17 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * @author Chenxuan Liu
+ * @version 1.0
+ */
+
 public class CandidateTest {
+    /**
+     * This class tests the correctness of the functions in the Candidate class.
+     * This class has 5 private attributes.
+     * @return IOException.
+     */
     private ArrayList<Candidate> candidates = new ArrayList<>();
     private ArrayList<Candidate> emptyCandidate = new ArrayList<>();
     private Candidate candidate1 = new Candidate("Jack", null);
