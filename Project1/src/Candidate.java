@@ -1,6 +1,8 @@
 //package candidate;
 //package com.journaldev.composition;
 import java.util.ArrayList;
+import java.io.*;
+
 //import anotherpackage.anotherclass;
 //import ir_ballot.IR_Ballot;
 
@@ -21,14 +23,14 @@ public class Candidate {
   */
   private int vote;
   private String name;
-  private Party party;
+  private String party;
   private ArrayList<IR_Ballot> ballot;
 
   /**
   * This method creates new candidate instance.
   * @param string of candidates's name and Party of candidate's party .
   */
-  public Candidate(String name, Party party) {
+  public Candidate(String name, String party) {
     this.vote = 0;
     this.name = name;
     this.party = party;
@@ -67,7 +69,7 @@ public class Candidate {
   * @param args Unused.
   * @return Party.
   */
-  public Party getParty() {
+  public String getParty() {
     return party;
   }
 
