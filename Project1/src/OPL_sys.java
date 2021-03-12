@@ -157,6 +157,7 @@ public class OPL_sys{
         }
         return candidate;
     }
+}
 
 
 
@@ -168,72 +169,72 @@ public class OPL_sys{
 
 
 
-
-    /**
-	 * find the candidates for each party that are selected.
-	 *
-	 * @param ArrayList<int> take number of seats for each party as input
-	 * @return return an arraylist of candidates that are selected
-	 */
-
-    public ArrayList<Candidate> insidePartyElection(ArrayList<Integer> numOfSeat){
-        ArrayList<Candidate> selectedCandidate = new ArrayList<>();
-        for (int i = 0; i < party.size(); i++){
-            for(int chosenSeat = 0; chosenSeat < numOfSeat.get(i); chosenSeat++){
-                selectedCandidate.add(findLargestCan(party.get(i).getMembers()));
-            }
-        }
-        return selectedCandidate;
-    }
-
-
-    /**
-	 * this method call the previous method to complete the OPL voting.
-	 *
-	 * @return return an arraylist of candidates as winner. 
-	 */
-
-    public ArrayList<Candidate> run_OPL(Scanner sc){
-
-        // readBallot(sc);
-
-        ArrayList<Integer> allocated  = updateSeat();
-
-        while (checkRemainSeats() != 0){
-            // find remaining votes
-            ArrayList<Integer> remainVotes = remainingVotes(party);
-            int largest = 0;
-            boolean haveTie = false;
-            int numOfTie = 0;
-            ArrayList<Integer> indexOfTie = new ArrayList<>();
-            // find the largest vote party and check for the tie condition
-            for (int i: remainVotes){
-                if (i > largest) {
-                    indexOfTie.clear();
-                    largest = i;
-                    haveTie = false;
-                    numOfTie = 0;
-                    indexOfTie.add(i);
-                } else if (i ==  largest){
-                    haveTie = true;
-                    numOfTie += 1;
-                    indexOfTie.add(i);
-                }
-            }
-
-            // if (haveTie) {
-            //     // CoinFlip rand =  new CoinFlip(numOfTie)
-            // } 
-
-            int index = indexOfTie.get(0);
-            allocated.set(index, allocated.get(index) + 1);
-            Party largestParty = party.get(index);
-            largestParty.setVote(-1);
-        }
-
-        ArrayList<Candidate> winner = insidePartyElection(allocated);
-
-        return winner;
-    }
-
-}
+//
+//    /**
+//	 * find the candidates for each party that are selected.
+//	 *
+//	 * @param ArrayList<int> take number of seats for each party as input
+//	 * @return return an arraylist of candidates that are selected
+//	 */
+//
+//    public ArrayList<Candidate> insidePartyElection(ArrayList<Integer> numOfSeat){
+//        ArrayList<Candidate> selectedCandidate = new ArrayList<>();
+//        for (int i = 0; i < party.size(); i++){
+//            for(int chosenSeat = 0; chosenSeat < numOfSeat.get(i); chosenSeat++){
+//                selectedCandidate.add(findLargestCan(party.get(i).getMembers()));
+//            }
+//        }
+//        return selectedCandidate;
+//    }
+//
+//
+//    /**
+//	 * this method call the previous method to complete the OPL voting.
+//	 *
+//	 * @return return an arraylist of candidates as winner.
+//	 */
+//
+//    public ArrayList<Candidate> run_OPL(Scanner sc){
+//
+//        // readBallot(sc);
+//
+//        ArrayList<Integer> allocated  = updateSeat();
+//
+//        while (checkRemainSeats() != 0){
+//            // find remaining votes
+//            ArrayList<Integer> remainVotes = remainingVotes(party);
+//            int largest = 0;
+//            boolean haveTie = false;
+//            int numOfTie = 0;
+//            ArrayList<Integer> indexOfTie = new ArrayList<>();
+//            // find the largest vote party and check for the tie condition
+//            for (int i: remainVotes){
+//                if (i > largest) {
+//                    indexOfTie.clear();
+//                    largest = i;
+//                    haveTie = false;
+//                    numOfTie = 0;
+//                    indexOfTie.add(i);
+//                } else if (i ==  largest){
+//                    haveTie = true;
+//                    numOfTie += 1;
+//                    indexOfTie.add(i);
+//                }
+//            }
+//
+//            // if (haveTie) {
+//            //     // CoinFlip rand =  new CoinFlip(numOfTie)
+//            // }
+//
+//            int index = indexOfTie.get(0);
+//            allocated.set(index, allocated.get(index) + 1);
+//            Party largestParty = party.get(index);
+//            largestParty.setVote(-1);
+//        }
+//
+//        ArrayList<Candidate> winner = insidePartyElection(allocated);
+//
+//        return winner;
+//    }
+//
+//}

@@ -8,8 +8,9 @@ public class CandidateTest {
     private ArrayList<Candidate> candidates = new ArrayList<>();
     private ArrayList<Candidate> emptyCandidate = new ArrayList<>();
     private Candidate candidate1 = new Candidate("Jack", null);
+    private Party p1 = new Party("p1");
     private Candidate candidate2 = new Candidate("Jerry", p1);
-    private Party p1 = new Party(0, "p1", candidates);
+
 
     @Before
     public void setUp() {

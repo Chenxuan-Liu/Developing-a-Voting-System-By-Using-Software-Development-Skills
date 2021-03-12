@@ -11,10 +11,10 @@ public class IR_BallotTest {
         assertEquals(0, ballot.getRank());
     }
 
-    @Test
-    public void getRanksize() {
-        assertEquals(0, ballot.getRanksize());
-    }
+//    @Test
+//    public void getRanksize() {
+//        assertEquals(0, ballot.getRanksize());
+//    }
 
     @Test
     public void updateRank() {

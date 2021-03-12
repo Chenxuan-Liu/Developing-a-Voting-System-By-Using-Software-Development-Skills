@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class PartyTest {
     private ArrayList<Candidate> can = new ArrayList<>();
-    private Party p1 = new Party(0,"p1", can);
+    private Party p1 = new Party("p1");
 
 //    @Before
 //    public void setUp() {
