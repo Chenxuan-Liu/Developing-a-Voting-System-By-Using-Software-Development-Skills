@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class Voting_System {
 
-    public String votetype;
+    public static String votetype;
     public static int totalballot, totalcandidate;
 
     /**
@@ -85,7 +85,7 @@ public class Voting_System {
      * @return void.
      * @exception no exception.
      */
-    public static Scanner readFile(String Inputfile,String votetype,ArrayList<Candidate> candidate, ArrayList<Party> party) throws FileNotFoundException {
+    public static Scanner readFile(String Inputfile,ArrayList<Candidate> candidate, ArrayList<Party> party) throws FileNotFoundException {
         File tempFile = new File(Inputfile);
         boolean exists = tempFile.exists();
         if (exists == false){
@@ -122,6 +122,7 @@ public class Voting_System {
 
         if (stopline==4){
             votetype = "IR";
+
             totalcandidate = Integer.parseInt(records.get(1).get(0));
 
             //Create candidate and Arraylist from Line 3
@@ -164,6 +165,17 @@ public class Voting_System {
         else if (stopline == 5){
             votetype = "OPL";
             totalcandidate = Integer.parseInt(records.get(1).get(0));
+            for (int j = 0;j < 2*totalcandidate;j=j+2) {
+//                System.out.println(records.get(2).get(j));
+                String current_candidate = records.get(2).get(j);
+                System.out.println(current_candidate);
+//                System.out.println(current_candidate.split("[\\[\\]]")[0]); // Get name
+                System.out.println(current_candidate.split("[\\[\\]]")[1]); // Get party
+
+                String current_party = records.get(2).get(j+1);
+                System.out.println(current_party.split("[\\[\\]]")[0] + "\n"); // Get name
+//                System.out.println(current_party.split("[\\[\\]]")[1] + "\n"); // Get party
+            }
         }
 
         return scanner;
@@ -211,37 +223,38 @@ public class Voting_System {
 //        readFile(input);
 
 //        readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv");
-        String votetype = null;
         ArrayList<Candidate> candidate = new ArrayList<Candidate>();
         ArrayList<Party> party = new ArrayList<Party>();
         totalballot = 0;
-//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",votetype,candidate,party);
-//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",votetype,candidate,party);
-        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_worstcase_tie.csv",votetype,candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_worstcase_tie.csv",candidate,party);
+        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
 
+        System.out.println(votetype);
+        if (votetype.equals("IR")) {
+            IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1, totalballot, BS);
 
-        IR_sys ir = new IR_sys(candidate,party,candidate.size(),1,totalballot,BS);
+            ir.readballot(ir.scanner);
 
-        ir.readballot(ir.scanner);
-
-        while (ir.haswinner()==null){
-//            if (ir.num_candidate == 2){
-//                System.out.println("Two candidates left");
-//                int lost_ID = ir.get_leastcandidate();
-//                int winner_ID = Math.abs(lost_ID-1);
-////              Need a function to get the candidates from IRsys
-//                System.out.println("The winner is " + winner_ID);
-//            }else {
+            while (ir.haswinner() == null) {
+                //            if (ir.num_candidate == 2){
+                //                System.out.println("Two candidates left");
+                //                int lost_ID = ir.get_leastcandidate();
+                //                int winner_ID = Math.abs(lost_ID-1);
+                ////              Need a function to get the candidates from IRsys
+                //                System.out.println("The winner is " + winner_ID);
+                //            }else {
                 System.out.println("No winner. There are " + ir.num_candidate + " Left");
                 int leastID = ir.get_leastcandidate();
                 ir.redistribution();
                 System.out.println("Redistribution Complete");
                 System.out.println("There are " + ir.num_candidate + " Left" + "\n");
-//            }
+                //            }
 
+            }
+            System.out.println("The winner is " + ir.haswinner().getName());
         }
-        System.out.println("The winner is " + ir.haswinner().getName());
-
 
         //Next is used for testing
 //        List<List<String>> allballots = new ArrayList<>();
