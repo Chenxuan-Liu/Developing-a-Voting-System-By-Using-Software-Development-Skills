@@ -17,7 +17,7 @@ public class IR_BallotTest {
 
     @Test
     public void getRank() {
-        assertEquals(null, ballot.getRank());
+        assertEquals(-1, ballot.getRank());
     }
 
     @Test
@@ -28,10 +28,10 @@ public class IR_BallotTest {
 
     @Test
     public void setRank(){
-        ballot.addRank(1);
         ballot.addRank(100);
-        ballot.setRank(2,1);
-        assertEquals(2, ballot.getRank());
+        ballot.addRank(2);
+        ballot.setRank(1,0);
+        assertEquals(1, ballot.getRank());
     }
 
     @Test

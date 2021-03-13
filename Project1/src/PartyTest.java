@@ -39,9 +39,22 @@ public class PartyTest {
     }
 
     @Test
+    public void addMember(){
+        Candidate c1 = new Candidate("c1", "p1");
+        Candidate c2 = new Candidate("c2", "p1");
+        can.add(c1);
+        can.add(c2);
+        p1.addmember(c1);
+        p1.addmember(c2);
+        assertEquals(can, p1.getMembers());
+    }
+
+    @Test
     public void getMembers() {
-        assertEquals(null, p1.getMembers());
-        can.add(new Candidate("c1", "p1"));
+        assertEquals(can, p1.getMembers());
+        Candidate c1 = new Candidate("c1", "p1");
+        can.add(c1);
+        p1.addmember(c1);
         assertEquals(can, p1.getMembers());
     }
 }

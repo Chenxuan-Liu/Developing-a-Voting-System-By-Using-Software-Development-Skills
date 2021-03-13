@@ -19,7 +19,7 @@ public class Coin_FlipTest {
         for (int i = 1; i < 100; i++){
             int randNum = coin.flip(i);
             assertTrue(randNum < i);
-            assertTrue(randNum > 0);
+            assertTrue(randNum >= 0);
         }
     }
 }
