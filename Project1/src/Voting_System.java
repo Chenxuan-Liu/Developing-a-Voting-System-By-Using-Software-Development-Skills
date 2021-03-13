@@ -19,29 +19,66 @@ public class Voting_System {
     public String votetype;
     public static int totalballot, totalcandidate;
 
+    /**
+     * Gets vote type of this election.
+     * @param args unused.
+     * @return return the type name of current vote.
+     * @exception no exception.
+     */
     public String getVotetype() {
         return votetype;
     }
 
+    /**
+     * Gets the total number of ballots received of this election.
+     * @param args unused.
+     * @return return the total number of ballots.
+     * @exception no exception.
+     */
     public int getTotalballot() {
         return totalballot;
     }
 
+    /**
+     * Gets the total number of candidates in the election.
+     * @param args, unused.
+     * @return return the total number of candidates.
+     * @exception no exception.
+     */
     public int getTotalcandidate() {
         return totalcandidate;
     }
 
+    /**
+     * Sets vote type according to input type name.
+     * @param votetype String type, the name of the vote type.
+     * @return void.
+     * @exception no exception.
+     */
     public void setVotetype(String votetype) {
         this.votetype = votetype;
     }
 
+    /**
+     * Sets total number of ballots using the given integer number.
+     * @param totalballot, integer type, the total number of ballots received in the election.
+     * @return void.
+     * @exception no exception.
+     */
     public void setTotalballot(int totalballot) {
         this.totalballot = totalballot;
     }
 
+    /**
+     * Sets total number of candidates using the given integer number.
+     * @param totalcandidate integer type, the new total number of candidates.
+     * @return void.
+     * @exception no exception.
+     */
     public void setTotalcandidate(int totalcandidate) {
         this.totalcandidate = totalcandidate;
     }
+
     /**
      * Reads input file from the given address.
      * @param Inputfile String type, the name of the input file.
@@ -130,6 +167,7 @@ public class Voting_System {
 
         return scanner;
     }
+
     /**
      * Records each lines of input CSV file.
      * @param line String type, a line of the input CSV file.
@@ -145,6 +183,7 @@ public class Voting_System {
         }
         return values;
     }
+
     /**
      * Generates Voting_System instance and runs the voting system.
      * @param votetype String type, the type of the election, IR or OPL.
@@ -158,6 +197,12 @@ public class Voting_System {
         this.totalcandidate = totalcandidate;
     }
 
+    /**
+     * Main function, uses other classes to run the voting system.
+     * @param args used.
+     * @return void.
+     * @exception FileNotFoundException not find file.
+     */
     public static void main(String[] args) throws FileNotFoundException {
 //        System.out.println("Please input the path of input file");
 //        Scanner scn = new Scanner(System.in);

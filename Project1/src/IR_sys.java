@@ -8,9 +8,9 @@ import java.util.*;
  * This class is used for IR vote, stores all required information of IR vote.
  * <p></p>
  *
-* @author Jicheng Zhu
-* @version 1.0
-*/
+ * @author Jicheng Zhu
+ * @version 1.0
+ */
 
 public class IR_sys{
 
@@ -25,9 +25,9 @@ public class IR_sys{
 	* @param candidate Candidate ArrayList, which contains all candidates to join the IR vote.
 	* @param party Party ArrayList which contains all parties that have joined the IR vote.
 	* @param number_candidate total number of all candidates participating in the IR election.
-	 * @param num_seats total number of winning seats in the IR election.
-	 * @param total_ballot total number of ballot in the IR election.
-	 * @param scanner java scanner type used to help reading the input CSV file.
+	* @param num_seats total number of winning seats in the IR election.
+	* @param total_ballot total number of ballot in the IR election.
+	* @param scanner java scanner type used to help reading the input CSV file.
 	*/
 	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party,
 				  int number_candidate, int num_seats, int total_ballot, Scanner scanner){
@@ -43,7 +43,7 @@ public class IR_sys{
 	* Reads and stores ballots from the CSV file.
 	* @param scanner java scanner type used to help reading input file.
 	* @return void.
-	 * @exception no exception.
+	* @exception no exception.
 	*/
 	public void readballot(Scanner scanner){
 		IR_Ballot ballot;
@@ -65,7 +65,7 @@ public class IR_sys{
 	* @param line a line of input CSV file, used to get rank.
 	* @param ballot the ballot which is used to store rank.
 	* @return void.
-	 * @exception no exception.
+	* @exception no exception.
 	*/
 	private static void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
@@ -94,11 +94,11 @@ public class IR_sys{
 	}
 
 	/**
-  * Determines whether a winner exists in the election, if yes, return the candidate.
-  * @param args Unused.
-  * @return return the winner candidate.
-	 * @exception no exception.
-  */
+	* Determines whether a winner exists in the election, if yes, return the candidate.
+	* @param args Unused.
+	* @return return the winner candidate.
+	* @exception no exception.
+	*/
 	public Candidate haswinner(){
 		if (candidates.size() < 1){
 			System.out.println("ERROR: No candidate in the file.");
@@ -130,7 +130,7 @@ public class IR_sys{
 	* Finds the candidate has the least ballots, if find, return the candidate.
 	* @param args Unused.
 	* @return return the candidate with the least ballots.
-	 * @exception no exception.
+	* @exception no exception.
 	*/
 	public int get_leastcandidate(){
 		int least_vote = candidates.get(0).getVote();
@@ -153,7 +153,7 @@ public class IR_sys{
 	* Redistributes the ballots of the candidate with the least ballots to other candidates.
 	* @param args Unused.
 	* @return void.
-	 * @exception no exception.
+	* @exception no exception.
 	*/
 	public void redistribution(){
 		int least = get_leastcandidate();

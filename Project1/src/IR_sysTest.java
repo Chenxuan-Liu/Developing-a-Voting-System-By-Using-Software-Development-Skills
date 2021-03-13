@@ -6,6 +6,13 @@ import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests the correctness of the functions in the IR_sys class.
+ * This class has 5 private attributes.
+ * @author Chenxuan Liu
+ * @version 1.0
+ */
+
 public class IR_sysTest {
     private Candidate can1 = new Candidate("c1","p1");
     private Candidate can2 = new Candidate("c2", "p1");

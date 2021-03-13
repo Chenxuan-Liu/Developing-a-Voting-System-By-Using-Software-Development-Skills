@@ -157,11 +157,11 @@ public class OPL_sys{
 
 
     /**
-	 * Finds the largest vote for a candidate in a candidate arraylist.
-	 * @param Candidates ArrayList<Candidate> type, takes an array of candidates as input.
-	 * @return return the index of the candidate with the most votes in the candidate arraylist.
+     * Finds the largest vote for a candidate in a candidate arraylist.
+     * @param Candidates ArrayList<Candidate> type, takes an array of candidates as input.
+     * @return return the index of the candidate with the most votes in the candidate arraylist.
      * @exception no exception.
-	 */
+     */
     private int findLargestCandidate(ArrayList<Candidate> Candidates){
         int index = 0;
         int numofTie = 1;

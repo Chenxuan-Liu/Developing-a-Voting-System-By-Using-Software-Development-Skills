@@ -42,7 +42,7 @@ public class Candidate {
   * Returns current received vote num of this candidates.
   * @param args Unused.
   * @return candidate received number of votes.
-   * @exception no exception.
+  * @exception no exception.
   */
   public int getVote() {
     return vote;
@@ -52,7 +52,7 @@ public class Candidate {
   * Receives new integer number to change the value of vote.
   * @param num the new number of votes to be set for the candidate.
   * @return void.
-   * @exception no exception.
+  * @exception no exception.
   */
   public void setVote(int v) {
     vote = v;
@@ -62,7 +62,7 @@ public class Candidate {
   * Returns name of this candidate.
   * @param args Unused.
   * @return name of this candidate.
-   * @exception no exception.
+  * @exception no exception.
   */
   public String getName() {
     return name;
@@ -72,7 +72,7 @@ public class Candidate {
   * Returns belonging party of this candidate.
   * @param args Unused.
   * @return belonging party name of this candidate.
-   * @exception no exception.
+  * @exception no exception.
   */
   public String getParty() {
     return party;
@@ -82,7 +82,7 @@ public class Candidate {
   * Returns arraylist ballot which contains this candidate received all ballots.
   * @param args Unused.
   * @return an arraylist contains all IR ballots.
-   * @exception no exception.
+  * @exception no exception.
   */
   public ArrayList<IR_Ballot> getballots() {
     return ballot;
@@ -92,7 +92,7 @@ public class Candidate {
   * Adds one IR ballot to this candidate.
   * @param ballot new ballot need to be added to the candidate.
   * @return void.
-   * @exception no exception.
+  * @exception no exception.
   */
   public void addIRballot(IR_Ballot ballot){
     this.vote = this.vote + 1;

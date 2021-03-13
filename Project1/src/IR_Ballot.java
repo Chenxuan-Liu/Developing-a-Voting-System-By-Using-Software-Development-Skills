@@ -9,9 +9,9 @@ import java.util.ArrayList;
  * This class contains 2 attributes.
  * ArrayList voteRank is used to store the rank of all ballots in the election.
  * Int currentRank is used to store current rank of the IR ballot.
-* @author Yingwen Weng
-* @version 1.0
-*/
+ * @author Yingwen Weng
+ * @version 1.0
+ */
 public class IR_Ballot {
 
   private ArrayList<Integer> voteRank;
@@ -20,7 +20,7 @@ public class IR_Ballot {
   /**
   * Constructor, creates new IR_Ballot instance.
   * @param args Unused.
-   * @exception no exception.
+  * @exception no exception.
   */
   public IR_Ballot() {
     voteRank = new ArrayList<Integer>();
@@ -31,7 +31,7 @@ public class IR_Ballot {
   * Returns current rank of ballot.
   * @param args Unused.
   * @return current rank of the IR ballot.
-   * @exception no exception.
+  * @exception no exception.
   */
   public int getRank() {
     if(currentRank >= voteRank.size()){
@@ -44,7 +44,7 @@ public class IR_Ballot {
   * Adds one rank to IR ballot's current voteRank arraylist.
   * @param rank new rank values to be added to IR ballot.
   * @return void.
-   * @exception no exception.
+  * @exception no exception.
   */
   public void addRank(int rank){
     voteRank.add(rank);
@@ -55,7 +55,7 @@ public class IR_Ballot {
   * @param rank new rank values to be added to IR ballot.
   * @param index  index of position to insert the new rank.
   * @return void.
-   * @exception no exception.
+  * @exception no exception.
   */
   public void setRank(int rank, int index){
     voteRank.set(index, rank);
@@ -64,10 +64,10 @@ public class IR_Ballot {
 
   /**
   * Updates ballot's current rank by one,
-   * ballot votes for the candidate of the next order.
+  * ballot votes for the candidate of the next order.
   * @param args Unused.
   * @return void.
-   * @exception no exception.
+  * @exception no exception.
   */
   public void updateRank() {
     currentRank = currentRank + 1;
