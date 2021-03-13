@@ -6,27 +6,20 @@ import java.io.*;
 import java.util.*;
 import javax.swing.plaf.basic.*;
 
-
-
 /**
- * @author Chenxuan Liu
- * @version 1.0
+ * This class is used for OPL voting.
  * OPL_sys is a class that creat for open party list ballot voting type.
  * It must need two other class, which is party and candidate to complete the task.
+ * <p></p>
+ * This class has 8 attributes.
+ *
+ * @author Chenxuan Liu
+ * @author Jicheng Zhu
+ * @version 1.0
  */
 
 public class OPL_sys{
-    /**
-     * This class is used for OPL voting.
-     * This class has 8 attributes.
-     * Candidate ArrayList is used to store all the candidates in the election.
-     * Party ArrayList is used to store  all the parties that have joined the election
-     * Integer num_candidate, num_seats are used to store the total number of candidates added to the election and seats won.
-     * Integer total_ballot and allocated_seats are used to store the total number of popular votes and elected seats allocated to parties.
-     * Coin_Flip type coin is used when tie occurs during the election.
-     * Scanner type is used to help reading information and ballots from input file.
-     * @return IOException.
-     */
+
     private ArrayList<Candidate> candidates;
     private ArrayList<Party> parties;
     private int num_candidate, num_seats, total_ballot, allocated_seats;
@@ -34,8 +27,13 @@ public class OPL_sys{
     Scanner scanner;
 
     /**
-     * This method creates new OPL_sys instance.
-     * @param Candidate ArrayList, Party ArrayList, 3 integer nums and Scanner.
+     * Constructor, creates new OPL_sys instance.
+     * @param candidate Candidate ArrayList which contains all the candidates in the election.
+     * @param party Party ArrayList stores all the parties that have joined the election.
+     * @param number_candidate the total number of candidates added to the election.
+     * @param num_seats the total number of seats won.
+     * @param total_ballot the total number of popular votes allocated to parties.
+     * @param scanner java scanner type used to help reading information and ballots from input file.
      */
     public OPL_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot, Scanner scanner){
         this.candidates = candidate;
@@ -48,9 +46,10 @@ public class OPL_sys{
     }
 
     /**
-     * This method is used to read ballots from the CSV file.
-     * @param Scanner scanner used to read file.
+     * Reads ballots from the CSV file.
+     * @param scanner used to read file.
      * @return void.
+     * @exception no exception.
      */
     public void readballot(Scanner scanner){
         while(scanner.hasNextLine()){
@@ -77,11 +76,11 @@ public class OPL_sys{
     
 
     /**
-	 * This method is used to allocate the seats for each party based on the quota
+	 * Allocates the seats for each party based on the quota.
 	 * @param args Unused.
 	 * @return return an arraylist<int> that contains the seats allocated by the party in order.
+     * @exception no exception.
 	 */
-
     public ArrayList<Integer> firstround_Seats(){
         int quota = total_ballot/num_seats;
         ArrayList<Integer> partySeats = new ArrayList<>();
@@ -107,9 +106,10 @@ public class OPL_sys{
 
 
     /**
-     * This method is used to check whether the allocated seats is less than total number of seats.
+     * Checks whether the allocated seats is less than total number of seats.
      * @param args Unused.
-     * @return boolean.
+     * @return true, if there exists remaining seats. Otherwise, no.
+     * @exception no exception.
      */
     public boolean checkRemainSeats(){
         return allocated_seats < num_seats;
@@ -117,9 +117,10 @@ public class OPL_sys{
 
 
     /**
-     * This method is used to find the party that receives the most votes.
+     * Finds the party that receives the most votes.
      * @param args Unused.
      * @return return the index of the party which received the most votes.
+     * @exception no exception.
      */
     public int findlargestvote(){
         int index = 0;
@@ -156,11 +157,11 @@ public class OPL_sys{
 
 
     /**
-	 * This method is used to find the largest vote for a candidate in a candidate arraylist.
-	 * @param ArrayList<Candidate> take an array of candidates as input.
+	 * Finds the largest vote for a candidate in a candidate arraylist.
+	 * @param Candidates ArrayList<Candidate> type, takes an array of candidates as input.
 	 * @return return the index of the candidate with the most votes in the candidate arraylist.
+     * @exception no exception.
 	 */
-
     private int findLargestCandidate(ArrayList<Candidate> Candidates){
         int index = 0;
         int numofTie = 1;
@@ -190,10 +191,10 @@ public class OPL_sys{
     
     
     /**
-    * find the candidates for each party that are selected.
-    *
-    * @param ArrayList<Integer> take number of seats for each party as input
-    * @return return an arraylist of candidates that are selected
+    * Finds the candidates for each party that are selected.
+    * @param partyseats ArrayList<Integer> type, takea number of seats for each party as input.
+    * @return return an arraylist of candidates that are selected.
+    * @exception no exception.
     */
     public ArrayList<Candidate> findwinnner(ArrayList<Integer> partyseats){
         ArrayList<Candidate> winners = new ArrayList<>();

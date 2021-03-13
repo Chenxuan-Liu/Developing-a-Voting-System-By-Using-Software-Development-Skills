@@ -7,16 +7,14 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * This class is the main class of the voting system.
+ * This class has 5 attributes.
  * @author Zilong He
  * @version 1.0
  */
 
 public class Voting_System {
-    /**
-     * This class is the main class of the voting system.
-     * This class has 5 attributes.
-     * @return IOException.
-     */
+
     public String votetype;
     public int totalballot, totalcandidate;
 
@@ -33,9 +31,10 @@ public class Voting_System {
     }
 
     /**
-     * This method is used to read input file.
-     * @param String type, receive the name of the input file.
+     * Reads input file from the given address.
+     * @param Inputfile String type, the name of the input file.
      * @return void.
+     * @exception no exception.
      */
     public static void readFile(String Inputfile) throws FileNotFoundException {
         List<List<String>> records = new ArrayList<>();
@@ -48,9 +47,9 @@ public class Voting_System {
     }
 
     /**
-     * This method is record each lines of input CSV file.
-     * @param String type, receive a line of the input file.
-     * @return String list, return the information list from the input line.
+     * Records each lines of input CSV file.
+     * @param line String type, a line of the input CSV file.
+     * @return return the information list from the input line.
      */
     private static List<String> getRecordFromLine(String line) {
         List<String> values = new ArrayList<String>();
@@ -64,8 +63,11 @@ public class Voting_System {
     }
 
     /**
-     * This method is used to generate Voting_System instance and run the voting system.
-     * @param String and integer type, receive type, total ballots and candidates of the election.
+     * Generates Voting_System instance and runs the voting system.
+     * @param votetype String type, the type of the election, IR or OPL.
+     * @param totalballot integer type, the total number of votes received for the election.
+     * @param totalcandidate integer type, the total number of candidates joined the election.
+     * @exception no exception.
      */
     public Voting_System(String votetype, int totalballot, int totalcandidate) {
         this.votetype = votetype;

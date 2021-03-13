@@ -5,23 +5,15 @@ import java.lang.*;
 import java.util.*;
 
 /**
+ * This class is used for IR vote, stores all required information of IR vote.
+ * <p></p>
+ *
 * @author Jicheng Zhu
 * @version 1.0
 */
 
 public class IR_sys{
-	/**
-  * This class is used for IR voting.
-  * This class has 7 attributes.
-  * Candidate arrayList candidates is used to store all candidates in the election.
-  * Party arraylist parties is used to store all the parties in the election.
-  * Integer num_candidate is used to store the total number of the candidates in the election.
-  * Integer num_seats is used to store the total number of the winning seats in the election.
-  * Integer total_ballot is used to store the total number of ballot in the election.
-  * Coin_Flip coin is used when tie occurs during the election.
-  * Scanner scanner is used to read information and ballots from CSV file.
-  * @return IOException.
-  */
+
 	private ArrayList<Candidate> candidates;
 	private ArrayList<Party> parties;
 	int num_candidate, num_seats, total_ballot;
@@ -29,10 +21,16 @@ public class IR_sys{
 	Scanner scanner;
 
 	/**
-	* This method creates new IR_sys instance.
-	* @param Candidate ArrayList, Party ArrayList, 3 integer nums and Scanner.
+	* Constructor, creates new IR_sys instance.
+	* @param candidate Candidate ArrayList, which contains all candidates to join the IR vote.
+	* @param party Party ArrayList which contains all parties that have joined the IR vote.
+	* @param number_candidate total number of all candidates participating in the IR election.
+	 * @param num_seats total number of winning seats in the IR election.
+	 * @param total_ballot total number of ballot in the IR election.
+	 * @param scanner java scanner type used to help reading the input CSV file.
 	*/
-	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot, Scanner scanner){
+	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party,
+				  int number_candidate, int num_seats, int total_ballot, Scanner scanner){
 		this.candidates = candidate;
 		this.parties = party;
 		this.num_candidate = number_candidate;
@@ -42,9 +40,10 @@ public class IR_sys{
 	}
 
 	/**
-	* This method is used to read ballots from the CSV file.
-	* @param Scanner scanner used to read file.
+	* Reads and stores ballots from the CSV file.
+	* @param scanner java scanner type used to help reading input file.
 	* @return void.
+	 * @exception no exception.
 	*/
 	public void readballot(Scanner scanner){
 		IR_Ballot ballot;
@@ -56,9 +55,11 @@ public class IR_sys{
 	}
 
 	/**
-	* This method is used to get rank from the line of the file and store the rank in the system.
-	* @param String line is used to get rank, IR_Ballot instance is used to store rank.
+	* Gets rank from the line of the file and store the rank in the system.
+	* @param line a line of input CSV file, used to get rank.
+	* @param ballot the ballot which is used to store rank.
 	* @return void.
+	 * @exception no exception.
 	*/
 	private static void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
@@ -76,9 +77,10 @@ public class IR_sys{
 	}
 
 	/**
-  * This method is used to determine whether a winner exists in the election.
+  * Determines whether a winner exists in the election, if yes, return the candidate.
   * @param args Unused.
-  * @return winner candidate.
+  * @return return the winner candidate.
+	 * @exception no exception.
   */
 	public Candidate haswinner(){
 		if (candidates.size() < 1){
@@ -108,9 +110,10 @@ public class IR_sys{
 	}
 
 	/**
-	* This method is used to find the candidate has the least ballots.
+	* Finds the candidate has the least ballots, if find, return the candidate.
 	* @param args Unused.
-	* @return the candidate with the least ballots.
+	* @return return the candidate with the least ballots.
+	 * @exception no exception.
 	*/
 	public int get_leastcandidate(){
 		int least_vote = candidates.get(0).getVote();
@@ -130,9 +133,10 @@ public class IR_sys{
 	}
 
 	/**
-	* This method is used to redistribute the ballots of the candidate with the least ballots.
+	* Redistributes the ballots of the candidate with the least ballots to other candidates.
 	* @param args Unused.
 	* @return void.
+	 * @exception no exception.
 	*/
 	public void redistribution(){
 		int least = get_leastcandidate();
