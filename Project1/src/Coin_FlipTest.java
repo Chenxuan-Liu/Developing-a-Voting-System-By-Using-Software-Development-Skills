@@ -14,6 +14,12 @@ public class Coin_FlipTest {
      */
     @Test
     public void flip() {
+        Coin_Flip coin = new Coin_Flip();
 
+        for (int i = 1; i < 100; i++){
+            int randNum = coin.flip(i);
+            assertTrue(randNum < i);
+            assertTrue(randNum > 0);
+        }
     }
 }

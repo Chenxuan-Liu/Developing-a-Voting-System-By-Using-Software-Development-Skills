@@ -19,7 +19,7 @@ public class CandidateTest {
     private ArrayList<Candidate> emptyCandidate = new ArrayList<>();
     private Candidate candidate1 = new Candidate("Jack", null);
     private Party p1 = new Party("p1");
-    private Candidate candidate2 = new Candidate("Jerry", p1);
+    private Candidate candidate2 = new Candidate("Jerry", "p1");
 
 
     @Before
@@ -54,9 +54,21 @@ public class CandidateTest {
         assertEquals(null, candidate2.getParty());
     }
 
-//    need to fix the Voting system class and IR voting system
-//    @Test
-//    public void getballots() {
-//
-//    }
+    @Test
+    public void getballots() {
+        ArrayList<IR_Ballot> ballot = new ArrayList<>();
+        ballot.get(0).addRank(1);
+        candidate2.addIRballot(ballot.get(0));
+        assertEquals(ballot, candidate2.getballots());
+    }
+
+    @Test
+    public void addIRballot(){
+        IR_Ballot ballot = new IR_Ballot();
+        ballot.addRank(1);
+        ballot.addRank(2);
+        candidate1.addIRballot(ballot);
+        assertEquals(ballot, candidate1.getballots());
+    }
+
 }
