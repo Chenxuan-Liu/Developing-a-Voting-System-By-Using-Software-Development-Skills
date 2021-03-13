@@ -168,13 +168,33 @@ public class Voting_System {
             for (int j = 0;j < 2*totalcandidate;j=j+2) {
 //                System.out.println(records.get(2).get(j));
                 String current_candidate = records.get(2).get(j);
-                System.out.println(current_candidate);
-//                System.out.println(current_candidate.split("[\\[\\]]")[0]); // Get name
-                System.out.println(current_candidate.split("[\\[\\]]")[1]); // Get party
-
+//                System.out.println(current_candidate.split("[\\[\\]]")[1]); // Get name
                 String current_party = records.get(2).get(j+1);
-                System.out.println(current_party.split("[\\[\\]]")[0] + "\n"); // Get name
-//                System.out.println(current_party.split("[\\[\\]]")[1] + "\n"); // Get party
+//                System.out.println(current_party.split("[\\[\\]]")[0] + "\n"); // Get party
+
+                candidate.add(new Candidate(current_candidate.split("[\\[\\]]")[1],current_party.split("[\\[\\]]")[0]));
+                if(j == 0){
+                    party.add(new Party(current_party.split("[\\[\\]]")[0]));
+                    party.get(j).addmember(candidate.get(j));
+                }else {
+                    boolean party_exist_flag = false;
+                    int party_ID = 0;
+                    for (int k = 0;k < party.size();k++){
+                        if (party.get(k).getName().equals(current_party.split("[\\[\\]]")[0])){
+                            party_exist_flag = true;
+                            party_ID = k;
+                            break;
+                        }
+                    }
+
+                    if (party_exist_flag==true){
+                        party.get(party_ID).addmember(candidate.get(j/2));
+                    }else {
+                        party.add(new Party(current_party.split("[\\[\\]]")[0]));
+                        party.get(party.size()-1).addmember(candidate.get(j/2));
+                    }
+                }
+
             }
         }
 
@@ -229,9 +249,10 @@ public class Voting_System {
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_worstcase_tie.csv",candidate,party);
-        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
+        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv",candidate,party);
 
-        System.out.println(votetype);
+//        System.out.println(votetype);
         if (votetype.equals("IR")) {
             IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1, totalballot, BS);
 
