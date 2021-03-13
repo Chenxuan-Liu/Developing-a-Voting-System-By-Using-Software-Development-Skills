@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,19 +33,85 @@ public class Voting_System {
         return totalcandidate;
     }
 
+ PartyVotingCoin
+    public void setVotetype(String votetype) {
+        this.votetype = votetype;
+    }
+
+    public void setTotalballot(int totalballot) {
+        this.totalballot = totalballot;
+    }
+
+    public void setTotalcandidate(int totalcandidate) {
+        this.totalcandidate = totalcandidate;
+    }
+
+    public static Scanner readFile(String Inputfile,String votetype,ArrayList<Candidate> candidate, ArrayList<Party> party) throws FileNotFoundException {
+        File tempFile = new File(Inputfile);
+        boolean exists = tempFile.exists();
+        if (exists == false){
+            System.out.println("No input file found. Program terminated");
+            System.exit(0);
+        }
+
     /**
      * This method is used to read input file.
      * @param String type, receive the name of the input file.
      * @return void.
      */
     public static void readFile(String Inputfile) throws FileNotFoundException {
+ dev
         List<List<String>> records = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File("E:\\CSVDemo.csv"));) {
-            while (scanner.hasNextLine()) {
-                records.add(getRecordFromLine(scanner.nextLine()));
-                System.out.println(getRecordFromLine(scanner.nextLine()));
+        int stopline = -1,i = 0,totalcandidate = 0;
+        Scanner scanner = new Scanner(new File(Inputfile));
+        while (scanner.hasNextLine()) {
+            records.add(getRecordFromLine(scanner.nextLine()));
+            if (i == 0) {
+//                    System.out.println(Arrays.toString(records.toArray()));
+//                    System.out.println(records.get(i));
+//                System.out.println(records.get(i).get(i));
+                if (new String("IR").equals(records.get(i).get(i))) {
+                    System.out.println("You are in IR mode");
+                    stopline = 4;
+                }
+                if (new String("OPL").equals(records.get(i).get(i))) {
+                    System.out.println("You are in OPL mode");
+                    stopline = 5;
+                }
             }
+
+            if (i == stopline - 1) {
+                break;
+            }
+            i++;
         }
+//        System.out.println(Arrays.toString(records.toArray()));
+
+        if (stopline==4){
+            votetype = "IR";
+            totalcandidate = Integer.parseInt(records.get(1).get(0));
+
+            //Create candidate and Arraylist from Line 3
+            for (int j = 0;j < totalcandidate;j++){
+//                System.out.println(records.get(2).get(j));
+                String current_candidate = records.get(2).get(j);
+//                current_candidate = current_candidate.replaceAll("\\s", ""); // Replace space as null
+//                System.out.println(current_candidate);
+//                System.out.println(current_candidate.split("[\\(\\)]")[0]); // Get name
+//                System.out.println(current_candidate.split("[\\(\\)]")[1]); // Get party
+
+                candidate.add(new Candidate(current_candidate.split("[\\(\\)]")[0],current_candidate.split("[\\(\\)]")[1]));
+                party.add(new Party(current_candidate.split("[\\(\\)]")[1]));
+            }
+
+            //Create IR ballots from Line 4
+
+        }
+        else if (stopline == 5){
+            votetype = "OPL";
+        }
+
+        return scanner;
     }
 
     /**
@@ -73,9 +140,23 @@ public class Voting_System {
         this.totalcandidate = totalcandidate;
     }
 
-//    public static void main(String[] args) {
-//        // write your code here
-//        System.out.println("Hello");
-//        readFile("String Inputfile");
-//    }
+    public static void main(String[] args) throws FileNotFoundException {
+//        System.out.println("Please input the path of input file");
+//        Scanner scn = new Scanner(System.in);
+//        String input = scn.nextLine();
+//        readFile(input);
+
+//        readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv");
+        String votetype = null;
+        ArrayList<Candidate> candidate = new ArrayList<Candidate>();
+        ArrayList<Party> party = new ArrayList<Party>();
+        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",votetype,candidate,party);
+
+        //Next is used for testing
+        List<List<String>> allballots = new ArrayList<>();
+        while (BS.hasNextLine()) {
+            allballots.add(getRecordFromLine(BS.nextLine()));
+        }
+        System.out.println(Arrays.toString(allballots.toArray()));
+    }
 }
