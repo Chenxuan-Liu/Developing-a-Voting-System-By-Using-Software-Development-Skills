@@ -65,13 +65,16 @@ public class IR_sys{
 		try (Scanner rowScanner = new Scanner(line)) {
 			rowScanner.useDelimiter(",");
 			while (rowScanner.hasNext()) {
-				values.add(rowScanner.next());
-				ballot.addRank(1); //only used to initializa the size
+				String value = rowScanner.next();
+				if(!value.trim().isEmpty()){
+					values.add(value);
+					ballot.addRank(1); //only used to initializa the size
+				}
 			}
 		}
 		//set the correct rank
-		for(int i = 0; i < values.size(); i++){
-			ballot.setRank(i, Integer.parseInt(values.get(i)));
+		for(int i = 1; i <= values.size(); i++){
+			ballot.setRank(i, Integer.parseInt(values.get(i-1)) - 1);
 		}
 	}
 

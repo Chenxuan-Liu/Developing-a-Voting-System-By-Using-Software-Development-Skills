@@ -167,12 +167,16 @@ public class Voting_System {
         ArrayList<Candidate> candidate = new ArrayList<Candidate>();
         ArrayList<Party> party = new ArrayList<Party>();
         totalballot = 0;
-        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",votetype,candidate,party);
+        Scanner BS = readFile("/Users/jichengzhu/desktop/5801project/repo-team11/project1/csvfile/IR_direct_winner.csv",votetype,candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_wrostcase_tie.csv",votetype,candidate,party);
 
+
         IR_sys ir = new IR_sys(candidate,party,candidate.size(),1,totalballot,BS);
+
         ir.readballot(ir.scanner);
-        ir.haswinner();
+        
+
+        System.out.println(ir.haswinner().getName());
 
         //Next is used for testing
 //        List<List<String>> allballots = new ArrayList<>();
