@@ -137,6 +137,8 @@ public class OPL_sys{
         return index;
     }
     
+    
+    //need java docs here
     //need the partyseats list from the first round
     public ArrayList<Integer> secondround_seats(ArrayList<Integer> partyseats){
         for(int i = 0; i < parties.size(); i++){
@@ -149,117 +151,63 @@ public class OPL_sys{
                 partyseats.set(index, seats + 1);
             }
         }
+        return partyseats;
     }
 
 
     /**
 	 * This method is used to find the largest vote for a candidate in a candidate arraylist.
 	 * @param ArrayList<Candidate> take an array of candidates as input.
-	 * @return return the candidate with the most votes in the candidate arraylist.
+	 * @return return the index of the candidate with the most votes in the candidate arraylist.
 	 */
 
-    public Candidate findLargestCandidate(ArrayList<Candidate> Candidates){
-        Candidate candidate = candidates.get(0);
+    private int findLargestCandidate(ArrayList<Candidate> Candidates){
+        int index = 0;
         int numofTie = 1;
-        ArrayList<Candidate> numofTielist = new ArrayList<>();
-        numofTielist.add(candidate);
+        ArrayList<Integer> Tielist = new ArrayList<>();
+        Tielist.add(index);
         
         for(int i = 0; i < candidates.size(); i++){
-            Candidate c = candidates.get(i);
-            if(c.getVote() > candidate.getVote()){
-                candidate = c;
+            Candidate candidate = candidates.get(i);
+            Candidate largestcandidate = candidates.get(index);
+            if(candidate.getVote() > largestcandidate.getVote()){
+                index = i;
                 numofTie = 1;
-                numofTielist.clear();
-                numofTielist.add(candidate);
-            } else if(c.getVote() == candidate.getVote()){
+                Tielist.clear();
+                Tielist.add(i);
+            } else if(candidate.getVote() == largestcandidate.getVote()){
                 numofTie++;
-                numofTielist.add(c);
+                Tielist.add(i);
             }
         }
         
         if(numofTie > 1){
-            return numofTielist.get(coin.flip(numofTie));
+            return Tielist.get(coin.flip(numofTie));
         }
-        return candidate;
+        return index;
+    }
+    
+    
+    
+    /**
+    * find the candidates for each party that are selected.
+    *
+    * @param ArrayList<Integer> take number of seats for each party as input
+    * @return return an arraylist of candidates that are selected
+    */
+    public ArrayList<Candidate> findwinnner(ArrayList<Integer> partyseats){
+        ArrayList<Candidate> winners = new ArrayList<>();
+        for(int i = 0; i < parties.size(); i++){
+            int seat = partyseats.get(i);
+            Party party = parties.get(i);
+            while (seat > 0) {
+                int index = findLargestCandidate(party.getMembers());
+                Candidate winner = party.getMembers().get(index);
+                winner.setVote(-1);
+                winners.add(winner);
+                seat--;
+            }
+        }
+        return winners;
     }
 }
-
-
-
-
-//////////function above this line is rewrited based on jicheng's idea//////////////////
-//////////function  below are not working yet//////////////////////////////////////////
-
-
-
-
-
-//
-//    /**
-//	 * find the candidates for each party that are selected.
-//	 *
-//	 * @param ArrayList<int> take number of seats for each party as input
-//	 * @return return an arraylist of candidates that are selected
-//	 */
-//
-//    public ArrayList<Candidate> insidePartyElection(ArrayList<Integer> numOfSeat){
-//        ArrayList<Candidate> selectedCandidate = new ArrayList<>();
-//        for (int i = 0; i < party.size(); i++){
-//            for(int chosenSeat = 0; chosenSeat < numOfSeat.get(i); chosenSeat++){
-//                selectedCandidate.add(findLargestCan(party.get(i).getMembers()));
-//            }
-//        }
-//        return selectedCandidate;
-//    }
-//
-//
-//    /**
-//	 * this method call the previous method to complete the OPL voting.
-//	 *
-//	 * @return return an arraylist of candidates as winner.
-//	 */
-//
-//    public ArrayList<Candidate> run_OPL(Scanner sc){
-//
-//        // readBallot(sc);
-//
-//        ArrayList<Integer> allocated  = updateSeat();
-//
-//        while (checkRemainSeats() != 0){
-//            // find remaining votes
-//            ArrayList<Integer> remainVotes = remainingVotes(party);
-//            int largest = 0;
-//            boolean haveTie = false;
-//            int numOfTie = 0;
-//            ArrayList<Integer> indexOfTie = new ArrayList<>();
-//            // find the largest vote party and check for the tie condition
-//            for (int i: remainVotes){
-//                if (i > largest) {
-//                    indexOfTie.clear();
-//                    largest = i;
-//                    haveTie = false;
-//                    numOfTie = 0;
-//                    indexOfTie.add(i);
-//                } else if (i ==  largest){
-//                    haveTie = true;
-//                    numOfTie += 1;
-//                    indexOfTie.add(i);
-//                }
-//            }
-//
-//            // if (haveTie) {
-//            //     // CoinFlip rand =  new CoinFlip(numOfTie)
-//            // }
-//
-//            int index = indexOfTie.get(0);
-//            allocated.set(index, allocated.get(index) + 1);
-//            Party largestParty = party.get(index);
-//            largestParty.setVote(-1);
-//        }
-//
-//        ArrayList<Candidate> winner = insidePartyElection(allocated);
-//
-//        return winner;
-//    }
-//
-//}
