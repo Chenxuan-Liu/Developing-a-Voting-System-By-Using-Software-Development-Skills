@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class IR_Ballot {
   /**
   * This class created to produce ballots for the voting system.
-  * This class has 2 attibutes.
+  * This class has 2 attributes.
   * ArrayList voteRank is used to store the rank of all ballots in the election.
   * Int currentRank is used to store current rank of the IR ballot.
   */

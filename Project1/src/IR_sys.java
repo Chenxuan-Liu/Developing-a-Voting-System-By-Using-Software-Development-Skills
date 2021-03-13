@@ -12,14 +12,14 @@ import java.util.*;
 public class IR_sys{
 	/**
   * This class is used for IR voting.
-  * This class has 7 attibutes.
+  * This class has 7 attributes.
   * Candidate arrayList candidates is used to store all candidates in the election.
   * Party arraylist parties is used to store all the parties in the election.
   * Integer num_candidate is used to store the total number of the candidates in the election.
   * Integer num_seats is used to store the total number of the winning seats in the election.
-	* Integer total_ballot is used to store the total number of ballot in the election.
-	* Coin_Flip coin is used when tie occurs during the election.
-	* Scanner scanner is used to read informations and ballots from CSV file.
+  * Integer total_ballot is used to store the total number of ballot in the election.
+  * Coin_Flip coin is used when tie occurs during the election.
+  * Scanner scanner is used to read information and ballots from CSV file.
   * @return IOException.
   */
 	private ArrayList<Candidate> candidates;
@@ -130,7 +130,7 @@ public class IR_sys{
 	}
 
 	/**
-	* This method is used to redistribute the ballots of the candaite with the least ballots.
+	* This method is used to redistribute the ballots of the candidate with the least ballots.
 	* @param args Unused.
 	* @return void.
 	*/

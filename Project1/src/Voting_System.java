@@ -7,7 +7,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author Zilong He
+ * @version 1.0
+ */
+
 public class Voting_System {
+    /**
+     * This class is the main class of the voting system.
+     * This class has 5 attributes.
+     * @return IOException.
+     */
     public String votetype;
     public int totalballot, totalcandidate;
 
@@ -23,6 +33,7 @@ public class Voting_System {
         return totalcandidate;
     }
 
+ PartyVotingCoin
     public void setVotetype(String votetype) {
         this.votetype = votetype;
     }
@@ -43,6 +54,13 @@ public class Voting_System {
             System.exit(0);
         }
 
+    /**
+     * This method is used to read input file.
+     * @param String type, receive the name of the input file.
+     * @return void.
+     */
+    public static void readFile(String Inputfile) throws FileNotFoundException {
+ dev
         List<List<String>> records = new ArrayList<>();
         int stopline = -1,i = 0,totalcandidate = 0;
         Scanner scanner = new Scanner(new File(Inputfile));
@@ -96,6 +114,11 @@ public class Voting_System {
         return scanner;
     }
 
+    /**
+     * This method is record each lines of input CSV file.
+     * @param String type, receive a line of the input file.
+     * @return String list, return the information list from the input line.
+     */
     private static List<String> getRecordFromLine(String line) {
         List<String> values = new ArrayList<String>();
         try (Scanner rowScanner = new Scanner(line)) {
@@ -107,6 +130,10 @@ public class Voting_System {
         return values;
     }
 
+    /**
+     * This method is used to generate Voting_System instance and run the voting system.
+     * @param String and integer type, receive type, total ballots and candidates of the election.
+     */
     public Voting_System(String votetype, int totalballot, int totalcandidate) {
         this.votetype = votetype;
         this.totalballot = totalballot;
