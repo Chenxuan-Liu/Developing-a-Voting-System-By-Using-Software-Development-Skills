@@ -54,7 +54,7 @@ public class OPL_sys{
     public void readballot(Scanner scanner){
         while(scanner.hasNextLine()){
             String line = scanner.nextLine();
-            line = line.trim(); //remove whitespace
+            line = line.replaceAll("\\s",""); //remove whitespace
             for(int i = 0; i < line.length(); i++){
                 if(line.charAt(i) == '1'){
                     int vote = candidates.get(i).getVote();
