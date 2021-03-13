@@ -17,10 +17,6 @@ public class PartyTest {
     private ArrayList<Candidate> can = new ArrayList<>();
     private Party p1 = new Party("p1");
 
-//    @Before
-//    public void setUp() {
-//
-//    }
 
     @Test
     public void getVote() {
@@ -43,7 +39,7 @@ public class PartyTest {
     @Test
     public void getMembers() {
         assertEquals(null, p1.getMembers());
-        can.add(new Candidate("c1", p1));
+        can.add(new Candidate("c1", "p1"));
         assertEquals(can, p1.getMembers());
     }
 }
