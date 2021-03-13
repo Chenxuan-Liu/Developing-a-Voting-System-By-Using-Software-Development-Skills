@@ -2,14 +2,19 @@ import java.math.*;
 import java.util.Random;
 
 /**
+ * Used when more than two candidates are tied in the election.
+ * Using a random function in Java, select a candidate at random
+ * and return the number of the selected candidate.
  * @author Zilong He
  * @version 1.0
  */
 
 public class Coin_Flip {
     /**
-     * This method returns the number of the randomly selected candidate among several tied candidates.
-     * @return IOException.
+     * Returns the number of the randomly selected candidate among several tied candidates.
+     * @param N_candi number of tied candidates.
+     * @return the index number of randomly selected candidate.
+     * @exception no exception.
      */
     public static int flip(int N_candi){
         int N_selected;
