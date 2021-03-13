@@ -70,7 +70,7 @@ public class IR_sys{
 	private static void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
 		
-		System.out.println(line);
+//		System.out.println(line);
 		try (Scanner rowScanner = new Scanner(line)) {
 			rowScanner.useDelimiter(",");
 			while (rowScanner.hasNext()) {
@@ -83,7 +83,7 @@ public class IR_sys{
 				}
 			}
 		}
-		System.out.println(values);
+//		System.out.println(values);
 		//set the correct rank
 		for(int i = 1; i <= values.size(); i++){
 			int value = Integer.parseInt(values.get(i-1).trim());
@@ -171,6 +171,9 @@ public class IR_sys{
 		}
 
 		candidates.remove(least);
+		num_candidate--;
 	}
+
+
 
 }

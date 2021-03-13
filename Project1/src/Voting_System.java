@@ -163,6 +163,7 @@ public class Voting_System {
         }
         else if (stopline == 5){
             votetype = "OPL";
+            totalcandidate = Integer.parseInt(records.get(1).get(0));
         }
 
         return scanner;
@@ -214,16 +215,33 @@ public class Voting_System {
         ArrayList<Candidate> candidate = new ArrayList<Candidate>();
         ArrayList<Party> party = new ArrayList<Party>();
         totalballot = 0;
-        Scanner BS = readFile("/Users/jichengzhu/desktop/5801project/repo-team11/project1/csvfile/IR_direct_winner.csv",votetype,candidate,party);
-//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_wrostcase_tie.csv",votetype,candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",votetype,candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",votetype,candidate,party);
+        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_worstcase_tie.csv",votetype,candidate,party);
 
 
         IR_sys ir = new IR_sys(candidate,party,candidate.size(),1,totalballot,BS);
 
         ir.readballot(ir.scanner);
-        
 
-        System.out.println(ir.haswinner().getName());
+        while (ir.haswinner()==null){
+//            if (ir.num_candidate == 2){
+//                System.out.println("Two candidates left");
+//                int lost_ID = ir.get_leastcandidate();
+//                int winner_ID = Math.abs(lost_ID-1);
+////              Need a function to get the candidates from IRsys
+//                System.out.println("The winner is " + winner_ID);
+//            }else {
+                System.out.println("No winner. There are " + ir.num_candidate + " Left");
+                int leastID = ir.get_leastcandidate();
+                ir.redistribution();
+                System.out.println("Redistribution Complete");
+                System.out.println("There are " + ir.num_candidate + " Left" + "\n");
+//            }
+
+        }
+        System.out.println("The winner is " + ir.haswinner().getName());
+
 
         //Next is used for testing
 //        List<List<String>> allballots = new ArrayList<>();
