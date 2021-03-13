@@ -14,21 +14,31 @@ public class IR_BallotTest {
      * @return IOException.
      */
     private IR_Ballot ballot = new IR_Ballot();
-    //constructor has error. can not access voteRank.
 
     @Test
     public void getRank() {
-        assertEquals(0, ballot.getRank());
+        assertEquals(null, ballot.getRank());
     }
 
-//    @Test
-//    public void getRanksize() {
-//        assertEquals(0, ballot.getRanksize());
-//    }
+    @Test
+    public void addRank(){
+        ballot.addRank(1);
+        assertEquals(1, ballot.getRank());
+    }
+
+    @Test
+    public void setRank(){
+        ballot.addRank(1);
+        ballot.addRank(100);
+        ballot.setRank(2,1);
+        assertEquals(2, ballot.getRank());
+    }
 
     @Test
     public void updateRank() {
+        ballot.addRank(1);
+        ballot.addRank(2);
         ballot.updateRank();
-        assertEquals(1, ballot.getRank());
+        assertEquals(2, ballot.getRank());
     }
 }
