@@ -3,6 +3,7 @@ import java.util.List;
 import java.io.*;
 import java.lang.*;
 import java.util.*;
+import javax.sound.midi.*;
 
 /**
  * This class is used for IR vote, stores all required information of IR vote.
@@ -19,6 +20,7 @@ public class IR_sys{
 	int num_candidate, num_seats, total_ballot;
 	private Coin_Flip coin = new Coin_Flip();
 	Scanner scanner;
+	PrintWriter mywriter;
 
 	/**
 	* Constructor, creates new IR_sys instance.
@@ -30,13 +32,14 @@ public class IR_sys{
 	* @param scanner java scanner type used to help reading the input CSV file.
 	*/
 	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party,
-				  int number_candidate, int num_seats, int total_ballot, Scanner scanner){
+				  int number_candidate, int num_seats, int total_ballot, Scanner scanner, PrintWriter mywriter){
 		this.candidates = candidate;
 		this.parties = party;
 		this.num_candidate = number_candidate;
 		this.num_seats = num_seats;
 		this.total_ballot = total_ballot;
 		this.scanner = scanner;
+		this.mywriter = mywriter;
 	}
 
 	/**
@@ -47,17 +50,17 @@ public class IR_sys{
 	*/
 	public void readballot(Scanner scanner){
 		IR_Ballot ballot;
+		int index = 1;
 			while (scanner.hasNextLine()) {
-				ballot = new IR_Ballot();
+				ballot = new IR_Ballot(index);
+				mywriter.printf("read No.%d ballot:",index);
 				getRecordFromLine(" "+scanner.nextLine(), ballot);
-				
-				///System.out.println(ballot.getRank());
-				candidates.get(ballot.getRank() - 1).addIRballot(ballot);
-//				for(Candidate c:candidates){
-//					System.out.println(c.getName());
-//					System.out.println(c.getVote());
-//				}
+				Candidate candidate = candidates.get(ballot.getRank() - 1);
+				mywriter.printf("%s from party %s get No.%d ballot, he(she) has %d vote(s) now%n",candidate.getName(),candidate.getParty(),index,candidate.getVote());
+				candidate.addIRballot(ballot);
+				index++;
 			}
+		mywriter.flush();
 	}
 
 	/**
@@ -67,11 +70,12 @@ public class IR_sys{
 	* @return void.
 	* @exception no exception.
 	*/
-	private static void getRecordFromLine(String line, IR_Ballot ballot) {
+	private void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
 		
 //		System.out.println(line);
 		try (Scanner rowScanner = new Scanner(line)) {
+			mywriter.printf("%s%n",line);
 			rowScanner.useDelimiter(",");
 			while (rowScanner.hasNext()) {
 				String value = rowScanner.next();
@@ -102,25 +106,47 @@ public class IR_sys{
 	public Candidate haswinner(){
 		if (candidates.size() < 1){
 			System.out.println("ERROR: No candidate in the file.");
+			mywriter.println("ERROR: No candidate in the file");
+			mywriter.close();
 			System.exit(1);
 		} else if (candidates.size() == 1){
-			return candidates.get(0);
+			Candidate candidate = candidates.get(0);
+			mywriter.printf("%s from party %s get %d votes, he(she) wins.%n",candidate.getName(),candidate.getParty(),candidate.getVote());
+			mywriter.flush();
+			return candidate;
 		} else if (candidates.size() == 2){
-			int vote0 = candidates.get(0).getVote();
-			int vote1 = candidates.get(1).getVote();
+			Candidate candidate0 = candidates.get(0);
+			Candidate candidate1 = candidates.get(1);
+			int vote0 = candidate0.getVote();
+			int vote1 = candidate1.getVote();
+			mywriter.println("only two candidates left.");
+			mywriter.printf("%s from %s has %d votes.%n",candidate0.getName(),candidate0.getParty(),candidate0.getVote());
+			mywriter.printf("%s from %s has %d votes.%n",candidate1.getName(),candidate1.getParty(),candidate1.getVote());
 			if (vote0 > vote1){
-				return candidates.get(0);
+				mywriter.printf("%s from %s has more votes, he(she) wins.%n",candidate0.getName(),candidate0.getParty());
+				mywriter.flush();
+				return candidate0;
 			} else if (vote1 > vote0){
-				return candidates.get(1);
+				mywriter.printf("%s from %s has more votes, he(she) wins.%n",candidate1.getName(),candidate1.getParty());
+				mywriter.flush();
+				return candidate1;
 			} else{
-				return candidates.get(coin.flip(2));
+				mywriter.println("Two candidates have the same vote, start a coin flip.");
+				Candidate winner = candidates.get(coin.flip(2));
+				mywriter.printf("%s from %s wins.%n",winner.getName(),winner.getParty());
+				mywriter.flush();
+				return winner;
 			}
 		}
 
 		for(int i = 0; i < candidates.size(); i ++){
 			int vote = candidates.get(i).getVote();
 			if(vote > total_ballot/2){
-				return candidates.get(i);
+				Candidate winner = candidates.get(i);
+				mywriter.printf("a majority needs more than %d votes.%n",total_ballot/2);
+				mywriter.printf("%s from %s has %d votes, he(she) wins.%n",winner.getName(),winner.getParty(),winner.getVote());
+				mywriter.flush();
+				return winner;
 			}
 		}
 		return null;
@@ -129,24 +155,43 @@ public class IR_sys{
 	/**
 	* Finds the candidate has the least ballots, if find, return the candidate.
 	* @param args Unused.
-	* @return return the candidate with the least ballots.
+	* @return return the index of the candidate with the least ballots.
 	* @exception no exception.
 	*/
 	public int get_leastcandidate(){
-		int least_vote = candidates.get(0).getVote();
-		int least_candidate = 0;
+		mywriter.println("Finding the candidate with least votes.");
+		int numofTie = 1;
+		int index = 0;
+		ArrayList<Integer> Tielist = new ArrayList<>();
+		Tielist.add(index);
+		int least_vote = candidates.get(index).getVote();
 
 		for(int i = 0; i < candidates.size(); i ++){
 			int vote = candidates.get(i).getVote();
 			if(vote < least_vote){
-				least_candidate = i;
+				index = i;
+				numofTie = 1;
+				Tielist.clear();
+				Tielist.add(i);
 				least_vote = vote;
 			} else if(vote == least_vote){
-				int[] random = {i,least_candidate};
-				least_candidate = random[coin.flip(2)];
+				numofTie++;
+				Tielist.add(i);
 			}
 		}
-		return least_candidate;
+		
+		if(numofTie > 1){
+			for(int i:Tielist){
+				mywriter.printf("%s from %s ",candidates.get(i).getName(),candidates.get(i).getParty());
+			}
+			mywriter.println("have the same vote. start a coin flip.");
+			index = Tielist.get(coin.flip(numofTie));
+			mywriter.printf("%s from %s is choosed by a coin filp with least votes.",candidates.get(index).getName(),candidates.get(index).getParty());
+		} else{
+			mywriter.printf("%s from %s has least votes.",candidates.get(index).getName(),candidates.get(index).getParty());
+		}
+		mywriter.flush();
+		return index;
 	}
 
 	/**
@@ -162,16 +207,24 @@ public class IR_sys{
 		IR_Ballot ballot;
 
 		//ballots redistribution
+		mywriter.println("start redistribution.");
 		for(int i = 0; i < ballots.size(); i++){
 			ballot = ballots.get(i);
+			mywriter.printf("redistribute No.%d ballot from candidate %s%n",ballot.getindex(), candidate.getName());
 			ballot.updateRank();
 			if (ballot.getRank() != -1){
-				candidates.get(ballot.getRank() - 1).addIRballot(ballot);
+				Candidate receive = candidates.get(ballot.getRank() - 1);
+				mywriter.printf("%s from %s receive this ballot.%n",receive.getName(),receive.getParty());
+				receive.addIRballot(ballot);
+				mywriter.printf("%s has %d votes now",receive.getName(),receive.getVote());
+			} else {
+				mywriter.printf("No remaining rank, discard No.%d ballot.%n",ballot.getindex());
 			}
 		}
-
+		mywriter.printf("remove candidate %s from %s.%n",candidate.getName(),candidate.getParty());
 		candidates.remove(least);
 		num_candidate--;
+		mywriter.printf("%d candidates remain.%n",num_candidate);
 	}
 
 

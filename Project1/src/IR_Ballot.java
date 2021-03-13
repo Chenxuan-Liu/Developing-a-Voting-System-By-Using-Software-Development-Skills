@@ -16,15 +16,17 @@ public class IR_Ballot {
 
   private ArrayList<Integer> voteRank;
   private int currentRank;
+  private int index;
 
   /**
   * Constructor, creates new IR_Ballot instance.
-  * @param args Unused.
+  * @param index the index of the ballot.
   * @exception no exception.
   */
-  public IR_Ballot() {
+  public IR_Ballot(int index) {
     voteRank = new ArrayList<Integer>();
     currentRank = 0;
+    this.index = index;
   }
 
   /**
@@ -71,5 +73,9 @@ public class IR_Ballot {
   */
   public void updateRank() {
     currentRank = currentRank + 1;
+  }
+  
+  public int getindex(){
+    return this.index;
   }
   }

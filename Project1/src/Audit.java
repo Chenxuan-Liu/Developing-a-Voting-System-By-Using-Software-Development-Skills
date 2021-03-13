@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Audit {
 	
-	public PrintWriter createauditfile(String votetype){
+	public static PrintWriter createauditfile(String votetype){
 		LocalDateTime myDateObj = LocalDateTime.now();
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH:mm:ss");
 		String filename = myDateObj.format(myFormatObj);
