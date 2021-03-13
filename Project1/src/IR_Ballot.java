@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class IR_Ballot {
   /**
   * This class created to produce ballots for the voting system.
-  * This class has 2 attibutes.
-  * ArrayList voteRank is used to ...
-  * Int currentRank is used to ..
+  * This class has 2 attributes.
+  * ArrayList voteRank is used to store the rank of all ballots in the election.
+  * Int currentRank is used to store current rank of the IR ballot.
   */
   private ArrayList<Integer> voteRank;
   private int currentRank;
@@ -18,7 +18,6 @@ public class IR_Ballot {
   /**
   * This method creates new IR_Ballot instance.
   * @param args Unused.
-  * @return IOException.
   */
   public IR_Ballot() {
     voteRank = new ArrayList<Integer>();
@@ -31,17 +30,30 @@ public class IR_Ballot {
   * @return num.
   */
   public int getRank() {
-    return currentRank;
+    if(currentRank >= voteRank.size()){
+      return -1;
+    }
+    return voteRank.get(currentRank);
   }
 
   /**
-  * This method returns ranksize.
-  * @param args Unused.
-  * @return integer num.
+  * This method add one rank to voteRank arraylist.
+  * @param integer num.
+  * @return void.
   */
-  public int getRanksize() {
-    return voteRank.size();
+  public void addRank(int rank){
+    voteRank.add(rank);
   }
+
+  /**
+  * This method set integer num at the specific location in arraylist voteBank.
+  * @param 2 integer nums.
+  * @return void.
+  */
+  public void setRank(int rank, int index){
+    voteRank.set(index, rank);
+  }
+
 
   /**
   * This method updates ballot's current rank.
