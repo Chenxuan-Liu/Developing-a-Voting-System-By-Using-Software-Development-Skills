@@ -50,8 +50,14 @@ public class IR_sys{
 		IR_Ballot ballot;
 			while (scanner.hasNextLine()) {
 				ballot = new IR_Ballot();
-				getRecordFromLine(scanner.nextLine(), ballot);
+				getRecordFromLine(" "+scanner.nextLine(), ballot);
+				
+				///System.out.println(ballot.getRank());
 				candidates.get(ballot.getRank() - 1).addIRballot(ballot);
+//				for(Candidate c:candidates){
+//					System.out.println(c.getName());
+//					System.out.println(c.getVote());
+//				}
 			}
 	}
 
@@ -62,6 +68,8 @@ public class IR_sys{
 	*/
 	private static void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
+		
+		System.out.println(line);
 		try (Scanner rowScanner = new Scanner(line)) {
 			rowScanner.useDelimiter(",");
 			while (rowScanner.hasNext()) {
@@ -69,12 +77,18 @@ public class IR_sys{
 				if(!value.trim().isEmpty()){
 					values.add(value);
 					ballot.addRank(1); //only used to initializa the size
+				} else {
+					values.add("-1");
 				}
 			}
 		}
+		System.out.println(values);
 		//set the correct rank
 		for(int i = 1; i <= values.size(); i++){
-			ballot.setRank(i, Integer.parseInt(values.get(i-1)) - 1);
+			int value = Integer.parseInt(values.get(i-1).trim());
+			if(value != -1){
+				ballot.setRank(i, value - 1);
+			}
 		}
 	}
 
