@@ -1,8 +1,16 @@
 import java.math.*;
 import java.util.Random;
 
+/**
+ * @author Zilong He
+ * @version 1.0
+ */
 
 public class Coin_Flip {
+    /**
+     * This method returns the number of the randomly selected candidate among several tied candidates.
+     * @return IOException.
+     */
     public static int flip(int N_candi){
         int N_selected;
         Random rand = new Random();
