@@ -3,21 +3,18 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * This class tests the correctness of the functions in the IR_Ballot class.
+ * This class has 1 private attribute.
  * @author Chenxuan Liu
  * @version 1.0
  */
 
 public class IR_BallotTest {
-    /**
-     * This class tests the correctness of the functions in the IR_Ballot class.
-     * This class has 1 private attribute.
-     * @return IOException.
-     */
-    private IR_Ballot ballot = new IR_Ballot();
+    private IR_Ballot ballot = new IR_Ballot(0);
 
     @Test
     public void getRank() {
-        assertEquals(null, ballot.getRank());
+        assertEquals(-1, ballot.getRank());
     }
 
     @Test
@@ -28,10 +25,10 @@ public class IR_BallotTest {
 
     @Test
     public void setRank(){
-        ballot.addRank(1);
         ballot.addRank(100);
-        ballot.setRank(2,1);
-        assertEquals(2, ballot.getRank());
+        ballot.addRank(2);
+        ballot.setRank(1,0);
+        assertEquals(1, ballot.getRank());
     }
 
     @Test

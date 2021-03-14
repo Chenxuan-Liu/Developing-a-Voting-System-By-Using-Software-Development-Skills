@@ -1,71 +1,77 @@
 import java.util.ArrayList;
 
 /**
+ * This class creates new Party to store information of all parties for voting system.
+ * This class has 3 attributes.
+ * Int vote is used to store the total number of votes that the party currently received.
+ * String name is used to store the name of the party.
+ * Candidate ArrayList is used to store all the candidates belonging to the party.
+ *
+ * @return IOException.
  * @author Zilong He
  * @version 1.0
  */
 
 public class Party {
-    /**
-     * This class creates new Party to store information of all parties for voting system.
-     * This class has 3 attributes.
-     * Int vote is used to store the total number of votes that the party currently received.
-     * String name is used to store the name of the party.
-     * Candidate ArrayList is used to store all the candidates belonging to the party.
-     * @return IOException.
-     */
+
     public int vote;
     public String name;
     public ArrayList<Candidate> members;
 
     /**
-     * This method is used to return party's currently received votes number.
+     * Returns currently received votes number of this party.
      * @param args Unused.
-     * @return Integer type. Return the number of received votes.
+     * @return return the number of received votes.
+     * @exception no exception.
      */
     public int getVote() {
         return vote;
     }
 
     /**
-     * This method is used to update the party's current received number of votes.
-     * @param integer num of votes.
+     * Updates this party's current received number of votes with the new number.
+     * @param vote number of votes to be allocated to the party.
      * @return void.
+     * @exception no exception.
      */
     public void setVote(int vote) {
         this.vote = vote;
     }
 
     /**
-     * This method is used to get the name of the party.
+     * Gets the name of this party.
      * @param args Unused.
-     * @return String type. return the name of the party.
+     * @return return the name of this party.
+     * @exception no exception.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * This method is used to return the arraylist which contaons all the members of the party.
+     * Returns the arraylist which contains all the members of the party.
      * @param args Unused.
-     * @return Candidate Arraylist. Return all members of the party.
+     * @return return all members of the party.
+     * @exception no exception.
      */
     public ArrayList<Candidate> getMembers() {
         return members;
     }
 
     /**
-     * This method is used to add candidate to the party.
-     * @param Candidate type, the candidate need to be added.
+     * Adds new candidate to the party.
+     * @param candidate, Candidate type, the candidate needs to be added.
      * @return void.
+     * @exception no exception.
      */
     public void addmember(Candidate candidate){
         this.members.add(candidate);
     }
 
     /**
-     * This method creates new party instance.
-     * @param string of party's name .
+     * Constructor, creates new party instance.
+     * @param name, string of party's name.
+     * @exception no exception.
      */
     public Party(String name){
         this.vote = 0;

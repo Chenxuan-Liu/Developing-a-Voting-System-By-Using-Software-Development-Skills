@@ -1,43 +1,38 @@
-/*
-* @author Chenxuan Liu
-*/
-
 import java.io.*;
 import java.util.*;
 import javax.swing.plaf.basic.*;
 
-
-
 /**
- * @author Chenxuan Liu
- * @version 1.0
+ * This class is used for OPL voting.
  * OPL_sys is a class that creat for open party list ballot voting type.
  * It must need two other class, which is party and candidate to complete the task.
+ * <p></p>
+ * This class has 8 attributes.
+ *
+ * @author Chenxuan Liu
+ * @author Jicheng Zhu
+ * @version 1.0
  */
 
 public class OPL_sys{
-    /**
-     * This class is used for OPL voting.
-     * This class has 8 attributes.
-     * Candidate ArrayList is used to store all the candidates in the election.
-     * Party ArrayList is used to store  all the parties that have joined the election
-     * Integer num_candidate, num_seats are used to store the total number of candidates added to the election and seats won.
-     * Integer total_ballot and allocated_seats are used to store the total number of popular votes and elected seats allocated to parties.
-     * Coin_Flip type coin is used when tie occurs during the election.
-     * Scanner type is used to help reading information and ballots from input file.
-     * @return IOException.
-     */
+
     private ArrayList<Candidate> candidates;
     private ArrayList<Party> parties;
     private int num_candidate, num_seats, total_ballot, allocated_seats;
     private Coin_Flip coin = new Coin_Flip();
     Scanner scanner;
+    PrintWriter mywriter;
 
     /**
-     * This method creates new OPL_sys instance.
-     * @param Candidate ArrayList, Party ArrayList, 3 integer nums and Scanner.
+     * Constructor, creates new OPL_sys instance.
+     * @param candidate Candidate ArrayList which contains all the candidates in the election.
+     * @param party Party ArrayList stores all the parties that have joined the election.
+     * @param number_candidate the total number of candidates added to the election.
+     * @param num_seats the total number of seats won.
+     * @param total_ballot the total number of popular votes allocated to parties.
+     * @param scanner java scanner type used to help reading information and ballots from input file.
      */
-    public OPL_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot, Scanner scanner){
+    public OPL_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot, Scanner scanner, PrintWriter mywriter){
         this.candidates = candidate;
         this.parties = party;
         this.num_candidate = number_candidate;
@@ -45,25 +40,35 @@ public class OPL_sys{
         this.total_ballot = total_ballot;
         this.allocated_seats = 0;
         this.scanner = scanner;
+        this.mywriter = mywriter;
+        
     }
 
     /**
-     * This method is used to read ballots from the CSV file.
-     * @param Scanner scanner used to read file.
+     * Reads ballots from the CSV file.
+     * @param scanner used to read file.
      * @return void.
+     * @exception no exception.
      */
     public void readballot(Scanner scanner){
+        int index = 1;
         while(scanner.hasNextLine()){
             String line = scanner.nextLine();
+            mywriter.printf("No.%d ballot is %s.%n",index,line);
+            line = line.replaceAll("\\s",""); //remove whitespace
             for(int i = 0; i < line.length(); i++){
                 if(line.charAt(i) == '1'){
-                    int vote = candidates.get(i).getVote();
+                    Candidate candidate = candidates.get(i);
+                    mywriter.printf("No.%d ballot assign to %s from party %s %n",index,candidate.getName(),candidate.getParty());
+                    int vote = candidate.getVote();
                     candidates.get(i).setVote(vote+1);
+                    mywriter.printf("%s has %d vote(s) now.%n",candidate.getName(),candidate.getVote());
                     break;
                 }
             }
+            index++;
         }
-        
+        mywriter.println("all ballots are processed.");
         for(int i = 0; i < parties.size(); i++){
             Party party = parties.get(i);
             int vote = party.getVote();
@@ -72,18 +77,22 @@ public class OPL_sys{
                 vote = vote + members.get(j).getVote();
             }
             party.setVote(vote);
+            mywriter.printf("Party %s has %d vote(s).%n",party.getName(),vote);
         }
+        mywriter.flush();
     }
     
 
     /**
-	 * This method is used to allocate the seats for each party based on the quota
+	 * Allocates the seats for each party based on the quota.
 	 * @param args Unused.
 	 * @return return an arraylist<int> that contains the seats allocated by the party in order.
+     * @exception no exception.
 	 */
-
     public ArrayList<Integer> firstround_Seats(){
         int quota = total_ballot/num_seats;
+        mywriter.println("start allocate first round seats.");
+        mywriter.printf("The quota is %d.%n",quota);
         ArrayList<Integer> partySeats = new ArrayList<>();
         for (Party party: parties){
             int vote = party.getVote();
@@ -93,23 +102,28 @@ public class OPL_sys{
             //free exceeding seats
             if(party.getMembers().size() < seats){
                 seats = party.getMembers().size();
+                mywriter.printf("Party %s has enough votes to get seats for everyone in the party.",party.getName());
+                mywriter.println("Clear remaining votes.");
                 party.setVote(-1); //everyone get a seat, discard all votes
-            } else{
+            } else {
                 party.setVote(vote - (seats * quota));
+                mywriter.printf("Party %s get %d seats, the remaining number of votes is %d.%n", party.getName(), seats, party.getVote());
             }
             
             allocated_seats = allocated_seats + seats;
             partySeats.add(seats);
         }
+        mywriter.flush();
         return partySeats;
     }
 
 
 
     /**
-     * This method is used to check whether the allocated seats is less than total number of seats.
+     * Checks whether the allocated seats is less than total number of seats.
      * @param args Unused.
-     * @return boolean.
+     * @return true, if there exists remaining seats. Otherwise, no.
+     * @exception no exception.
      */
     public boolean checkRemainSeats(){
         return allocated_seats < num_seats;
@@ -117,23 +131,44 @@ public class OPL_sys{
 
 
     /**
-     * This method is used to find the party that receives the most votes.
+     * Finds the party that receives the most remaining votes.
      * @param args Unused.
      * @return return the index of the party which received the most votes.
+     * @exception no exception.
      */
     public int findlargestvote(){
+        mywriter.println("Finding the party with largest remaining votes.");
+        int numofTie = 1;
         int index = 0;
+        ArrayList<Integer> Tielist = new ArrayList<>();
+        Tielist.add(index);
         int largest_vote = parties.get(index).getVote();
-        for(int i = 0; i < parties.size(); i++){
+        
+        for(int i = 1; i < parties.size(); i++){
             int vote = parties.get(i).getVote();
             if(vote > largest_vote){
                 index = i;
+                numofTie = 1;
+                Tielist.clear();
+                Tielist.add(i);
                 largest_vote = vote;
             } else if (vote == largest_vote){
-                int[] random = {index, i};
-                index = random[coin.flip(2)];
+                numofTie++;
+                Tielist.add(i);
             }
         }
+        
+        if(numofTie > 1){
+            for(int i:Tielist){
+                mywriter.printf("Party %s ", parties.get(i).getName());
+            }
+            mywriter.println("have the same remaining votes. start a coin flip.");
+            index = Tielist.get(coin.flip(numofTie));
+            mywriter.printf("Party %s is chose by a coin flip.",parties.get(index).getName());
+        } else {
+            mywriter.printf("%s has the largest remaining votes.",parties.get(index).getName());
+        }
+        mywriter.flush();
         return index;
     }
     
@@ -141,33 +176,42 @@ public class OPL_sys{
     //need java docs here
     //need the partyseats list from the first round
     public ArrayList<Integer> secondround_seats(ArrayList<Integer> partyseats){
+        mywriter.println("start allocate second round seats.");
         for(int i = 0; i < parties.size(); i++){
             if(!checkRemainSeats()){
+                mywriter.println("No remaining seats, second round stop.");
+                mywriter.flush();
                 return partyseats;
             } else {
                 int index = findlargestvote();
                 int seats = partyseats.get(index);
-                parties.get(index).setVote(-1);
+                Party party = parties.get(index);
+                party.setVote(-1);
+                mywriter.printf("Party %s get a seat, clear remaining votes.%n",party.getName());
                 partyseats.set(index, seats + 1);
+                allocated_seats++;
+                mywriter.printf("Party %s has %d seats now.%n",party.getName(),partyseats.get(index));
             }
         }
+        mywriter.flush();
         return partyseats;
     }
 
 
     /**
-	 * This method is used to find the largest vote for a candidate in a candidate arraylist.
-	 * @param ArrayList<Candidate> take an array of candidates as input.
-	 * @return return the index of the candidate with the most votes in the candidate arraylist.
-	 */
-
-    private int findLargestCandidate(ArrayList<Candidate> Candidates){
+     * Finds the largest vote for a candidate in a candidate arraylist.
+     * @param Candidates ArrayList<Candidate> type, takes an array of candidates as input.
+     * @return return the index of the candidate with the most votes in the candidate arraylist.
+     * @exception no exception.
+     */
+    private int findLargestCandidate(ArrayList<Candidate> candidates){
+        mywriter.println("Finding the candidate with the largest votes.");
         int index = 0;
         int numofTie = 1;
         ArrayList<Integer> Tielist = new ArrayList<>();
         Tielist.add(index);
         
-        for(int i = 0; i < candidates.size(); i++){
+        for(int i = 1; i < candidates.size(); i++){
             Candidate candidate = candidates.get(i);
             Candidate largestcandidate = candidates.get(index);
             if(candidate.getVote() > largestcandidate.getVote()){
@@ -182,32 +226,44 @@ public class OPL_sys{
         }
         
         if(numofTie > 1){
-            return Tielist.get(coin.flip(numofTie));
+            for(int i:Tielist){
+                mywriter.printf("%s from %s ",candidates.get(i).getName(),candidates.get(i).getParty());
+            }
+            mywriter.println("have the same votes. start a coin flip.");
+            index = Tielist.get(coin.flip(numofTie));
+            mywriter.printf("%s from %s is chose by a coin flip.",candidates.get(index).getName(),candidates.get(index).getParty());
+        } else {
+            mywriter.printf("%s from %s has largest votes.",candidates.get(index).getName(),candidates.get(index).getParty());
         }
+        mywriter.flush();
         return index;
     }
     
     
     
     /**
-    * find the candidates for each party that are selected.
-    *
-    * @param ArrayList<Integer> take number of seats for each party as input
-    * @return return an arraylist of candidates that are selected
+    * Finds the candidates for each party that are selected.
+    * @param partyseats ArrayList<Integer> type, takea number of seats for each party as input.
+    * @return return an arraylist of candidates that are selected.
+    * @exception no exception.
     */
     public ArrayList<Candidate> findwinnner(ArrayList<Integer> partyseats){
         ArrayList<Candidate> winners = new ArrayList<>();
+        mywriter.println("start allocate seats for winners.");
         for(int i = 0; i < parties.size(); i++){
             int seat = partyseats.get(i);
             Party party = parties.get(i);
+            mywriter.printf("Party %s get %d seats.%n",party.getName(),seat);
             while (seat > 0) {
                 int index = findLargestCandidate(party.getMembers());
                 Candidate winner = party.getMembers().get(index);
+                mywriter.printf("%s from %s get a seat.%n",winner.getName(),party.getName());
                 winner.setVote(-1);
                 winners.add(winner);
                 seat--;
             }
         }
+        mywriter.flush();
         return winners;
     }
 }

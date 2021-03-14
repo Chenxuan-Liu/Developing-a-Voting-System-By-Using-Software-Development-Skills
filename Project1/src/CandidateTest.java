@@ -5,16 +5,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 /**
+ * This class tests the correctness of the functions in the Candidate class.
  * @author Chenxuan Liu
  * @version 1.0
  */
 
 public class CandidateTest {
-    /**
-     * This class tests the correctness of the functions in the Candidate class.
-     * This class has 5 private attributes.
-     * @return IOException.
-     */
+
     private ArrayList<Candidate> candidates = new ArrayList<>();
     private ArrayList<Candidate> emptyCandidate = new ArrayList<>();
     private Candidate candidate1 = new Candidate("Jack", null);
@@ -50,25 +47,32 @@ public class CandidateTest {
 
     @Test
     public void getParty() {
-        assertEquals(p1, candidate2.getParty());
-        assertEquals(null, candidate2.getParty());
+        assertEquals("p1", candidate2.getParty());
     }
 
     @Test
     public void getballots() {
         ArrayList<IR_Ballot> ballot = new ArrayList<>();
-        ballot.get(0).addRank(1);
+        IR_Ballot ball = new IR_Ballot(0);
+        ball.addRank(0);
+        ballot.add(ball);
         candidate2.addIRballot(ballot.get(0));
         assertEquals(ballot, candidate2.getballots());
     }
 
     @Test
     public void addIRballot(){
-        IR_Ballot ballot = new IR_Ballot();
-        ballot.addRank(1);
-        ballot.addRank(2);
-        candidate1.addIRballot(ballot);
-        assertEquals(ballot, candidate1.getballots());
+        ArrayList<IR_Ballot> ballot = new ArrayList<>();
+        IR_Ballot ball1 = new IR_Ballot(0);
+        IR_Ballot ball2 = new IR_Ballot(1);
+        ball1.addRank(0);
+        ball1.addRank(1);
+        ball2.addRank(0);
+        ballot.add(ball1);
+        ballot.add(ball2);
+        candidate2.addIRballot(ball1);
+        candidate2.addIRballot(ball2);
+        assertEquals(ballot, candidate2.getballots());
     }
 
 }
