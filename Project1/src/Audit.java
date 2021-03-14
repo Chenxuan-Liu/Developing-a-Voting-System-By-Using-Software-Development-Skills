@@ -12,11 +12,11 @@ public class Audit {
 	
 	/**
 	* Returns the number of the randomly selected candidate among several tied candidates.
-	* @param a string indicates the vote type
-	* @return a printwriter used to write into the audit file.
-	* @exception IOException
+	* @param A string indicates the vote type.
+	* @return A printwriter used to write into the audit file.
+	* @exception No exception
 	*/
-	public static PrintWriter createauditfile(String votetype){
+	public static PrintWriter createauditfile(String votetype) {
 		LocalDateTime myDateObj = LocalDateTime.now();
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH:mm:ss");
 		String filename = myDateObj.format(myFormatObj);
