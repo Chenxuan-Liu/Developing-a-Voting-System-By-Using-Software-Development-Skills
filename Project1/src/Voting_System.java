@@ -247,10 +247,10 @@ public class Voting_System {
         Audit myaudit = new Audit();
 
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",candidate,party);
-//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",candidate,party);
+        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_worstcase_tie.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
-        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv",candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv",candidate,party);
         PrintWriter pwrite = myaudit.createauditfile(votetype);
 //        System.out.println(votetype);
         if (votetype.equals("IR")) {
