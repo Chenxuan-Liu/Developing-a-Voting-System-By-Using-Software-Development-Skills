@@ -210,7 +210,7 @@ public class OPL_sys{
         int numofTie = 1;
         ArrayList<Integer> Tielist = new ArrayList<>();
         Tielist.add(index);
-        mywriter.flush();
+        
         for(int i = 1; i < candidates.size(); i++){
             Candidate candidate = candidates.get(i);
             Candidate largestcandidate = candidates.get(index);
