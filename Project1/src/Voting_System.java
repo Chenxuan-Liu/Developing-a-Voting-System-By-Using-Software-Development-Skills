@@ -249,8 +249,9 @@ public class Voting_System {
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_worstcase_tie.csv",candidate,party);
-        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv",candidate,party);
+        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_normal_candidate-tie.csv",candidate,party);
         PrintWriter pwrite = myaudit.createauditfile(votetype);
 //        System.out.println(votetype);
         if (votetype.equals("IR")) {
@@ -258,8 +259,8 @@ public class Voting_System {
             pwrite.printf("Total number of candidates: %d.%n",candidate.size());
 
             for (Candidate k:candidate){
-                System.out.println(k.getName() + "from the party " + k.getParty());
-                pwrite.println(k.getName() + "from the party " + k.getParty());
+                System.out.println(k.getName() + " from the party " + k.getParty());
+                pwrite.println(k.getName() + " from the party " + k.getParty());
             }
 
             System.out.println("Total number of ballots: " + totalballot);
@@ -292,8 +293,8 @@ public class Voting_System {
             pwrite.printf("Total number of candidates: %d.%n",candidate.size());
 
             for (Candidate k:candidate){
-                System.out.println(k.getName() + "from the party " + k.getParty());
-                pwrite.println(k.getName() + "from the party " + k.getParty());
+                System.out.println(k.getName() + " from the party " + k.getParty());
+                pwrite.println(k.getName() + " from the party " + k.getParty());
             }
 
             System.out.println("Total number of seats: " + totalseats);
@@ -308,18 +309,17 @@ public class Voting_System {
 
             ArrayList<Integer> partySeats = opl.firstround_Seats();
             ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
-            opl.findwinnner(partySeats2);
-            
+            ArrayList<Candidate> winner = opl.findwinnner(partySeats2);
 
-            System.out.println("finished");
+            System.out.println("The winner(s) is/are");
+            for (int i=0;i<winner.size();i++){
+                System.out.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
+                pwrite.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
+            }
+
+
+//            System.out.println("finished");
         }
-
-        //Next is used for testing
-//        List<List<String>> allballots = new ArrayList<>();
-//        while (BS.hasNextLine()) {
-//            allballots.add(getRecordFromLine(BS.nextLine()));
-//        }
-//        System.out.println(Arrays.toString(allballots.toArray()));
         pwrite.close();
     }
 }
