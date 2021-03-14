@@ -6,6 +6,8 @@ import javax.swing.plaf.basic.*;
  * This class is used for OPL voting.
  * OPL_sys is a class that creat for open party list ballot voting type.
  * It must need two other class, which is party and candidate to complete the task.
+ * Calculate the quota for each party, if one party’s seat number is greater than its candidate number, distribute the extra seats to the other party.
+ * Finish quotas and allocate seats to party candidates. For any tie in the vote count, a coin flip is used to settle the tie.
  * <p></p>
  * This class has 8 attributes.
  *
@@ -20,8 +22,8 @@ public class OPL_sys{
     private ArrayList<Party> parties;
     private int num_candidate, num_seats, total_ballot, allocated_seats;
     private Coin_Flip coin = new Coin_Flip();
-    Scanner scanner;
-    PrintWriter mywriter;
+    private Scanner scanner;
+    private PrintWriter mywriter;
 
     /**
      * Constructor, creates new OPL_sys instance.
@@ -32,7 +34,8 @@ public class OPL_sys{
      * @param total_ballot the total number of popular votes allocated to parties.
      * @param scanner java scanner type used to help reading information and ballots from input file.
      */
-    public OPL_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, int total_ballot, Scanner scanner, PrintWriter mywriter){
+    public OPL_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, 
+        int total_ballot, Scanner scanner, PrintWriter mywriter){
         this.candidates = candidate;
         this.parties = party;
         this.num_candidate = number_candidate;
