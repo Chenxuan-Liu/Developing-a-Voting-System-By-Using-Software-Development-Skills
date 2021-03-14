@@ -307,11 +307,9 @@ public class Voting_System {
             opl.readballot(opl.scanner);
 
             ArrayList<Integer> partySeats = opl.firstround_Seats();
-
-            if (opl.checkRemainSeats()==true) {
-                System.out.println("Seats remaining after 1st round");
-                ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
-            }
+            ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
+            opl.findwinnner(partySeats2);
+            
 
             System.out.println("finished");
         }
