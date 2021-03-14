@@ -17,13 +17,13 @@ import java.util.Scanner;
 public class Voting_System {
 
     public static String votetype;
-    public static int totalballot, totalcandidate;
+    public static int totalballot, totalcandidate, totalseats;
 
     /**
      * Gets vote type of this election.
-     * @param args unused.
-     * @return return the type name of current vote.
-     * @exception no exception.
+     * @param: args unused.
+     * @return: return the type name of current vote.
+     * @exception: no exception.
      */
     public String getVotetype() {
         return votetype;
@@ -31,9 +31,9 @@ public class Voting_System {
 
     /**
      * Gets the total number of ballots received of this election.
-     * @param args unused.
-     * @return return the total number of ballots.
-     * @exception no exception.
+     * @param: args unused.
+     * @return: return the total number of ballots.
+     * @exception: no exception.
      */
     public int getTotalballot() {
         return totalballot;
@@ -41,9 +41,9 @@ public class Voting_System {
 
     /**
      * Gets the total number of candidates in the election.
-     * @param args, unused.
-     * @return return the total number of candidates.
-     * @exception no exception.
+     * @param： args, unused.
+     * @return： return the total number of candidates.
+     * @exception： no exception.
      */
     public int getTotalcandidate() {
         return totalcandidate;
@@ -51,9 +51,9 @@ public class Voting_System {
 
     /**
      * Sets vote type according to input type name.
-     * @param votetype String type, the name of the vote type.
-     * @return void.
-     * @exception no exception.
+     * @param： votetype String type, the name of the vote type.
+     * @return： void.
+     * @exception： no exception.
      */
     public void setVotetype(String votetype) {
         this.votetype = votetype;
@@ -61,9 +61,9 @@ public class Voting_System {
 
     /**
      * Sets total number of ballots using the given integer number.
-     * @param totalballot, integer type, the total number of ballots received in the election.
-     * @return void.
-     * @exception no exception.
+     * @param： totalballot, integer type, the total number of ballots received in the election.
+     * @return： void.
+     * @exception： no exception.
      */
     public void setTotalballot(int totalballot) {
         this.totalballot = totalballot;
@@ -71,9 +71,9 @@ public class Voting_System {
 
     /**
      * Sets total number of candidates using the given integer number.
-     * @param totalcandidate integer type, the new total number of candidates.
-     * @return void.
-     * @exception no exception.
+     * @param： totalcandidate integer type, the new total number of candidates.
+     * @return： void.
+     * @exception： no exception.
      */
     public void setTotalcandidate(int totalcandidate) {
         this.totalcandidate = totalcandidate;
@@ -83,7 +83,7 @@ public class Voting_System {
      * Reads input file from the given address.
      * @param Inputfile String type, the name of the input file.
      * @return void.
-     * @exception no exception.
+     * @exception： no exception.
      */
     public static Scanner readFile(String Inputfile,ArrayList<Candidate> candidate, ArrayList<Party> party) throws FileNotFoundException {
         File tempFile = new File(Inputfile);
@@ -165,6 +165,7 @@ public class Voting_System {
         else if (stopline == 5){
             votetype = "OPL";
             totalcandidate = Integer.parseInt(records.get(1).get(0));
+            totalseats = Integer.parseInt(records.get(3).get(0));
             for (int j = 0;j < 2*totalcandidate;j=j+2) {
 //                System.out.println(records.get(2).get(j));
                 String current_candidate = records.get(2).get(j);
@@ -222,7 +223,7 @@ public class Voting_System {
      * @param votetype String type, the type of the election, IR or OPL.
      * @param totalballot integer type, the total number of votes received for the election.
      * @param totalcandidate integer type, the total number of candidates joined the election.
-     * @exception no exception.
+     * @exception： no exception.
      */
     public Voting_System(String votetype, int totalballot, int totalcandidate) {
         this.votetype = votetype;
@@ -249,8 +250,8 @@ public class Voting_System {
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_worstcase_tie.csv",candidate,party);
-//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
-        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv",candidate,party);
+        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv",candidate,party);
 
 //        System.out.println(votetype);
         if (votetype.equals("IR")) {
@@ -275,6 +276,25 @@ public class Voting_System {
 
             }
             System.out.println("The winner is " + ir.haswinner().getName());
+        }else if (votetype.equals("OPL")){
+            OPL_sys opl = new OPL_sys(candidate,party,candidate.size(),totalseats,totalballot,BS);
+
+            opl.readballot(opl.scanner);
+
+            ArrayList<Integer> partySeats = opl.firstround_Seats();
+
+            for (int i = 0;i < party.size();i++){
+                if (partySeats.get(i) > party.get(i).getMembers().size()){
+                    System.out.println("Seats more than candidate");
+                }
+                System.out.println(partySeats.get(i)+" Seats get for " + party.get(i).getName());
+
+            }
+
+            if (opl.checkRemainSeats()==true) {
+                System.out.println(opl.checkRemainSeats());
+            }
+
         }
 
         //Next is used for testing
