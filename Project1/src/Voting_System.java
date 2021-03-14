@@ -198,7 +198,7 @@ public class Voting_System {
             }
             System.out.println("The winner is " + winner.getName() + " from the party " + winner.getParty());
             pwrite.flush();
-        }else if (votetype.equals("OPL")){
+        } else if (votetype.equals("OPL")){
 
             System.out.println("Total number of candidates: " + candidate.size());
             pwrite.printf("Total number of candidates: %d.%n",candidate.size());
