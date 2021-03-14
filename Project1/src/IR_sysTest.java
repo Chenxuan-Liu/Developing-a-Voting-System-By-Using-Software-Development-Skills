@@ -102,10 +102,10 @@ public class IR_sysTest {
         assertEquals(can2, ir.haswinner());
     }
 
-    @Test
-    public void get_leastcandidate() {
-        assertEquals(2, ir.get_leastcandidate());
-    }
+//    @Test
+//    public void get_leastcandidate() {
+//        assertEquals(2, ir.get_leastcandidate());
+//    }
 
     @Test
     public void redistribution() {
