@@ -173,8 +173,12 @@ public class OPL_sys{
     }
     
     
-    //need java docs here
-    //need the partyseats list from the first round
+    /**
+     * Finds the party that receives the most remaining votes.
+     * @param arraylist<int> that contains the seats allocated by the party in the first round.
+     * @return arraylist<int> that contains the seats allocated by the party after the second round.
+     * @exception no exception.
+     */
     public ArrayList<Integer> secondround_seats(ArrayList<Integer> partyseats){
         mywriter.println("start allocate second round seats.");
         for(int i = 0; i < parties.size(); i++){

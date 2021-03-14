@@ -73,7 +73,6 @@ public class IR_sys{
 	private void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
 		
-//		System.out.println(line);
 		try (Scanner rowScanner = new Scanner(line)) {
 			mywriter.printf("%s%n",line);
 			rowScanner.useDelimiter(",");
@@ -87,7 +86,7 @@ public class IR_sys{
 				}
 			}
 		}
-//		System.out.println(values);
+
 		//set the correct rank
 		for(int i = 1; i <= values.size(); i++){
 			int value = Integer.parseInt(values.get(i-1).trim());
