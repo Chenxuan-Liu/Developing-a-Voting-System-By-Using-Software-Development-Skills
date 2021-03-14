@@ -104,7 +104,7 @@ public class OPL_sys{
                 mywriter.printf("Party %s has enough votes to get seats for everyone in the party.",party.getName());
                 mywriter.println("Clear remaining votes.");
                 party.setVote(-1); //everyone get a seat, discard all votes
-            } else{
+            } else {
                 party.setVote(vote - (seats * quota));
                 mywriter.printf("Party %s get %d seats, the remaining number of votes is %d.%n", party.getName(), seats, party.getVote());
             }
@@ -143,7 +143,7 @@ public class OPL_sys{
         Tielist.add(index);
         int largest_vote = parties.get(index).getVote();
         
-        for(int i = 0; i < parties.size(); i++){
+        for(int i = 1; i < parties.size(); i++){
             int vote = parties.get(i).getVote();
             if(vote > largest_vote){
                 index = i;
@@ -167,6 +167,7 @@ public class OPL_sys{
         } else {
             mywriter.printf("%s has the largest remaining votes.",parties.get(index).getName());
         }
+        mywriter.flush();
         return index;
     }
     
@@ -178,6 +179,7 @@ public class OPL_sys{
         for(int i = 0; i < parties.size(); i++){
             if(!checkRemainSeats()){
                 mywriter.println("No remaining seats, second round stop.");
+                mywriter.flush();
                 return partyseats;
             } else {
                 int index = findlargestvote();
@@ -189,6 +191,7 @@ public class OPL_sys{
                 mywriter.printf("Party %s has %d seats now.%n",party.getName(),partyseats.get(index));
             }
         }
+        mywriter.flush();
         return partyseats;
     }
 
@@ -206,7 +209,7 @@ public class OPL_sys{
         ArrayList<Integer> Tielist = new ArrayList<>();
         Tielist.add(index);
         
-        for(int i = 0; i < candidates.size(); i++){
+        for(int i = 1; i < candidates.size(); i++){
             Candidate candidate = candidates.get(i);
             Candidate largestcandidate = candidates.get(index);
             if(candidate.getVote() > largestcandidate.getVote()){
@@ -230,6 +233,7 @@ public class OPL_sys{
         } else {
             mywriter.printf("%s from %s has largest votes.",candidates.get(index).getName(),candidates.get(index).getParty());
         }
+        mywriter.flush();
         return index;
     }
     
@@ -257,6 +261,7 @@ public class OPL_sys{
                 seat--;
             }
         }
+        mywriter.flush();
         return winners;
     }
 }

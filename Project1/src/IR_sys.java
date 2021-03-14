@@ -166,7 +166,7 @@ public class IR_sys{
 		Tielist.add(index);
 		int least_vote = candidates.get(index).getVote();
 
-		for(int i = 0; i < candidates.size(); i ++){
+		for(int i = 1; i < candidates.size(); i ++){
 			int vote = candidates.get(i).getVote();
 			if(vote < least_vote){
 				index = i;
