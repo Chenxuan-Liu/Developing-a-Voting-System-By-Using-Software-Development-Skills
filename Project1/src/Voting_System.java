@@ -21,7 +21,7 @@ public class Voting_System {
      * Reads input file from the given address.
      * @param Inputfile String type, the name of the input file.
      * @return void.
-     * @exception： no exception.
+     * @exception：FileNotFoundException
      */
     public static Scanner readFile(String Inputfile,ArrayList<Candidate> candidate, ArrayList<Party> party) throws FileNotFoundException {
         File tempFile = new File(Inputfile);
