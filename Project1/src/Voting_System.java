@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -247,15 +244,17 @@ public class Voting_System {
         ArrayList<Candidate> candidate = new ArrayList<Candidate>();
         ArrayList<Party> party = new ArrayList<Party>();
         totalballot = 0;
+        Audit myaudit = new Audit();
+
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_direct_winner.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_popularity.csv",candidate,party);
 //        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\IR_worstcase_tie.csv",candidate,party);
-        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
-//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv",candidate,party);
-
+//        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_shortcase.csv",candidate,party);
+        Scanner BS = readFile("C:\\Users\\67307\\Documents\\CSCI 5801\\repo-Team11\\Project1\\csvfile\\OPL_overseats_doubleties.csv",candidate,party);
+        PrintWriter pwrite = myaudit.createauditfile(votetype);
 //        System.out.println(votetype);
         if (votetype.equals("IR")) {
-            IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1, totalballot, BS);
+            IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1, totalballot, BS,pwrite);
 
             ir.readballot(ir.scanner);
 
@@ -277,24 +276,18 @@ public class Voting_System {
             }
             System.out.println("The winner is " + ir.haswinner().getName());
         }else if (votetype.equals("OPL")){
-            OPL_sys opl = new OPL_sys(candidate,party,candidate.size(),totalseats,totalballot,BS);
+            OPL_sys opl = new OPL_sys(candidate,party,candidate.size(),totalseats,totalballot,BS,pwrite);
 
             opl.readballot(opl.scanner);
 
             ArrayList<Integer> partySeats = opl.firstround_Seats();
 
-            for (int i = 0;i < party.size();i++){
-                if (partySeats.get(i) > party.get(i).getMembers().size()){
-                    System.out.println("Seats more than candidate");
-                }
-                System.out.println(partySeats.get(i)+" Seats get for " + party.get(i).getName());
-
-            }
-
             if (opl.checkRemainSeats()==true) {
-                System.out.println(opl.checkRemainSeats());
+                System.out.println("Seats remaining after 1st round");
+                ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
             }
 
+            System.out.println("finished");
         }
 
         //Next is used for testing
