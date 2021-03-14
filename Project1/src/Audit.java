@@ -2,10 +2,21 @@ import java.io.*;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+/**
+* Used to create the audit file based on time and date.
+* Also return the printwriter for further use.
+* @author Jicheng Zhu
+* @version 1.0
+*/
 public class Audit {
 	
-	public static PrintWriter createauditfile(String votetype){
+	/**
+	* Returns the number of the randomly selected candidate among several tied candidates.
+	* @param votetype A string indicates the vote type.
+	* @return A printwriter used to write into the audit file.
+	* @exception No exception
+	*/
+	public static PrintWriter createauditfile(String votetype) {
 		LocalDateTime myDateObj = LocalDateTime.now();
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH:mm:ss");
 		String filename = myDateObj.format(myFormatObj);
