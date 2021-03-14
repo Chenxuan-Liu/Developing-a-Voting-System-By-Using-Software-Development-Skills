@@ -53,7 +53,7 @@ public class CandidateTest {
     @Test
     public void getballots() {
         ArrayList<IR_Ballot> ballot = new ArrayList<>();
-        IR_Ballot ball = new IR_Ballot();
+        IR_Ballot ball = new IR_Ballot(0);
         ball.addRank(0);
         ballot.add(ball);
         candidate2.addIRballot(ballot.get(0));
@@ -63,8 +63,8 @@ public class CandidateTest {
     @Test
     public void addIRballot(){
         ArrayList<IR_Ballot> ballot = new ArrayList<>();
-        IR_Ballot ball1 = new IR_Ballot();
-        IR_Ballot ball2 = new IR_Ballot();
+        IR_Ballot ball1 = new IR_Ballot(0);
+        IR_Ballot ball2 = new IR_Ballot(1);
         ball1.addRank(0);
         ball1.addRank(1);
         ball2.addRank(0);

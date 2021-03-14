@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  */
 
 public class IR_BallotTest {
-    private IR_Ballot ballot = new IR_Ballot();
+    private IR_Ballot ballot = new IR_Ballot(0);
 
     @Test
     public void getRank() {
