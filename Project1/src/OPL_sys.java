@@ -40,6 +40,7 @@ public class OPL_sys{
         this.total_ballot = total_ballot;
         this.allocated_seats = 0;
         this.scanner = scanner;
+        this.mywriter = mywriter;
         
     }
 
