@@ -23,6 +23,7 @@ public class Candidate {
   private int vote;
   private String name;
   private String party;
+  private boolean valid;
   private ArrayList<IR_Ballot> ballot;
 
   /**
@@ -33,6 +34,7 @@ public class Candidate {
   */
   public Candidate(String name, String party) {
     this.vote = 0;
+    this.valid = true;
     this.name = name;
     this.party = party;
     this.ballot = new ArrayList<IR_Ballot>();
@@ -97,6 +99,14 @@ public class Candidate {
   public void addIRballot(IR_Ballot ballot){
     this.vote = this.vote + 1;
     this.ballot.add(ballot);
+  }
+  
+  public void discard(){
+    valid = false;
+  }
+  
+  public boolean isvalid(){
+    return valid;
   }
 
 }
