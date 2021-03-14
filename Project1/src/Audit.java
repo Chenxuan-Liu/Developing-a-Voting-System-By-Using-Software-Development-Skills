@@ -12,7 +12,7 @@ public class Audit {
 	
 	/**
 	* Returns the number of the randomly selected candidate among several tied candidates.
-	* @param A string indicates the vote type.
+	* @param votetype A string indicates the vote type.
 	* @return A printwriter used to write into the audit file.
 	* @exception No exception
 	*/
