@@ -196,7 +196,7 @@ public class Voting_System {
             while ( (winner = ir.haswinner()) == null) {
                 ir.redistribution();
             }
-            System.out.println("The winner is " + winner.getName());
+            System.out.println("The winner is " + winner.getName() + " from the party " + winner.getParty());
             pwrite.flush();
         }else if (votetype.equals("OPL")){
 
@@ -229,6 +229,7 @@ public class Voting_System {
                 System.out.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
                 pwrite.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
             }
+            pwrite.flush();
         }
         pwrite.close();
     }

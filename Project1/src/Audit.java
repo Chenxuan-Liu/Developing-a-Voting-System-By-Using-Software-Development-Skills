@@ -18,7 +18,7 @@ public class Audit {
 	*/
 	public static PrintWriter createauditfile(String votetype) {
 		LocalDateTime myDateObj = LocalDateTime.now();
-		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH:mm:ss");
+		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
 		String filename = myDateObj.format(myFormatObj);
 		filename = votetype + "_" + filename + ".txt";
 		try{
