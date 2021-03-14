@@ -72,6 +72,7 @@ public class OPL_sys{
             index++;
         }
         mywriter.println("all ballots are processed.");
+        //count vote for each party
         for(int i = 0; i < parties.size(); i++){
             Party party = parties.get(i);
             int vote = party.getVote();
