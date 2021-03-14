@@ -204,7 +204,7 @@ public class OPL_sys{
      * @return return the index of the candidate with the most votes in the candidate arraylist.
      * @exception no exception.
      */
-    private int findLargestCandidate(ArrayList<Candidate> Candidates){
+    private int findLargestCandidate(ArrayList<Candidate> candidates){
         mywriter.println("Finding the candidate with the largest votes.");
         int index = 0;
         int numofTie = 1;
