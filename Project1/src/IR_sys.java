@@ -159,7 +159,7 @@ public class IR_sys{
 	* @exception no exception.
 	*/
 	public int get_leastcandidate(){
-		mywriter.println("Finding the candidate with least votes.");
+		mywriter.println("Finding the candidate with the least votes.");
 		int numofTie = 1;
 		int index = 0;
 		ArrayList<Integer> Tielist = new ArrayList<>();
@@ -184,9 +184,9 @@ public class IR_sys{
 			for(int i:Tielist){
 				mywriter.printf("%s from %s ",candidates.get(i).getName(),candidates.get(i).getParty());
 			}
-			mywriter.println("have the same vote. start a coin flip.");
+			mywriter.println("have the same votes. start a coin flip.");
 			index = Tielist.get(coin.flip(numofTie));
-			mywriter.printf("%s from %s is choosed by a coin filp with least votes.",candidates.get(index).getName(),candidates.get(index).getParty());
+			mywriter.printf("%s from %s is chose by a coin flip with least votes.",candidates.get(index).getName(),candidates.get(index).getParty());
 		} else{
 			mywriter.printf("%s from %s has least votes.",candidates.get(index).getName(),candidates.get(index).getParty());
 		}
@@ -225,6 +225,7 @@ public class IR_sys{
 		candidates.remove(least);
 		num_candidate--;
 		mywriter.printf("%d candidates remain.%n",num_candidate);
+		mywriter.flush();
 	}
 
 
