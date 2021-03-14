@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -29,9 +30,10 @@ public class OPL_sysTest {
 //    }
 
     @Before
-    public void setUp(){
+    public void setUp() throws FileNotFoundException {
+        pw = new PrintWriter("OPL_audit.txt");
 
-        opl1 = new OPL_sys(canList, partyList, 3, 2,10,sc);
+        opl1 = new OPL_sys(canList, partyList, 3, 2,10,sc,pw);
 
         can1.setVote(3);
         can2.setVote(2);
@@ -81,7 +83,7 @@ public class OPL_sysTest {
         p2.setVote(7);
         p2.addmember(can4);
 
-        opl2 = new OPL_sys(canList,partyList,4,3,12,sc);
+        opl2 = new OPL_sys(canList,partyList,4,3,12,sc,pw);
         opl2.firstround_Seats();
         assertTrue(opl2.checkRemainSeats());
     }
@@ -97,7 +99,7 @@ public class OPL_sysTest {
         canList.add(can4);
         p2.setVote(7);
         p2.addmember(can4);
-        opl2 = new OPL_sys(canList,partyList,4,3,12,sc);
+        opl2 = new OPL_sys(canList,partyList,4,3,12,sc,pw);
 
         assertEquals(1,opl2.findlargestvote());
     }
@@ -108,7 +110,7 @@ public class OPL_sysTest {
         canList.add(can4);
         p2.setVote(7);
         p2.addmember(can4);
-        opl2 = new OPL_sys(canList,partyList,4,3,12,sc);
+        opl2 = new OPL_sys(canList,partyList,4,3,12,sc,pw);
 
         ArrayList<Integer> input = opl2.firstround_Seats();
         assertTrue(opl2.checkRemainSeats());
@@ -120,14 +122,40 @@ public class OPL_sysTest {
 
     }
 
-//    @Test
-//    public void findwinnner() {
-//        ArrayList<Integer> first = opl1.firstround_Seats();
-//        ArrayList<Candidate> expect = new ArrayList<>();
-//        expect.add(can3);
-//        expect.add(can1);
-//
-//        assertEquals(expect, opl1.findwinnner(first));
-//
-//    }
+    @Test
+    public void findwinnner() {
+        ArrayList<Integer> first = opl1.firstround_Seats();
+        ArrayList<Candidate> expect = new ArrayList<>();
+        expect.add(can1);
+        expect.add(can3);
+
+        assertEquals(expect, opl1.findwinnner(first));
+
+
+        can4.setVote(2);
+        canList.add(can4);
+
+        can1.setVote(3);
+        can2.setVote(2);
+        can3.setVote(5);
+        can4.setVote(2);
+
+        p2.setVote(7);
+        p1.setVote(5);
+
+        p2.addmember(can4);
+        opl2 = new OPL_sys(canList,partyList,4,3,12,sc,pw);
+
+
+        first = opl2.firstround_Seats();
+        ArrayList<Integer> second = opl2.secondround_seats(first);
+        expect.clear();
+        expect.add(can1);
+        expect.add(can3);
+        expect.add(can4);
+
+
+        assertEquals(expect, opl2.findwinnner(second));
+
+    }
 }
