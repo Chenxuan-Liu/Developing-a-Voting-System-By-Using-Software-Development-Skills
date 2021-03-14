@@ -7,8 +7,11 @@ import javax.sound.midi.*;
 
 /**
  * This class is used for IR vote, stores all required information of IR vote.
+ * And perform the vote counting.
  * <p></p>
- *
+ * It first create IR_Ballot objects for each ballot. Allocate the ballot to candidates and check the majority.
+ * Discard the candidate with least votes and redistribute the ballot.
+ * It stops when someone reach the majority. If only two candidates remain, the popularity wins.
  * @author Jicheng Zhu
  * @version 1.0
  */
@@ -17,10 +20,10 @@ public class IR_sys{
 
 	private ArrayList<Candidate> candidates;
 	private ArrayList<Party> parties;
-	int num_candidate, num_seats, total_ballot;
+	private int num_candidate, num_seats, total_ballot;
 	private Coin_Flip coin = new Coin_Flip();
-	Scanner scanner;
-	PrintWriter mywriter;
+	private Scanner scanner;
+	private PrintWriter mywriter;
 
 	/**
 	* Constructor, creates new IR_sys instance.
@@ -73,7 +76,6 @@ public class IR_sys{
 	private void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
 		
-//		System.out.println(line);
 		try (Scanner rowScanner = new Scanner(line)) {
 			mywriter.printf("%s%n",line);
 			rowScanner.useDelimiter(",");
@@ -87,7 +89,7 @@ public class IR_sys{
 				}
 			}
 		}
-//		System.out.println(values);
+
 		//set the correct rank
 		for(int i = 1; i <= values.size(); i++){
 			int value = Integer.parseInt(values.get(i-1).trim());

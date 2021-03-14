@@ -1,10 +1,5 @@
-//package candidate;
-//package com.journaldev.composition;
 import java.util.ArrayList;
 import java.io.*;
-
-//import anotherpackage.anotherclass;
-//import ir_ballot.IR_Ballot;
 
 /**
  * Stores all the information of each candidates for voting system.
@@ -101,10 +96,22 @@ public class Candidate {
     this.ballot.add(ballot);
   }
   
+  /**
+  * Discard the candidate in IR vote.
+  * @param void
+  * @return void.
+  * @exception no exception.
+  */
   public void discard(){
     valid = false;
   }
   
+  /**
+  * Discard the candidate in IR vote.
+  * @param void
+  * @return a boolean indicates if this candidate is valid.
+  * @exception no exception.
+  */
   public boolean isvalid(){
     return valid;
   }

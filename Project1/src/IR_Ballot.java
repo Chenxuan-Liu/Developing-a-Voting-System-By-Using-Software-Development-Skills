@@ -75,7 +75,13 @@ public class IR_Ballot {
     currentRank = currentRank + 1;
   }
   
+  /**
+  * return the index of the ballot
+  * @param args Unused.
+  * @return the index of the ballot
+  * @exception no exception.
+  */
   public int getindex(){
     return this.index;
   }
-  }
+}
