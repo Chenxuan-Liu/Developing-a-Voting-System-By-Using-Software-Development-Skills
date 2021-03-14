@@ -189,6 +189,7 @@ public class OPL_sys{
                 party.setVote(-1);
                 mywriter.printf("Party %s get a seat, clear remaining votes.%n",party.getName());
                 partyseats.set(index, seats + 1);
+                allocated_seats++;
                 mywriter.printf("Party %s has %d seats now.%n",party.getName(),partyseats.get(index));
             }
         }
