@@ -148,7 +148,7 @@ public class Voting_System {
      * @param votetype String type, the type of the election, IR or OPL.
      * @param totalballot integer type, the total number of votes received for the election.
      * @param totalcandidate integer type, the total number of candidates joined the election.
-     * @exception： no exception.
+     * @exception no exception.
      */
     public Voting_System(String votetype, int totalballot, int totalcandidate) {
         this.votetype = votetype;

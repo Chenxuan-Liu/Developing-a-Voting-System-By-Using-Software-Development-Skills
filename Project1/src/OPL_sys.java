@@ -22,7 +22,7 @@ public class OPL_sys{
     private ArrayList<Party> parties;
     private int num_candidate, num_seats, total_ballot, allocated_seats;
     private Coin_Flip coin = new Coin_Flip();
-    private Scanner scanner;
+    Scanner scanner;
     private PrintWriter mywriter;
 
     /**
