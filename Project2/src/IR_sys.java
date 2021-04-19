@@ -238,6 +238,7 @@ public class IR_sys{
 				continue;
 			}
 			Candidate receive = candidates.get(ballot.getRank() - 1);
+			//if next candidate is not valid
 			while(!receive.isvalid()){
 				mywriter.printf("%s from %s is already removed, get next rank.%n",receive.getName(),receive.getParty());
 				ballot.updateRank();
@@ -247,6 +248,7 @@ public class IR_sys{
 					receive = candidates.get(ballot.getRank() - 1);
 				}
 			}
+			//if no remaining candidates in the ballot
 			if (ballot.getRank() != -1){
 					mywriter.printf("%s from %s receive this ballot.%n",receive.getName(),receive.getParty());
 					receive.addIRballot(ballot);
