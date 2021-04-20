@@ -40,7 +40,7 @@ public class IR_sys{
 		this.parties = party;
 		this.num_candidate = number_candidate;
 		this.num_seats = num_seats;
-		this.total_ballot = total_ballot;
+		this.total_ballot = 0;
 		this.scanner = scanner;
 		this.mywriter = mywriter;
 	}
@@ -51,9 +51,9 @@ public class IR_sys{
 	* @return void.
 	* @exception no exception.
 	*/
-	public void readballot(Scanner scanner){
+	public void readballot(int num_ballot, Scanner scanner){
 		IR_Ballot ballot;
-		int index = 1;
+		int index = total_ballot + 1;
 			while (scanner.hasNextLine()) {
 				ballot = new IR_Ballot(index);
 				mywriter.printf("read No.%d ballot:",index);
@@ -63,6 +63,7 @@ public class IR_sys{
 				mywriter.printf("%s from party %s get No.%d ballot, he(she) has %d vote(s) now%n",candidate.getName(),candidate.getParty(),index,candidate.getVote());
 				index++;
 			}
+		total_ballot = total_ballot + num_ballot;
 		mywriter.flush();
 	}
 

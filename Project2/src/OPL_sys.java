@@ -40,7 +40,7 @@ public class OPL_sys{
         this.parties = party;
         this.num_candidate = number_candidate;
         this.num_seats = num_seats;
-        this.total_ballot = total_ballot;
+        this.total_ballot = 0;
         this.allocated_seats = 0;
         this.scanner = scanner;
         this.mywriter = mywriter;
@@ -53,8 +53,8 @@ public class OPL_sys{
      * @return void.
      * @exception no exception.
      */
-    public void readballot(Scanner scanner){
-        int index = 1;
+    public void readballot(int num_ballot, Scanner scanner){
+        int index = total_ballot + 1;
         while(scanner.hasNextLine()){
             String line = scanner.nextLine();
             mywriter.printf("No.%d ballot is %s.%n",index,line);
@@ -71,7 +71,7 @@ public class OPL_sys{
             }
             index++;
         }
-        mywriter.println("all ballots are processed.");
+        mywriter.println("all ballots from this file are processed.");
         //count vote for each party
         for(int i = 0; i < parties.size(); i++){
             Party party = parties.get(i);
