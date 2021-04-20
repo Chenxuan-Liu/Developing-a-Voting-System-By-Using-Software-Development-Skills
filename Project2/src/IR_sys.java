@@ -35,7 +35,7 @@ public class IR_sys{
 	* @param scanner java scanner type used to help reading the input CSV file.
 	*/
 	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party,
-				  int number_candidate, int num_seats, int total_ballot, Scanner scanner, PrintWriter mywriter){
+				  int number_candidate, int num_seats, Scanner scanner, PrintWriter mywriter){
 		this.candidates = candidate;
 		this.parties = party;
 		this.num_candidate = number_candidate;
