@@ -83,6 +83,7 @@ public class OPL_sys{
             party.setVote(vote);
             mywriter.printf("Party %s has %d vote(s).%n",party.getName(),vote);
         }
+        total_ballot = total_ballot + num_ballot;
         mywriter.flush();
     }
     
