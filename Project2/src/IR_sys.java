@@ -22,7 +22,7 @@ public class IR_sys{
 	private ArrayList<Party> parties;
 	private int num_candidate, num_seats, total_ballot;
 	private Coin_Flip coin = new Coin_Flip();
-	Scanner scanner;
+	//Scanner scanner;
 	private PrintWriter mywriter;
 
 	/**
@@ -35,13 +35,13 @@ public class IR_sys{
 	* @param scanner java scanner type used to help reading the input CSV file.
 	*/
 	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party,
-				  int number_candidate, int num_seats, Scanner scanner, PrintWriter mywriter){
+				  int number_candidate, int num_seats, PrintWriter mywriter){
 		this.candidates = candidate;
 		this.parties = party;
 		this.num_candidate = number_candidate;
 		this.num_seats = num_seats;
 		this.total_ballot = 0;
-		this.scanner = scanner;
+		//this.scanner = scanner;
 		this.mywriter = mywriter;
 	}
 
