@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Voting_System {
 
     public static String votetype;
-    public static int totalballot, totalcandidate, totalseats;
+    public static int totalballot = 0, totalcandidate, totalseats;
 
 
     /**
@@ -52,7 +52,7 @@ public class Voting_System {
             }
             i++;
         }
-        totalballot = Integer.parseInt(records.get(stopline-1).get(0));
+        totalballot += Integer.parseInt(records.get(stopline-1).get(0));
 
         if (stopline==4){
             votetype = "IR";
@@ -60,29 +60,31 @@ public class Voting_System {
             totalcandidate = Integer.parseInt(records.get(1).get(0));
 
             //Create candidate and Arraylist from Line 3
-            for (int j = 0;j < totalcandidate;j++){
-                String current_candidate = records.get(2).get(j);
+            if(candidate.isEmpty()) {
+                for (int j = 0; j < totalcandidate; j++) {
+                    String current_candidate = records.get(2).get(j);
 
-                candidate.add(new Candidate(current_candidate.split("[\\(\\)]")[0],current_candidate.split("[\\(\\)]")[1]));
-                if(j == 0){
-                    party.add(new Party(current_candidate.split("[\\(\\)]")[1]));
-                    party.get(j).addmember(candidate.get(j));
-                }else {
-                    boolean party_exist_flag = false;
-                    int party_ID = 0;
-                    for (int k = 0;k < party.size();k++){
-                        if (party.get(k).getName().equals(current_candidate.split("[\\(\\)]")[1])){
-                            party_exist_flag = true;
-                            party_ID = k;
-                            break;
-                        }
-                    }
-
-                    if (party_exist_flag==true){
-                        party.get(party_ID).addmember(candidate.get(j));
-                    }else {
+                    candidate.add(new Candidate(current_candidate.split("[\\(\\)]")[0], current_candidate.split("[\\(\\)]")[1]));
+                    if (j == 0) {
                         party.add(new Party(current_candidate.split("[\\(\\)]")[1]));
-                        party.get(party.size()-1).addmember(candidate.get(j));
+                        party.get(j).addmember(candidate.get(j));
+                    } else {
+                        boolean party_exist_flag = false;
+                        int party_ID = 0;
+                        for (int k = 0; k < party.size(); k++) {
+                            if (party.get(k).getName().equals(current_candidate.split("[\\(\\)]")[1])) {
+                                party_exist_flag = true;
+                                party_ID = k;
+                                break;
+                            }
+                        }
+
+                        if (party_exist_flag == true) {
+                            party.get(party_ID).addmember(candidate.get(j));
+                        } else {
+                            party.add(new Party(current_candidate.split("[\\(\\)]")[1]));
+                            party.get(party.size() - 1).addmember(candidate.get(j));
+                        }
                     }
                 }
             }
@@ -163,74 +165,90 @@ public class Voting_System {
      * @exception FileNotFoundException not find file.
      */
     public static void main(String[] args) throws FileNotFoundException {
-        System.out.println("Please input the path of input file");
-        Scanner scn = new Scanner(System.in);
-        String input = scn.nextLine();
 
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Please enter the total number of files: ");
+        int totalfilenumber = scan.nextInt();
+//        scan.close();
+        System.out.println("The total number of file are " + totalfilenumber);
+        totalballot = 0;
 
         ArrayList<Candidate> candidate = new ArrayList<Candidate>();
         ArrayList<Party> party = new ArrayList<Party>();
-        totalballot = 0;
         Audit myaudit = new Audit();
 
+        for (int numfile = 0;numfile < totalfilenumber;numfile++) {
+            System.out.println("Please input the path of input files");
+            Scanner scn = new Scanner(System.in);
+            String input = scn.nextLine();
 
-        Scanner BS = readFile(input,candidate,party);
-        PrintWriter pwrite = myaudit.createauditfile(votetype);
 
-        if (votetype.equals("IR")) {
-            System.out.println("Total number of candidates: " + candidate.size());
-            pwrite.printf("Total number of candidates: %d.%n",candidate.size());
+            Scanner BS = readFile(input, candidate, party);
+            PrintWriter pwrite = myaudit.createauditfile(votetype);
+            IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1, pwrite);
 
-            for (Candidate k:candidate){
-                System.out.println(k.getName() + " from the party " + k.getParty());
-                pwrite.println(k.getName() + " from the party " + k.getParty());
+            if (votetype.equals("IR")) {
+                if (numfile == 0) {
+                    System.out.println("Total number of candidates: " + candidate.size());
+                    pwrite.printf("Total number of candidates: %d.%n", candidate.size());
+
+                    for (Candidate k : candidate) {
+                        System.out.println(k.getName() + " from the party " + k.getParty());
+                        pwrite.println(k.getName() + " from the party " + k.getParty());
+                    }
+
+                    System.out.println("Total number of ballots: " + totalballot);
+                    pwrite.println("Total number of ballots: " + totalballot);
+
+                    IR_sys ir_temp = new IR_sys(candidate, party, candidate.size(), 1, pwrite);
+                    ir = ir_temp;
+                }
+
+                ir.readballot(totalballot, BS);
+
+                if(numfile == totalfilenumber-1) {
+                    Candidate winner;
+                    while ((winner = ir.haswinner()) == null) {
+                        ir.redistribution();
+                    }
+                    System.out.println("The winner is " + winner.getName() + " from the party " + winner.getParty());
+                    pwrite.flush();
+                }
+
+            } else if (votetype.equals("OPL")) {
+
+                System.out.println("Total number of candidates: " + candidate.size());
+                pwrite.printf("Total number of candidates: %d.%n", candidate.size());
+
+                for (Candidate k : candidate) {
+                    System.out.println(k.getName() + " from the party " + k.getParty());
+                    pwrite.println(k.getName() + " from the party " + k.getParty());
+                }
+
+                System.out.println("Total number of seats: " + totalseats);
+                pwrite.println("Total number of seats: " + totalseats);
+
+                System.out.println("Total number of ballots: " + totalballot);
+                pwrite.println("Total number of ballots: " + totalballot);
+
+                OPL_sys opl = new OPL_sys(candidate, party, candidate.size(), totalseats, pwrite);
+
+                opl.readballot(totalballot, BS);
+
+                ArrayList<Integer> partySeats = opl.firstround_Seats();
+                ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
+                ArrayList<Candidate> winner = opl.findwinnner(partySeats2);
+
+                System.out.println("The winner(s) is/are");
+                pwrite.println();
+                pwrite.println("The winner(s) is/are");
+                for (int i = 0; i < winner.size(); i++) {
+                    System.out.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
+                    pwrite.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
+                }
+                pwrite.flush();
             }
-
-            System.out.println("Total number of ballots: " + totalballot);
-            pwrite.println("Total number of ballots: " + totalballot);
-
-            IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1, totalballot, BS,pwrite);
-
-            ir.readballot(ir.scanner);
-            Candidate winner;
-            while ( (winner = ir.haswinner()) == null) {
-                ir.redistribution();
-            }
-            System.out.println("The winner is " + winner.getName() + " from the party " + winner.getParty());
-            pwrite.flush();
-        } else if (votetype.equals("OPL")){
-
-            System.out.println("Total number of candidates: " + candidate.size());
-            pwrite.printf("Total number of candidates: %d.%n",candidate.size());
-
-            for (Candidate k:candidate){
-                System.out.println(k.getName() + " from the party " + k.getParty());
-                pwrite.println(k.getName() + " from the party " + k.getParty());
-            }
-
-            System.out.println("Total number of seats: " + totalseats);
-            pwrite.println("Total number of seats: " + totalseats);
-
-            System.out.println("Total number of ballots: " + totalballot);
-            pwrite.println("Total number of ballots: " + totalballot);
-
-            OPL_sys opl = new OPL_sys(candidate,party,candidate.size(),totalseats,totalballot,BS,pwrite);
-
-            opl.readballot(opl.scanner);
-
-            ArrayList<Integer> partySeats = opl.firstround_Seats();
-            ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
-            ArrayList<Candidate> winner = opl.findwinnner(partySeats2);
-
-            System.out.println("The winner(s) is/are");
-            pwrite.println();
-            pwrite.println("The winner(s) is/are");
-            for (int i=0;i<winner.size();i++){
-                System.out.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
-                pwrite.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
-            }
-            pwrite.flush();
+            pwrite.close();
         }
-        pwrite.close();
     }
 }
