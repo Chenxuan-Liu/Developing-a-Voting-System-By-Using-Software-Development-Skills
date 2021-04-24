@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Voting_System {
 
     public static String votetype;
-    public static int totalballot = 0, totalcandidate, totalseats;
+    public static int totalballot = 0, totalcandidate, totalseats = 0;
 
 
     /**
@@ -182,10 +182,11 @@ public class Voting_System {
             Scanner scn = new Scanner(System.in);
             String input = scn.nextLine();
 
-
             Scanner BS = readFile(input, candidate, party);
             PrintWriter pwrite = myaudit.createauditfile(votetype);
+            // Voting System Initialization,
             IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1, pwrite);
+            OPL_sys opl = new OPL_sys(candidate, party, candidate.size(), totalseats, pwrite);
 
             if (votetype.equals("IR")) {
                 if (numfile == 0) {
@@ -200,8 +201,7 @@ public class Voting_System {
                     System.out.println("Total number of ballots: " + totalballot);
                     pwrite.println("Total number of ballots: " + totalballot);
 
-                    IR_sys ir_temp = new IR_sys(candidate, party, candidate.size(), 1, pwrite);
-                    ir = ir_temp;
+                    ir = new IR_sys(candidate, party, candidate.size(), 1, pwrite);
                 }
 
                 ir.readballot(totalballot, BS);
@@ -231,7 +231,7 @@ public class Voting_System {
                 System.out.println("Total number of ballots: " + totalballot);
                 pwrite.println("Total number of ballots: " + totalballot);
 
-                OPL_sys opl = new OPL_sys(candidate, party, candidate.size(), totalseats, pwrite);
+                opl = new OPL_sys(candidate, party, candidate.size(), totalseats, pwrite);
 
                 opl.readballot(totalballot, BS);
 

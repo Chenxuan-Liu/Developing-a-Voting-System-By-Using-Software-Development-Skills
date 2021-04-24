@@ -40,9 +40,15 @@ public class IR_sys{
 		this.parties = party;
 		this.num_candidate = number_candidate;
 		this.num_seats = num_seats;
-		this.total_ballot = 0;
+//		this.total_ballot = 0;
 		//this.scanner = scanner;
+
+		for(Candidate c : candidate){
+			this.total_ballot += c.getballots().size();
+		}
+
 		this.mywriter = mywriter;
+
 	}
 
 	/**
