@@ -93,18 +93,26 @@ public class IR_sys{
 		}
 
 		// Check for the invalid ballots situation, if this ballot is invalid, set all the rand to -1
-		if (invalid_ballot > candidates.size()/2 || invalid_ballot > (candidates.size() + 1)/2){
-			for(int i = 1; i <= values.size(); i++){
-				if(value != -1){
-					ballot.setRank(i, -1);
+		if (invalid_ballot % 2 == 0) {
+			if (invalid_ballot >= candidates.size() / 2) {
+				for (int i = 1; i <= values.size(); i++) {
+					if (value != -1) {
+						ballot.setRank(i, -1);
+					}
 				}
-			}
-		}else{
-			//set the correct rank
-			for(int i = 1; i <= values.size(); i++){
-				int value = Integer.parseInt(values.get(i-1).trim());
-				if(value != -1){
-					ballot.setRank(i, value - 1);
+			} else if (invalid_ballot >= (candidates.size() + 1) / 2){
+				for (int i = 1; i <= values.size(); i++) {
+					if (value != -1) {
+						ballot.setRank(i, -1);
+					}
+				}
+			} else {
+				//set the correct rank
+				for (int i = 1; i <= values.size(); i++) {
+					int value = Integer.parseInt(values.get(i - 1).trim());
+					if (value != -1) {
+						ballot.setRank(i, value - 1);
+					}
 				}
 			}
 		}
