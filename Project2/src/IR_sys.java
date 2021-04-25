@@ -51,6 +51,7 @@ public class IR_sys{
 	* @exception no exception.
 	*/
 	public void readballot(int num_ballot, Scanner scanner){
+		mywriter.println("size is "+candidates.size());
 		IR_Ballot ballot;
 		int index = total_ballot + 1;
 			while (scanner.hasNextLine()) {
