@@ -75,6 +75,7 @@ public class IR_sys{
 	*/
 	private void getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
+		int invalid_ballot = 0;
 		
 		try (Scanner rowScanner = new Scanner(line)) {
 			mywriter.printf("%s%n",line);
@@ -86,15 +87,25 @@ public class IR_sys{
 					ballot.addRank(1); //only used to initializa the size
 				} else {
 					values.add("-1");
+					invalid_ballot++;
 				}
 			}
 		}
 
-		//set the correct rank
-		for(int i = 1; i <= values.size(); i++){
-			int value = Integer.parseInt(values.get(i-1).trim());
-			if(value != -1){
-				ballot.setRank(i, value - 1);
+		// Check for the invalid ballots situation, if this ballot is invalid, set all the rand to -1
+		if (invalid_ballot > candidates.size()/2 || invalid_ballot > (candidates.size() + 1)/2){
+			for(int i = 1; i <= values.size(); i++){
+				if(value != -1){
+					ballot.setRank(i, -1);
+				}
+			}
+		}else{
+			//set the correct rank
+			for(int i = 1; i <= values.size(); i++){
+				int value = Integer.parseInt(values.get(i-1).trim());
+				if(value != -1){
+					ballot.setRank(i, value - 1);
+				}
 			}
 		}
 	}
