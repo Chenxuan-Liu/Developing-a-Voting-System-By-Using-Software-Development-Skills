@@ -41,12 +41,6 @@ public class OPL_sys{
         this.total_ballot = 0;
         this.allocated_seats = 0;
         this.mywriter = mywriter;
-
-        for(Candidate c : candidate){
-            this.total_ballot += c.getVote();
-        }
-
-
     }
 
     /**
@@ -86,7 +80,6 @@ public class OPL_sys{
             mywriter.printf("Party %s has %d vote(s).%n",party.getName(),vote);
         }
         total_ballot = total_ballot + num_ballot;
-        total_ballot = num_ballot;
         mywriter.flush();
     }
     
