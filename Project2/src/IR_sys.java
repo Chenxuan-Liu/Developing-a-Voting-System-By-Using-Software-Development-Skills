@@ -51,7 +51,6 @@ public class IR_sys{
 	* @exception no exception.
 	*/
 	public void readballot(int num_ballot, Scanner scanner){
-		mywriter.println("size is "+candidates.size());
 		IR_Ballot ballot;
 		int index = total_ballot + 1;
 			while (scanner.hasNextLine()) {
@@ -134,6 +133,7 @@ public class IR_sys{
 			System.exit(1);
 		} else if (num_candidate == 1){
 			Candidate candidate = candidates.get(0);
+			mywriter.println();
 			mywriter.printf("%s from party %s get %d votes, he(she) wins.%n",candidate.getName(),candidate.getParty(),candidate.getVote());
 			mywriter.flush();
 			return candidate;
@@ -153,16 +153,19 @@ public class IR_sys{
 			mywriter.printf("%s from %s has %d votes.%n",candidate0.getName(),candidate0.getParty(),candidate0.getVote());
 			mywriter.printf("%s from %s has %d votes.%n",candidate1.getName(),candidate1.getParty(),candidate1.getVote());
 			if (vote0 > vote1){
+				mywriter.println();
 				mywriter.printf("%s from %s has more votes, he(she) wins.%n",candidate0.getName(),candidate0.getParty());
 				mywriter.flush();
 				return candidate0;
 			} else if (vote1 > vote0){
+				mywriter.println();
 				mywriter.printf("%s from %s has more votes, he(she) wins.%n",candidate1.getName(),candidate1.getParty());
 				mywriter.flush();
 				return candidate1;
 			} else{
 				mywriter.println("Two candidates have the same vote, start a coin flip.");
 				Candidate winner = candidates.get(coin.flip(2));
+				mywriter.println();
 				mywriter.printf("%s from %s wins.%n",winner.getName(),winner.getParty());
 				mywriter.flush();
 				return winner;
@@ -174,6 +177,7 @@ public class IR_sys{
 				int vote = candidates.get(i).getVote();
 				if(vote > total_ballot/2){
 					Candidate winner = candidates.get(i);
+					mywriter.println();
 					mywriter.printf("a majority needs more than %d votes.%n",total_ballot/2);
 					mywriter.printf("%s from %s has %d votes, he(she) wins.%n",winner.getName(),winner.getParty(),winner.getVote());
 					mywriter.flush();
@@ -224,7 +228,7 @@ public class IR_sys{
 
 		if(numofTie > 1){
 			for(int i:Tielist){
-				mywriter.printf("%s from %s ",candidates.get(i).getName(),candidates.get(i).getParty());
+				mywriter.printf("%s from %s, ",candidates.get(i).getName(),candidates.get(i).getParty());
 			}
 			mywriter.println("have the same votes. start a coin flip.");
 			index = Tielist.get(coin.flip(numofTie));
@@ -249,6 +253,7 @@ public class IR_sys{
 		IR_Ballot ballot;
 
 		//ballots redistribution
+		mywriter.println();
 		mywriter.println("start redistribution.");
 		for(int i = 0; i < ballots.size(); i++){
 			ballot = ballots.get(i);

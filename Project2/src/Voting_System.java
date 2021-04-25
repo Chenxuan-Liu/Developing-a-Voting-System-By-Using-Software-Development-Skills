@@ -30,7 +30,7 @@ public class Voting_System {
             System.out.println("No input file found. Program terminated");
             System.exit(0);
         }
-
+        
         List<List<String>> records = new ArrayList<>();
         int stopline = -1,i = 0,totalcandidate = 0;
         Scanner scanner = new Scanner(new File(Inputfile));
@@ -167,16 +167,19 @@ public class Voting_System {
 
 
         Scanner BS = readFile(input,candidate,party);
+        
         totalballot = totalballot + num_ballot;
         PrintWriter pwrite = myaudit.createauditfile(votetype);
 
         if (votetype.equals("IR")) {
             IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1,pwrite);
-            ir.readballot(num_ballot, BS);
             pwrite.printf("Total number of candidates: %d.%n",candidate.size());
             for (Candidate k:candidate){
                 pwrite.println(k.getName() + " from the party " + k.getParty());
             }
+            pwrite.println();
+            pwrite.println("read ballot(s) from " + input);
+            ir.readballot(num_ballot, BS);
             //read next file if necessary
             for(int i = 1; i < totalfilenumber; i++){
                 System.out.println("Please input the path of next input file");
@@ -189,6 +192,8 @@ public class Voting_System {
                     System.exit(0);
                 }
                 
+                pwrite.println();
+                pwrite.println("read ballot(s) from " + input);
                 BS = new Scanner(tempFile);
                 BS.nextLine();
                 BS.nextLine();
@@ -203,7 +208,9 @@ public class Voting_System {
                 System.out.println(k.getName() + " from the party " + k.getParty());
             }
             System.out.println("Total number of ballots: " + totalballot);
+            pwrite.println();
             pwrite.println("Total number of ballots: " + totalballot);
+            pwrite.println();
             
             Candidate winner;
             while ( (winner = ir.haswinner()) == null) {
@@ -215,13 +222,14 @@ public class Voting_System {
         } else if (votetype.equals("OPL")){
             
             OPL_sys opl = new OPL_sys(candidate,party,candidate.size(),totalseats,pwrite);
-            opl.readballot(num_ballot, BS);
             
             pwrite.printf("Total number of candidates: %d.%n",candidate.size());
             for (Candidate k:candidate){
                 pwrite.println(k.getName() + " from the party " + k.getParty());
             }
             pwrite.println("Total number of seats: " + totalseats);
+            
+            opl.readballot(num_ballot, BS);
             
             for(int i =1; i<totalfilenumber; i++){
                 System.out.println("Please input the path of next input file");
@@ -234,6 +242,8 @@ public class Voting_System {
                     System.exit(0);
                 }
                 
+                pwrite.println();
+                pwrite.println("read ballot(s) from " + input);
                 BS = new Scanner(tempFile);
                 BS.nextLine();
                 BS.nextLine();
@@ -246,15 +256,14 @@ public class Voting_System {
             
             
             System.out.println("Total number of candidates: " + candidate.size());
-
             for (Candidate k:candidate){
                 System.out.println(k.getName() + " from the party " + k.getParty());
             }
-
             System.out.println("Total number of seats: " + totalseats);
-
             System.out.println("Total number of ballots: " + totalballot);
             pwrite.println("Total number of ballots: " + totalballot);
+            pwrite.println();
+            
             ArrayList<Integer> partySeats = opl.firstround_Seats();
             ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
             ArrayList<Candidate> winner = opl.findwinnner(partySeats2);
