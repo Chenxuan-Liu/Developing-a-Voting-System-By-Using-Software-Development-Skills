@@ -41,6 +41,7 @@ public class OPL_sys{
         this.total_ballot = 0;
         this.allocated_seats = 0;
         this.mywriter = mywriter;
+        
     }
 
     /**
