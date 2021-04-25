@@ -155,7 +155,7 @@ public class Voting_System {
         System.out.print("Please enter the total number of files: ");
         int totalfilenumber = scan.nextInt();
         
-        System.out.println("Please input the path of input file");
+        System.out.println("Please input the path of the first input file");
         Scanner scn = new Scanner(System.in);
         String input = scn.nextLine();
 
@@ -167,28 +167,19 @@ public class Voting_System {
 
 
         Scanner BS = readFile(input,candidate,party);
+        totalballot = totalballot + num_ballot;
         PrintWriter pwrite = myaudit.createauditfile(votetype);
 
         if (votetype.equals("IR")) {
-            System.out.println("Total number of candidates: " + candidate.size());
+            IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1,pwrite);
+            ir.readballot(num_ballot, BS);
             pwrite.printf("Total number of candidates: %d.%n",candidate.size());
-
             for (Candidate k:candidate){
-                System.out.println(k.getName() + " from the party " + k.getParty());
                 pwrite.println(k.getName() + " from the party " + k.getParty());
             }
-
-            
-            totalballot = totalballot + num_ballot;
-            IR_sys ir = new IR_sys(candidate, party, candidate.size(), 1,pwrite);
-            
-            ir.readballot(num_ballot, BS);
-            
-            
-            
-            
+            //read next file if necessary
             for(int i = 1; i < totalfilenumber; i++){
-                System.out.println("Please input the path of input file");
+                System.out.println("Please input the path of next input file");
                 input = scn.nextLine();
                 
                 File tempFile = new File(input);
@@ -198,20 +189,19 @@ public class Voting_System {
                     System.exit(0);
                 }
                 
-                BS = new Scanner(new File(input));
+                BS = new Scanner(tempFile);
                 BS.nextLine();
                 BS.nextLine();
                 BS.nextLine();
                 num_ballot = Integer.parseInt(BS.nextLine());
                 totalballot = totalballot + num_ballot;
                 ir.readballot(num_ballot, BS);
-                
             }
-            
-            
-            
-            
-            
+
+            System.out.println("Total number of candidates: " + candidate.size());
+            for (Candidate k:candidate){
+                System.out.println(k.getName() + " from the party " + k.getParty());
+            }
             System.out.println("Total number of ballots: " + totalballot);
             pwrite.println("Total number of ballots: " + totalballot);
             
@@ -219,6 +209,7 @@ public class Voting_System {
             while ( (winner = ir.haswinner()) == null) {
                 ir.redistribution();
             }
+            
             System.out.println("The winner is " + winner.getName() + " from the party " + winner.getParty());
             pwrite.flush();
         } else if (votetype.equals("OPL")){
