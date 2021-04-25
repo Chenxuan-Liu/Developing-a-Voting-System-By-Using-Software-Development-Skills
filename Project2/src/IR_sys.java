@@ -57,14 +57,14 @@ public class IR_sys{
 			while (scanner.hasNextLine()) {
 				ballot = new IR_Ballot(index);
 				mywriter.printf("read No.%d ballot:",index);
-				int invalid_ballot = getRecordFromLine(" "+scanner.nextLine(), ballot);
+				int valid = getRecordFromLine(" "+scanner.nextLine(), ballot);
 
-				if (invalid_ballot == 0) {
+				if (valid == 0) {
 					Candidate candidate = candidates.get(ballot.getRank() - 1);
 					candidate.addIRballot(ballot);
 					mywriter.printf("%s from party %s get No.%d ballot, he(she) has %d vote(s) now%n", candidate.getName(), candidate.getParty(), index, candidate.getVote());
 				} else {
-					mywriter.printf("No.%d ballot is invalid", index);
+					mywriter.printf("No.%d ballot is invalid%n", index);
 				}
 				index++;
 			}
@@ -80,8 +80,8 @@ public class IR_sys{
 	*/
 	private int getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
-		int valid_ballot = 0;
-		
+		int valid = 0;
+
 		try (Scanner rowScanner = new Scanner(line)) {
 			mywriter.printf("%s%n",line);
 			rowScanner.useDelimiter(",");
@@ -90,24 +90,21 @@ public class IR_sys{
 				if(!value.trim().isEmpty()){
 					values.add(value);
 					ballot.addRank(1); //only used to initializa the size
-					valid_ballot++;
+					valid++;
 				} else {
 					values.add("-1");
 				}
 			}
 		}
-
-		System.out.println(valid_ballot);
-		// Check for the invalid ballots situation, if this ballot is invalid, set all the rand to -1
+		//check if the ballot is valid
 		if (candidates.size() % 2 == 0) {
-			if (valid_ballot < candidates.size() / 2) {
-				ballot = null;
+			if (valid < candidates.size() / 2) {
+				mywriter.printf("only %d candidate(s) is ranked, ",valid);
 				return 1;
 			}
 		} else {
-			if (valid_ballot < (candidates.size() + 1) / 2){
-				ballot = null;
-
+			if (valid < (candidates.size() + 1) / 2){
+				mywriter.printf("only %d candidate(s) is ranked, ",valid);
 				return 1;
 			}
 		}
@@ -146,7 +143,7 @@ public class IR_sys{
 					candidates.add(c);
 				}
 			}
-			
+
 			Candidate candidate0 = candidates.get(0);
 			Candidate candidate1 = candidates.get(1);
 			int vote0 = candidate0.getVote();
@@ -199,13 +196,13 @@ public class IR_sys{
 		ArrayList<Integer> Tielist = new ArrayList<>();
 		Tielist.add(index);
 		int least_vote = candidates.get(index).getVote();
-		
+
 		while(!candidates.get(index).isvalid()){
 			index++;
 			Tielist.clear();
 			Tielist.add(index);
 		}
-		
+
 		least_vote = candidates.get(index).getVote();
 
 		for(int i = index + 1; i < candidates.size(); i ++){
@@ -223,7 +220,7 @@ public class IR_sys{
 				}
 			}
 		}
-		
+
 		if(numofTie > 1){
 			for(int i:Tielist){
 				mywriter.printf("%s from %s ",candidates.get(i).getName(),candidates.get(i).getParty());
@@ -281,11 +278,11 @@ public class IR_sys{
 			}
 		}
 		mywriter.printf("remove candidate %s from %s.%n",candidate.getName(),candidate.getParty());
-		
+
 		candidate.discard();
 		num_candidate--;
 		mywriter.printf("%d candidates remain.%n",num_candidate);
 		mywriter.flush();
 	}
-	
+
 }
