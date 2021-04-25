@@ -30,8 +30,7 @@ public class IR_sys{
 	* @param party Party ArrayList which contains all parties that have joined the IR vote.
 	* @param number_candidate total number of all candidates participating in the IR election.
 	* @param num_seats total number of winning seats in the IR election.
-	* @param total_ballot total number of ballot in the IR election.
-	* @param scanner java scanner type used to help reading the input CSV file.
+	* @param mywriter wrtite into the audit file.
 	*/
 	public IR_sys(ArrayList<Candidate> candidate, ArrayList<Party> party,
 				  int number_candidate, int num_seats, PrintWriter mywriter){
@@ -46,6 +45,7 @@ public class IR_sys{
 
 	/**
 	* Reads and stores ballots from the CSV file.
+	* @param num_ballot number of ballots in this file
 	* @param scanner java scanner type used to help reading input file.
 	* @return void.
 	* @exception no exception.
@@ -75,7 +75,7 @@ public class IR_sys{
 	* Gets rank from the line of the file and store the rank in the system.
 	* @param line a line of input CSV file, used to get rank.
 	* @param ballot the ballot which is used to store rank.
-	* @return void.
+	* @return return an interger to indicate if the ballot is valid
 	* @exception no exception.
 	*/
 	private int getRecordFromLine(String line, IR_Ballot ballot) {

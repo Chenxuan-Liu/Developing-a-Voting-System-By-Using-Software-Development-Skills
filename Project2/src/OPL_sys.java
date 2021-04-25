@@ -30,8 +30,7 @@ public class OPL_sys{
      * @param party Party ArrayList stores all the parties that have joined the election.
      * @param number_candidate the total number of candidates added to the election.
      * @param num_seats the total number of seats won.
-     * @param total_ballot the total number of popular votes allocated to parties.
-     * @param scanner java scanner type used to help reading information and ballots from input file.
+     * @param mywriter write into the audit file.
      */
     public OPL_sys(ArrayList<Candidate> candidate, ArrayList<Party> party, int number_candidate, int num_seats, PrintWriter mywriter){
         this.candidates = candidate;
@@ -46,6 +45,7 @@ public class OPL_sys{
 
     /**
      * Reads ballots from the CSV file.
+     * @param num_ballot number of ballots in this file.
      * @param scanner used to read file.
      * @return void.
      * @exception no exception.
