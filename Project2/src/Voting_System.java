@@ -213,25 +213,48 @@ public class Voting_System {
             System.out.println("The winner is " + winner.getName() + " from the party " + winner.getParty());
             pwrite.flush();
         } else if (votetype.equals("OPL")){
-
-            System.out.println("Total number of candidates: " + candidate.size());
+            
+            OPL_sys opl = new OPL_sys(candidate,party,candidate.size(),totalseats,pwrite);
+            opl.readballot(num_ballot, BS);
+            
             pwrite.printf("Total number of candidates: %d.%n",candidate.size());
+            for (Candidate k:candidate){
+                pwrite.println(k.getName() + " from the party " + k.getParty());
+            }
+            pwrite.println("Total number of seats: " + totalseats);
+            
+            for(int i =1; i<totalfilenumber; i++){
+                System.out.println("Please input the path of next input file");
+                input = scn.nextLine();
+                
+                File tempFile = new File(input);
+                boolean exists = tempFile.exists();
+                if (exists == false){
+                    System.out.println("No input file found. Program terminated");
+                    System.exit(0);
+                }
+                
+                BS = new Scanner(tempFile);
+                BS.nextLine();
+                BS.nextLine();
+                BS.nextLine();
+                BS.nextLine();
+                num_ballot = Integer.parseInt(BS.nextLine());
+                totalballot = totalballot + num_ballot;
+                opl.readballot(num_ballot, BS);
+            }
+            
+            
+            System.out.println("Total number of candidates: " + candidate.size());
 
             for (Candidate k:candidate){
                 System.out.println(k.getName() + " from the party " + k.getParty());
-                pwrite.println(k.getName() + " from the party " + k.getParty());
             }
 
             System.out.println("Total number of seats: " + totalseats);
-            pwrite.println("Total number of seats: " + totalseats);
 
             System.out.println("Total number of ballots: " + totalballot);
             pwrite.println("Total number of ballots: " + totalballot);
-
-            OPL_sys opl = new OPL_sys(candidate,party,candidate.size(),totalseats,pwrite);
-
-            opl.readballot(num_ballot, BS);
-
             ArrayList<Integer> partySeats = opl.firstround_Seats();
             ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
             ArrayList<Candidate> winner = opl.findwinnner(partySeats2);
