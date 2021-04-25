@@ -94,35 +94,38 @@ public class Voting_System {
             votetype = "OPL";
             totalcandidate = Integer.parseInt(records.get(1).get(0));
             totalseats = Integer.parseInt(records.get(3).get(0));
-            for (int j = 0;j < 2*totalcandidate;j=j+2) {
-                
-                String current_candidate = records.get(2).get(j);
-                String current_party = records.get(2).get(j+1);
+
+            if(candidate.isEmpty()) {
+                for (int j = 0; j < 2 * totalcandidate; j = j + 2) {
+
+                    String current_candidate = records.get(2).get(j);
+                    String current_party = records.get(2).get(j + 1);
 
 
-                candidate.add(new Candidate(current_candidate.split("[\\[\\]]")[1],current_party.split("[\\[\\]]")[0]));
-                if(j == 0){
-                    party.add(new Party(current_party.split("[\\[\\]]")[0]));
-                    party.get(j).addmember(candidate.get(j));
-                }else {
-                    boolean party_exist_flag = false;
-                    int party_ID = 0;
-                    for (int k = 0;k < party.size();k++){
-                        if (party.get(k).getName().equals(current_party.split("[\\[\\]]")[0])){
-                            party_exist_flag = true;
-                            party_ID = k;
-                            break;
+                    candidate.add(new Candidate(current_candidate.split("[\\[\\]]")[1], current_party.split("[\\[\\]]")[0]));
+                    if (j == 0) {
+                        party.add(new Party(current_party.split("[\\[\\]]")[0]));
+                        party.get(j).addmember(candidate.get(j));
+                    } else {
+                        boolean party_exist_flag = false;
+                        int party_ID = 0;
+                        for (int k = 0; k < party.size(); k++) {
+                            if (party.get(k).getName().equals(current_party.split("[\\[\\]]")[0])) {
+                                party_exist_flag = true;
+                                party_ID = k;
+                                break;
+                            }
+                        }
+
+                        if (party_exist_flag == true) {
+                            party.get(party_ID).addmember(candidate.get(j / 2));
+                        } else {
+                            party.add(new Party(current_party.split("[\\[\\]]")[0]));
+                            party.get(party.size() - 1).addmember(candidate.get(j / 2));
                         }
                     }
 
-                    if (party_exist_flag==true){
-                        party.get(party_ID).addmember(candidate.get(j/2));
-                    }else {
-                        party.add(new Party(current_party.split("[\\[\\]]")[0]));
-                        party.get(party.size()-1).addmember(candidate.get(j/2));
-                    }
                 }
-
             }
         }
 
@@ -216,37 +219,40 @@ public class Voting_System {
                 }
 
             } else if (votetype.equals("OPL")) {
+                if (numfile == 0) {
+                    System.out.println("Total number of candidates: " + candidate.size());
+                    pwrite.printf("Total number of candidates: %d.%n", candidate.size());
 
-                System.out.println("Total number of candidates: " + candidate.size());
-                pwrite.printf("Total number of candidates: %d.%n", candidate.size());
+                    for (Candidate k : candidate) {
+                        System.out.println(k.getName() + " from the party " + k.getParty());
+                        pwrite.println(k.getName() + " from the party " + k.getParty());
+                    }
 
-                for (Candidate k : candidate) {
-                    System.out.println(k.getName() + " from the party " + k.getParty());
-                    pwrite.println(k.getName() + " from the party " + k.getParty());
+                    System.out.println("Total number of seats: " + totalseats);
+                    pwrite.println("Total number of seats: " + totalseats);
+
+                    System.out.println("Total number of ballots: " + totalballot);
+                    pwrite.println("Total number of ballots: " + totalballot);
+
+                    opl = new OPL_sys(candidate, party, candidate.size(), totalseats, pwrite);
                 }
-
-                System.out.println("Total number of seats: " + totalseats);
-                pwrite.println("Total number of seats: " + totalseats);
-
-                System.out.println("Total number of ballots: " + totalballot);
-                pwrite.println("Total number of ballots: " + totalballot);
-
-                opl = new OPL_sys(candidate, party, candidate.size(), totalseats, pwrite);
 
                 opl.readballot(totalballot, BS);
 
-                ArrayList<Integer> partySeats = opl.firstround_Seats();
-                ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
-                ArrayList<Candidate> winner = opl.findwinnner(partySeats2);
+                if(numfile == totalfilenumber-1) {
+                    ArrayList<Integer> partySeats = opl.firstround_Seats();
+                    ArrayList<Integer> partySeats2 = opl.secondround_seats(partySeats);
+                    ArrayList<Candidate> winner = opl.findwinnner(partySeats2);
 
-                System.out.println("The winner(s) is/are");
-                pwrite.println();
-                pwrite.println("The winner(s) is/are");
-                for (int i = 0; i < winner.size(); i++) {
-                    System.out.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
-                    pwrite.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
+                    System.out.println("The winner(s) is/are");
+                    pwrite.println();
+                    pwrite.println("The winner(s) is/are");
+                    for (int i = 0; i < winner.size(); i++) {
+                        System.out.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
+                        pwrite.println(winner.get(i).getName() + " from the party " + winner.get(i).getParty());
+                    }
+                    pwrite.flush();
                 }
-                pwrite.flush();
             }
             pwrite.close();
         }

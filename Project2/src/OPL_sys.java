@@ -39,11 +39,16 @@ public class OPL_sys{
         this.parties = party;
         this.num_candidate = number_candidate;
         this.num_seats = num_seats;
-        this.total_ballot = 0;
+//        this.total_ballot = 0;
         this.allocated_seats = 0;
         //this.scanner = scanner;
         this.mywriter = mywriter;
-        
+
+        for(Candidate c : candidate){
+            this.total_ballot += c.getVote();
+        }
+
+
     }
 
     /**
@@ -74,7 +79,8 @@ public class OPL_sys{
         //count vote for each party
         for(int i = 0; i < parties.size(); i++){
             Party party = parties.get(i);
-            int vote = party.getVote();
+//            int vote = party.getVote();
+            int vote = 0;
             ArrayList<Candidate> members = party.getMembers();
             for(int j = 0; j < members.size(); j++){
                 vote = vote + members.get(j).getVote();
@@ -82,7 +88,8 @@ public class OPL_sys{
             party.setVote(vote);
             mywriter.printf("Party %s has %d vote(s).%n",party.getName(),vote);
         }
-        total_ballot = total_ballot + num_ballot;
+//        total_ballot = total_ballot + num_ballot;
+        total_ballot = num_ballot;
         mywriter.flush();
     }
     
