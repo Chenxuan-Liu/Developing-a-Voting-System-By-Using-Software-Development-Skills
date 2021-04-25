@@ -57,10 +57,15 @@ public class IR_sys{
 			while (scanner.hasNextLine()) {
 				ballot = new IR_Ballot(index);
 				mywriter.printf("read No.%d ballot:",index);
-				getRecordFromLine(" "+scanner.nextLine(), ballot);
-				Candidate candidate = candidates.get(ballot.getRank() - 1);
-				candidate.addIRballot(ballot);
-				mywriter.printf("%s from party %s get No.%d ballot, he(she) has %d vote(s) now%n",candidate.getName(),candidate.getParty(),index,candidate.getVote());
+				int invalid_ballot = getRecordFromLine(" "+scanner.nextLine(), ballot);
+
+				if (invalid_ballot == 0) {
+					Candidate candidate = candidates.get(ballot.getRank() - 1);
+					candidate.addIRballot(ballot);
+					mywriter.printf("%s from party %s get No.%d ballot, he(she) has %d vote(s) now%n", candidate.getName(), candidate.getParty(), index, candidate.getVote());
+				} else {
+					mywriter.printf("No.%d ballot is invalid", index);
+				}
 				index++;
 			}
 		mywriter.flush();
@@ -73,9 +78,9 @@ public class IR_sys{
 	* @return void.
 	* @exception no exception.
 	*/
-	private void getRecordFromLine(String line, IR_Ballot ballot) {
+	private int getRecordFromLine(String line, IR_Ballot ballot) {
 		List<String> values = new ArrayList<String>();
-		int invalid_ballot = 0;
+		int valid_ballot = 0;
 		
 		try (Scanner rowScanner = new Scanner(line)) {
 			mywriter.printf("%s%n",line);
@@ -85,39 +90,38 @@ public class IR_sys{
 				if(!value.trim().isEmpty()){
 					values.add(value);
 					ballot.addRank(1); //only used to initializa the size
+					valid_ballot++;
 				} else {
 					values.add("-1");
-					invalid_ballot++;
 				}
 			}
 		}
 
+		System.out.println(valid_ballot);
 		// Check for the invalid ballots situation, if this ballot is invalid, set all the rand to -1
-		if (invalid_ballot % 2 == 0) {
-			if (invalid_ballot >= candidates.size() / 2) {
-				for (int i = 1; i <= values.size(); i++) {
-					if (value != -1) {
-						ballot.setRank(i, -1);
-					}
-				}
-			} else if (invalid_ballot >= (candidates.size() + 1) / 2){
-				for (int i = 1; i <= values.size(); i++) {
-					if (value != -1) {
-						ballot.setRank(i, -1);
-					}
-				}
-			} else {
-				//set the correct rank
-				for (int i = 1; i <= values.size(); i++) {
-					int value = Integer.parseInt(values.get(i - 1).trim());
-					if (value != -1) {
-						ballot.setRank(i, value - 1);
-					}
-				}
+		if (candidates.size() % 2 == 0) {
+			if (valid_ballot < candidates.size() / 2) {
+				ballot = null;
+				return 1;
+			}
+		} else {
+			if (valid_ballot < (candidates.size() + 1) / 2){
+				ballot = null;
+
+				return 1;
 			}
 		}
-	}
 
+
+		//set the correct rank
+		for (int i = 1; i <= values.size(); i++) {
+			int value = Integer.parseInt(values.get(i - 1).trim());
+			if (value != -1) {
+				ballot.setRank(i, value - 1);
+			}
+		}
+		return 0;
+	}
 	/**
 	* Determines whether a winner exists in the election, if yes, return the candidate.
 	* @param args Unused.
