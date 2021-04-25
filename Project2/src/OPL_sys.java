@@ -72,7 +72,7 @@ public class OPL_sys{
         //count vote for each party
         for(int i = 0; i < parties.size(); i++){
             Party party = parties.get(i);
-            int vote = party.getVote();
+            int vote = 0;
             ArrayList<Candidate> members = party.getMembers();
             for(int j = 0; j < members.size(); j++){
                 vote = vote + members.get(j).getVote();

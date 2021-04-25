@@ -229,6 +229,8 @@ public class Voting_System {
             }
             pwrite.println("Total number of seats: " + totalseats);
             
+            pwrite.println();
+            pwrite.println("read ballot(s) from " + input);
             opl.readballot(num_ballot, BS);
             
             for(int i =1; i<totalfilenumber; i++){
