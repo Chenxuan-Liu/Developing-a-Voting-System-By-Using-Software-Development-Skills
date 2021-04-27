@@ -1,0 +1,38 @@
+PO audit file created.
+Total number of candidates: 6.
+Pike from the party D
+Foster from the party D
+Deutsch from the party R
+Borg from the party R
+Jones from the party R
+Smith from the party I
+Total number of seats: 1
+
+read ballot(s) from /Users/vin/Desktop/PO_test.csv
+No.1 ballot is 1,,,,,.
+No.1 ballot assign to Pike from party D 
+Pike has 1 vote(s) now.
+No.2 ballot is 1,,,,,.
+No.2 ballot assign to Pike from party D 
+Pike has 2 vote(s) now.
+No.3 ballot is ,1,,,,.
+No.3 ballot assign to Foster from party D 
+Foster has 1 vote(s) now.
+No.4 ballot is ,,,,1,.
+No.4 ballot assign to Jones from party R 
+Jones has 1 vote(s) now.
+No.5 ballot is ,,,,,1.
+No.5 ballot assign to Smith from party I 
+Smith has 1 vote(s) now.
+No.6 ballot is ,,,1,,.
+No.6 ballot assign to Borg from party R 
+Borg has 1 vote(s) now.
+No.7 ballot is ,,,1,,.
+No.7 ballot assign to Borg from party R 
+Borg has 2 vote(s) now.
+No.8 ballot is 1,,,,,.
+No.8 ballot assign to Pike from party D 
+Pike has 3 vote(s) now.
+No.9 ballot is ,1,,,,.
+No.9 ballot assign to Foster from party D 
+Foster has 2 vote(s) now.
