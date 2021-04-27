@@ -359,7 +359,6 @@ public class Voting_System {
                 po.readballot(num_ballot, BS);
             }
 
-            System.out.println(num_ballot); ////////
             System.out.println("Total number of candidates: " + candidate.size());
             for (Candidate k:candidate){
                 System.out.println(k.getName() + " from the party " + k.getParty());
