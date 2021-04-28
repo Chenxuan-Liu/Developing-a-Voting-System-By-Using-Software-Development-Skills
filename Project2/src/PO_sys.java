@@ -6,6 +6,19 @@ import java.util.*;
 import javax.sound.midi.*;
 
 
+/**
+* This class is used for PO voting.
+* OPL_sys is a class that creat for popularity only ballot voting type.
+* It must need two other class, which is party and candidate to complete the task.
+* Read the ballot and allocate it to its candidate.
+* The person with most votes wins. For any tie in the vote count, a coin flip is used to settle the tie.
+* <p></p>
+* This class has 6 attributes.
+*
+* @author Yingwen Weng
+* @version 1.0
+*/
+
 public class PO_sys{
 
 	private ArrayList<Candidate> candidates;
@@ -14,6 +27,14 @@ public class PO_sys{
 	private Coin_Flip coin = new Coin_Flip();
 	private PrintWriter mywriter;
 
+	/**
+	* Constructor, creates new PO_sys instance.
+	* @param candidate Candidate ArrayList which contains all the candidates in the election.
+	* @param party Party ArrayList stores all the parties that have joined the election.
+	* @param number_candidate the total number of candidates added to the election.
+	* @param num_seats the total number of seats won.
+	* @param mywriter write into the audit file.
+	*/
 	public PO_sys(ArrayList<Candidate> candidate, ArrayList<Party> party,
 				  int number_candidate, int num_seats, PrintWriter mywriter){
 		this.candidates = candidate;
@@ -24,7 +45,14 @@ public class PO_sys{
 		this.mywriter = mywriter;
 
 	}
-
+	
+	/**
+	* Reads ballots from the CSV file.
+	* @param num_ballot number of ballots in this file.
+	* @param scanner used to read file.
+	* @return void.
+	* @exception no exception.
+	*/
 	public void readballot(int num_ballot, Scanner scanner){
       int index = total_ballot + 1;
       while(scanner.hasNextLine()){
